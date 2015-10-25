@@ -1,4 +1,4 @@
-var Song = require('../models/song');
+var Song = require('../app/models/song');
 
 exports.run = function(callback, errback) {
     Song.create(

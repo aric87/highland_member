@@ -1,7 +1,9 @@
+
 // get all the tools we need
 var express  = require('express');
 var app      = express();
 var port     = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+var app_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
@@ -10,7 +12,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
 var swig = require('swig');
-var configDB = require('./config/db.js');
 var crypto = require('crypto');
 var async = require('async');
 var nodemailer = require('nodemailer');
@@ -47,5 +48,5 @@ require('./app/routes/user.js')(app); // load our routes and pass in our app and
 require('./app/routes/files.js')(app,multipartyMiddleware,fs);
 
 // launch ======================================================================
-app.listen(port);
+app.listen(port,app_ip_address);
 console.log('The magic happens on port ' + port);

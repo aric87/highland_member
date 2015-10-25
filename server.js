@@ -1,5 +1,5 @@
-
 // get all the tools we need
+require('./config/connect');
 var express  = require('express');
 var app      = express();
 var port     = process.env.OPENSHIFT_NODEJS_PORT || 8080;
@@ -24,7 +24,6 @@ var multipartyMiddleware = multipart();
 
 var isLoggedIn = require('./app/services');
 
-mongoose.connect(configDB.url); // connect to our database
 require('./config/passport')(passport); // pass passport for configuration
 
 // set up our express application

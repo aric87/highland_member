@@ -1,0 +1,24 @@
+{% extends 'layoutPrivate.html' %}
+{% block title %}Member Profile{% endblock %}
+
+{% block content %}
+    <div class="page-header text-center">
+        <h1>{{user.name}}'s Profile</h1>
+    </div>
+
+    <div class="row">
+
+        <div class="col-xs-6 col-xs-offset-3">
+            <div class="well">
+
+                {% if mine %} <a href="/profile/edit" class="pull-right"><button class="btn btn-warning">Edit profile</button></a>{% endif %}
+                <p class="profileText">
+                    <strong>E-mail</strong>: {{ user.email }}<br>
+                    <strong>Years In the Band</strong>: {{ user.yearsIn }}<br>
+                    <strong>Bio</strong>: {{ user.bio }}<br>
+                </p>
+
+            </div>
+        </div>
+
+        {% endblock %}

@@ -1,0 +1,57 @@
+var User       = require('../models/user');
+var isLoggedIn = require('../services');
+
+module.exports = function(app) {
+    app.get('/profile', isLoggedIn, function (req, res) {
+        res.render('profile', {
+            user: req.user,
+            mine:true,
+            active: 'profile'
+        });
+    });
+    app.post('/profile',isLoggedIn,function(req,res){
+        User.findOne({ _id: req.user._id }, function(err, user) {
+            if (!user) {
+                console.log('error');
+                return
+            }
+            var params = req.body;
+            if(params.email == ''){params.email = user.email}
+            if(params.name == ''){params.name = user.name}
+            if(params.yearsIn == ''){params.yearsIn = user.yearsIn}
+            if(params.bio == ''){params.bio = user.bio}
+
+            User.update(user,params,function(err){
+                console.log(user);
+                    if (err) {
+                        res.flash('Some Error Occurred');
+                        return;
+                    }
+                User.findOne({ _id: req.user._id }, function(err, user) {
+                    res.render('profile', {
+                        mine:true,user: user,active: 'profile'
+                    });
+                });
+                });
+            });
+
+
+        });
+
+    app.get('/profile/edit',isLoggedIn,function (req,res){
+        res.render('pedit',{user:req.user,active:'profile'})
+    });
+    app.get('/directory', isLoggedIn, function (req, res) {
+       User.find({},function(err,members){
+           if (err) {
+               console.log('error');
+               return
+           }
+           res.render('memberDir', {
+               members:members,
+               active: 'directory'
+           });
+       }) ;
+
+    });
+};

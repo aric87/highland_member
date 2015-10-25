@@ -1,0 +1,21 @@
+{% extends 'layoutPrivate.html' %}
+
+{% block title %}{{tune.name}}{% endblock %}
+
+{% block content %}
+<div class="col-sm-6 col-sm-offset-3">
+    <h2>{{tune.name}}    {% if user.role == 'admin' %} <a href="/tunes/edit/{{tune.name}}" class="pull-right"><button class="btn btn-warning">Edit Tune Details</button></a>{% endif %}</h2>
+
+    <ul class="list-unstyled">
+        {% if tune.melody != "" %}<li><a href="{{tune.melody}}">Melody</a></li>{% endif %}
+        {% if tune.seconds != "" %}<li><a href="{{tune.seconds}}">Seconds</a></li>{% endif %}
+        {% if tune.thirds != "" %}<li><a href="{{tune.thirds}}">Thirds</a></li>{% endif %}
+        {% if tune.snare != "" %}<li><a href="{{tune.snare}}">Snare</a></li>{% endif %}
+        {% if tune.tenors != "" %}<li><a href="{{tune.tenors}}">Tenors</a></li>{% endif %}
+        {% if tune.bass != "" %}<li><a href="{{tune.bass}}">Bass</a></li>{% endif %}
+    </ul>
+
+</div>
+
+
+{% endblock %}

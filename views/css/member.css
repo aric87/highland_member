@@ -1,0 +1,38 @@
+header {
+  background-image:url(../images/bgimg.jpeg);
+  background-size:cover;
+  background-repeat:no-repeat;
+  width:100%;
+  height:250px;
+  margin:0 auto 50px;
+  position:relative;
+}
+
+a {
+  text-decoration:none;
+}
+
+nav{
+  width:100%;
+  text-align:justify;
+  position:absolute;
+  bottom:-45px;
+}
+nav >a{
+  width:20%;
+  display:inline-block;
+  text-align:center;
+  background-color:black;
+  height:45px;
+  box-sizing:border-box;
+  padding-top:11px;
+  color:whitesmoke;
+  transition: all .2s ease;
+
+}
+nav>a:hover, nav>a.active{
+  color:black;
+  background-color:white;
+  box-shadow: inset 2px 2px 13px rgba(0,0,0,.5);
+  text-decoration: none;
+}

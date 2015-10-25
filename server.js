@@ -32,7 +32,7 @@ app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // get information from html forms
 // required for passport
-app.use(session({ secret: 'HighlandLight', cookie: { maxAge: 60000 },resave: true, saveUninitialized: true})); // session secret
+app.use(session({ secret: 'HighlandLight', cookie: { maxAge: 360000 },resave: true, saveUninitialized: true})); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session

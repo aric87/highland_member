@@ -13,4 +13,4 @@ var SongSchema = new mongoose.Schema({
 
 var Song = mongoose.model('Song', SongSchema);
 
-modb.songsdule.exports = Song;
+module.exports = Song;

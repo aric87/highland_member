@@ -21,11 +21,34 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
         res.render('signup', { message: req.flash('loginMessage') });
     });
     // process the signup form
-    app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect : '/profile', // redirect to the secure profile section
-        failureRedirect : '/signup', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
-    }));
+    app.post('/signup', function(req,res,next){
+        passport.authenticate('local-signup', function(err, user, info){
+            if (err) { return next(err); }
+            if (!user) { return res.redirect('/'); }
+            req.logIn(user, function(err) {
+                if (err) { return next(err); }
+                    
+                var transport = nodemailer.createTransport('SMTP', {
+                    service: 'gmail',
+                    auth: {
+                        user: 'redbeard91413@gmail.com',
+                        pass: 'NAvyseal!@12'
+                    }
+                });
+                var mailOptions = {
+                    to: user.email,
+                    subject: 'New Account',
+                    text: 'You are receiving this because you (or someone else) have created an account on Highland Light\'s member page.\n\n' +
+                    'If you forget your password, you can reset it on the site. Be sure to update your profile!'
+                };
+                transport.sendMail(mailOptions, function(err) {
+                    return res.redirect('/profile/');
+                });
+                
+                
+            });
+        })(req, res, next)
+    });
     // LOGOUT ==============================
     app.get('/logout', function(req, res) {
         req.logout();
@@ -63,26 +86,31 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
             },
             function(token, user, done) {
                 console.log('email');
-                var smtpTransport = nodemailer.createTransport('SMTP', {
-                    service: 'gmail',
-                    auth: {
-                        user: 'redbeard91413@gmail.com',
-                        pass: 'HEidi!@12'
-                    }
-                });
-                var mailOptions = {
-                    to: user.email,
-                    from: 'passwordreset@highlandlight.com',
-                    subject: 'Password Reset',
-                    text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-                    'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-                    'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-                    'If you did not request this, please ignore this email and your password will remain unchanged.\n'
-                };
-                smtpTransport.sendMail(mailOptions, function(err) {
-                    req.flash('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
-                    done(err, 'done');
-                });
+                try {
+                    var transport = nodemailer.createTransport('SMTP', {
+                        service: 'gmail',
+                        auth: {
+                            user: 'redbeard91413@gmail.com',
+                            pass: 'NAvyseal!@12'
+                        }
+                    });
+                    var mailOptions = {
+                        to: user.email,
+                        from: 'passwordreset@highlandlight.com',
+                        subject: 'Password Reset',
+                        text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                        'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                        'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+                        'If you did not request this, please ignore this email and your password will remain unchanged.\n'+ 
+                        'This is an auto-generated email. Responses will be lost in the abyss.'
+                    };
+                    transport.sendMail(mailOptions, function(err) {
+                        req.flash('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+                        done(err, 'done');
+                    });
+                }catch(err){
+                    throw new Error()
+                }
             }
         ], function(err) {
             console.log('redirect'+err);
@@ -92,12 +120,13 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
     });
     app.get('/reset/:token', function(req, res) {
         User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+            console.log('user',user)
             if (!user) {
                 req.flash('error', 'Password reset token is invalid or has expired.');
                 return res.redirect('/forgot');
             }
             res.render('reset', {
-                user: req.user
+                user: user
             });
         });
     });
@@ -110,14 +139,13 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
                         return res.redirect('back');
                     }
 
-                    user.password = req.body.password;
+                    user.password = User.generateHash(req.body.password);
                     user.resetPasswordToken = undefined;
                     user.resetPasswordExpires = undefined;
 
                     user.save(function(err) {
-                        req.logIn(user, function(err) {
-                            done(err, user);
-                        });
+                        if(err){console.log(err)}
+                            done(err, user)
                     });
                 });
             },
@@ -126,7 +154,7 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
                     service: 'gmail',
                     auth: {
                         user: 'redbeard91413@gmail.com',
-                        pass: 'HEidi!@12'
+                        pass: 'NAvyseal!@12'
                     }
                 });
                 var mailOptions = {

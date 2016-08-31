@@ -3,7 +3,7 @@
 
 {% block content %}
 <h1>Forgot Password</h1>
-<form method='POST' action="/forgot">
+<form method='POST' action="/reset/{{user.resetPasswordToken }}">
     <div class="form-group">
         <label>New Password</label>
         <input type='password' name='password' value='' placeholder='New password' class="form-control setPassword"  required autofocus>

@@ -137,6 +137,8 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
                 User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
                     if (!user) {
                         req.flash('error', 'Password reset token is invalid or has expired.');
+                        
+                        console.log('User find error');
                         return res.redirect('back');
                     }
 

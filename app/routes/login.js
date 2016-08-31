@@ -61,7 +61,7 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
         });
     });
     app.post('/forgot', function(req, res, next) {
-        console.log(req.body);
+        console.log('forgot body ',req.body);
         async.waterfall([
             function(done) {
                 crypto.randomBytes(20, function(err, buf) {
@@ -141,14 +141,14 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
                         console.log('User find error');
                         return res.redirect('back');
                     }
-
+                    console.log('password ',req.body.password)
                     user.password = user.generateHash(req.body.password);
                     user.resetPasswordToken = undefined;
                     user.resetPasswordExpires = undefined;
 
                     user.save(function(err) {
                         if(err){console.log(err)}
-                            console.log('saved',user.validPassword(req.body.password))
+                            console.log('saved ',user.validPassword(req.body.password))
                             done(err, user)
                     });
                 });

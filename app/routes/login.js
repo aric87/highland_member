@@ -140,14 +140,14 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
                         console.log('User find error');
                         return res.redirect('back');
                     }
-                    console.log('password ',req.body.password)
+                    console.log('password ',user.password, 'body '+req.body.password)
                     user.password = User.generateHash(req.body.password);
                     user.resetPasswordToken = undefined;
                     user.resetPasswordExpires = undefined;
-
+                    console.log('hash '+user.password)
                     user.save(function(err) {
-                        if(err){console.log(err)}
-                        console.log('saved ',user.validPassword(req.body.password))
+                        if(err){console.log('fucked'+err)}
+                        // console.log('saved ',user.validPassword(req.body.password))
                         done(err, user)
                     });
                 });

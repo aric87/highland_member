@@ -142,12 +142,13 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
                         return res.redirect('back');
                     }
 
-                    user.password = User.generateHash(req.body.password);
+                    user.password = user.generateHash(req.body.password);
                     user.resetPasswordToken = undefined;
                     user.resetPasswordExpires = undefined;
 
                     user.save(function(err) {
                         if(err){console.log(err)}
+                            console.log('saved',user.validPassword(req.body.password))
                             done(err, user)
                     });
                 });

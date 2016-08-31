@@ -114,7 +114,6 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
                 }
             }
         ], function(err) {
-            console.log('redirect'+err);
             if (err) return next(err);
             res.redirect('/');
         });
@@ -142,14 +141,14 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
                         return res.redirect('back');
                     }
                     console.log('password ',req.body.password)
-                    user.password = user.generateHash(req.body.password);
+                    user.password = User.generateHash(req.body.password);
                     user.resetPasswordToken = undefined;
                     user.resetPasswordExpires = undefined;
 
                     user.save(function(err) {
                         if(err){console.log(err)}
-                            console.log('saved ',user.validPassword(req.body.password))
-                            done(err, user)
+                        console.log('saved ',user.validPassword(req.body.password))
+                        done(err, user)
                     });
                 });
             },

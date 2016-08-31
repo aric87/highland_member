@@ -144,7 +144,7 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
                     user.password = User.generateHash(req.body.password);
                     user.resetPasswordToken = undefined;
                     user.resetPasswordExpires = undefined;
-                    console.log('hash '+user.password)
+                    console.log('hash '+user.password,'isvalid ', User.validPassword(req.body.password))
                     user.save(function(err) {
                         if(err){console.log('fucked'+err)}
                         // console.log('saved ',user.validPassword(req.body.password))

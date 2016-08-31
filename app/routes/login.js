@@ -29,15 +29,14 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
                 if (err) { return next(err); }
                     
                 var transport = nodemailer.createTransport('SMTP', {
-                        service: 'zoho',
-                        auth: {
-                            user: 'aric@nightwolfweb.com',
-                            pass: 'HEidi!@12'
-                        }
-                    });
+                    service: 'gmail',
+                    auth: {
+                        user: 'redbeard91413@gmail.com',
+                        pass: 'NAvyseal!@12'
+                    }
+                });
                 var mailOptions = {
                     to: user.email,
-                    from: 'aric@nightwolfweb.com',  
                     subject: 'New Account',
                     text: 'You are receiving this because you (or someone else) have created an account on Highland Light\'s member page.\n\n' +
                     'If you forget your password, you can reset it on the site. Be sure to update your profile!'
@@ -89,15 +88,15 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
                 console.log('email');
                 try {
                     var transport = nodemailer.createTransport('SMTP', {
-                        service: 'zoho',
+                        service: 'gmail',
                         auth: {
-                            user: 'aric@nightwolfweb.com',
-                            pass: 'HEidi!@12'
+                            user: 'redbeard91413@gmail.com',
+                            pass: 'NAvyseal!@12'
                         }
                     });
                     var mailOptions = {
                         to: user.email,
-                        from: 'aric@nightwolfweb.com',
+                        from: 'passwordreset@highlandlight.com',
                         subject: 'Password Reset',
                         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
                         'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -110,7 +109,7 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
                         done(err, 'done');
                     });
                 }catch(err){
-                    throw new Error(err)
+                    throw new Error()
                 }
             }
         ], function(err) {
@@ -153,21 +152,21 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
                 });
             },
             function(user, done) {
-                var transport = nodemailer.createTransport('SMTP', {
-                        service: 'zoho',
-                        auth: {
-                            user: 'aric@nightwolfweb.com',
-                            pass: 'HEidi!@12'
-                        }
-                    });
+                var smtpTransport = nodemailer.createTransport('SMTP', {
+                    service: 'gmail',
+                    auth: {
+                        user: 'redbeard91413@gmail.com',
+                        pass: 'NAvyseal!@12'
+                    }
+                });
                 var mailOptions = {
                     to: user.email,
-                    from: 'aric@nightwolfweb.com',
+                    from: 'passwordreset@highlandlight.com',
                     subject: 'Your password has been changed',
                     text: 'Hello,\n\n' +
                     'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
                 };
-                transport.sendMail(mailOptions, function(err) {
+                smtpTransport.sendMail(mailOptions, function(err) {
                     req.flash('success', 'Success! Your password has been changed.');
                     done(err);
                 });

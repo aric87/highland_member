@@ -28,7 +28,7 @@
     "parser": "^0.1.4",
     "passport": "^0.3.0",
     "passport-local": "^1.0.0",
-    "swig": "^1.4.2"
+    "swig": "^1.4.2",
+    "xoauth2": "^1.2.0"
   }
-
 }

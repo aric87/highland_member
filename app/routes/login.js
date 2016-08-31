@@ -29,14 +29,15 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
                 if (err) { return next(err); }
                     
                 var transport = nodemailer.createTransport('SMTP', {
-                    service: 'gmail',
-                    auth: {
-                        user: 'redbeard91413@gmail.com',
-                        pass: 'NAvyseal!@12'
-                    }
-                });
+                    service: 'zoho',
+                        auth: {
+                            user: 'aric@nightwolfweb.com',
+                            pass: 'HEidi!@12'
+                        }
+                    });
                 var mailOptions = {
                     to: user.email,
+                    from:'aric@nightwolfweb.com',
                     subject: 'New Account',
                     text: 'You are receiving this because you (or someone else) have created an account on Highland Light\'s member page.\n\n' +
                     'If you forget your password, you can reset it on the site. Be sure to update your profile!'
@@ -88,15 +89,15 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
                 console.log('email');
                 try {
                     var transport = nodemailer.createTransport('SMTP', {
-                        service: 'gmail',
+                        service: 'zoho',
                         auth: {
-                            user: 'redbeard91413@gmail.com',
-                            pass: 'NAvyseal!@12'
+                            user: 'aric@nightwolfweb.com',
+                            pass: 'HEidi!@12'
                         }
                     });
                     var mailOptions = {
                         to: user.email,
-                        from: 'passwordreset@highlandlight.com',
+                        from:'aric@nightwolfweb.com',
                         subject: 'Password Reset',
                         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
                         'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -109,7 +110,7 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
                         done(err, 'done');
                     });
                 }catch(err){
-                    throw new Error()
+                    throw new Error(err)
                 }
             }
         ], function(err) {
@@ -139,13 +140,13 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
                         console.log('User find error');
                         return res.redirect('back');
                     }
-                    console.log('password ',user.password, 'body '+req.body.password)
-                    user.password = User.generateHash(req.body.password);
+                    user.password = req.body.password[0];
                     user.resetPasswordToken = undefined;
                     user.resetPasswordExpires = undefined;
-                    console.log('hash '+user.password,'isvalid ', User.validPassword(req.body.password))
+                    // console.log('hash '+user.password,'isvalid ', User.validPassword(req.body.password))
                     user.save(function(err) {
                         if(err){console.log('fucked'+err)}
+                            console.log('shit ', user)
                         // console.log('saved ',user.validPassword(req.body.password))
                         done(err, user)
                     });
@@ -153,15 +154,15 @@ module.exports = function(app, passport,async,nodemailer,smtpTransport,wellknown
             },
             function(user, done) {
                 var smtpTransport = nodemailer.createTransport('SMTP', {
-                    service: 'gmail',
-                    auth: {
-                        user: 'redbeard91413@gmail.com',
-                        pass: 'NAvyseal!@12'
-                    }
-                });
+                    service: 'zoho',
+                        auth: {
+                            user: 'aric@nightwolfweb.com',
+                            pass: 'HEidi!@12'
+                        }
+                   });
                 var mailOptions = {
                     to: user.email,
-                    from: 'passwordreset@highlandlight.com',
+                    from:'aric@nightwolfweb.com',
                     subject: 'Your password has been changed',
                     text: 'Hello,\n\n' +
                     'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'

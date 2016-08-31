@@ -56,7 +56,7 @@ exports.run = function(callback, errback) {
         yearsIn:2,
         bio:"adfgasdfgasdfasdfasdf",
         email: "aric87@comcast.net",
-        password: User.generateHash("heyo")
+        password: User.genHash("heyo")
         },
         function(err,user){
             if (err){

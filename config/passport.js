@@ -40,13 +40,13 @@ module.exports = function(passport) {
                     // if no user is found, return the message
                     if (!user)
                         return done(null, false, req.flash('loginMessage', 'No user found.'));
-
-                    if (!user.validPassword(password))
+                    console.log('check user',user.validPassword(password))
+                    if (!user.validPassword(password)){
                         return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
-
-                    // all is well, return user
-                    else
+                    }
+                    else{
                         return done(null, user);
+                    }
                 });
             });
 
@@ -87,7 +87,7 @@ module.exports = function(passport) {
                         var newUser            = new User();
 
                         newUser.email    = email;
-                        newUser.password = User.generateHash(password);
+                        newUser.password = password;
 
                         newUser.save(function(err) {
                             if (err)

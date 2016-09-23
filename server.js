@@ -21,11 +21,12 @@ var multipart = require('connect-multiparty');
 var multipartyMiddleware = multipart();
 
 var isLoggedIn = require('./app/services');
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {flags: 'a'});
 
 require('./config/passport')(passport); // pass passport for configuration
 
 // set up our express application
-app.use(morgan('dev')); // log every request to the console
+app.use(morgan('combined',{stream:accessLogStream}));
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // get information from html forms

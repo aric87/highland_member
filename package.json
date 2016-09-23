@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "db":"mongod --bind_ip=$IP --dbpath=./mongo_data --rest  --nojournal --quiet --logpath mongodb.log --logappend"
   },
   "author": "",
   "license": "ISC",
@@ -28,7 +29,7 @@
     "parser": "^0.1.4",
     "passport": "^0.3.0",
     "passport-local": "^1.0.0",
+    "superagent": "^2.2.0",
     "swig": "^1.4.2"
   }
-
 }

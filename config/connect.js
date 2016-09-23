@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 // default to a 'localhost' configuration:
+mongoose.Promise = global.Promise;
 var connection_string = 'localhost/highland-dev';
 // if OPENSHIFT env variables are present, use the available connection info:
 if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){

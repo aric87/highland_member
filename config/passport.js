@@ -40,7 +40,7 @@ module.exports = function(passport) {
                     // if no user is found, return the message
                     if (!user)
                         return done(null, false, req.flash('loginMessage', 'No user found.'));
-                    console.log('check user',user.validPassword(password))
+                    console.log('check user',user.validPassword(password));
                     if (!user.validPassword(password)){
                         return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
                     }
@@ -79,15 +79,18 @@ module.exports = function(passport) {
 
                     //  If we're logged in, we're connecting a new local account.
                     if(req.user) {
-                        return done(null,req.user)
+                        return done(null,req.user);
                     }
                     //  We're not logged in, so we're creating a brand new user.
                     else {
                         // create the user
-                        var newUser            = new User();
-
+                        var newUser = new User();
+                        console.log(req.body);
                         newUser.email    = email;
                         newUser.password = password;
+                        newUser.name = req.body.name;
+                        newUser.yearsIn = req.body.years || '';
+                        newUser.bio = req.body.about || '';
 
                         newUser.save(function(err) {
                             if (err)

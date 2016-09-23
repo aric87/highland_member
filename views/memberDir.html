@@ -12,7 +12,11 @@
         <div class="well">
             <ul class="list-unstyled">
                 {% for item in members %}
+                {% if !item.name %}
+                <li>{{item.email}} </li>
+                {% else %}
                 <li>{{item.name}} </li>
+                {% endif %}
                 {% endfor %}
             </ul>
         </div>

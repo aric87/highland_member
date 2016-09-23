@@ -13,13 +13,13 @@ module.exports = function(app) {
         User.findOne({ _id: req.user._id }, function(err, user) {
             if (!user) {
                 console.log('error');
-                return
+                return;
             }
             var params = req.body;
-            if(params.email == ''){params.email = user.email}
-            if(params.name == ''){params.name = user.name}
-            if(params.yearsIn == ''){params.yearsIn = user.yearsIn}
-            if(params.bio == ''){params.bio = user.bio}
+            if(!params.email){params.email = user.email;}
+            if(!params.name){params.name = user.name;}
+            if(!params.yearsIn){params.yearsIn = user.yearsIn;}
+            if(!params.bio){params.bio = user.bio;}
 
             User.update(user,params,function(err){
                 console.log(user);
@@ -39,16 +39,17 @@ module.exports = function(app) {
         });
 
     app.get('/profile/edit',isLoggedIn,function (req,res){
-        res.render('pedit',{user:req.user,active:'profile'})
+        res.render('pedit',{user:req.user,active:'profile'});
     });
     app.get('/directory', isLoggedIn, function (req, res) {
        User.find({},function(err,members){
            if (err) {
                console.log('error');
-               return
+               return;
            }
+           console.log('members',members);
            res.render('memberDir', {
-               members:members,
+               members: members,
                active: 'directory'
            });
        }) ;

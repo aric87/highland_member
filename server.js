@@ -14,10 +14,8 @@ var session      = require('express-session');
 var swig = require('swig');
 var crypto = require('crypto');
 var async = require('async');
-var nodemailer = require('nodemailer');
-var smtpTransport = require('nodemailer-smtp-transport');
-var wellknown = require('nodemailer-wellknown');
 var fs = require('fs');
+var sender = require('superagent');
 
 var multipart = require('connect-multiparty');
 var multipartyMiddleware = multipart();
@@ -39,12 +37,12 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
-app.all('/tunes/*', isLoggedIn, function(req,res,next){next()});
+app.all('/tunes/*', isLoggedIn, function(req,res,next){next();});
 app.use(express.static('views'));
 // routes ======================================================================
-require('./app/routes/login.js')(app, passport,async,nodemailer,smtpTransport,wellknown,crypto); // load our routes and pass in our app and fully configured passport
+require('./app/routes/login.js')(app, passport, async, crypto, sender); // load our routes and pass in our app and fully configured passport
 require('./app/routes/user.js')(app); // load our routes and pass in our app and fully configured passport
-require('./app/routes/files.js')(app,multipartyMiddleware,fs);
+require('./app/routes/files.js')(app, multipartyMiddleware, fs);
 
 // launch ======================================================================
 app.listen(port,app_ip_address);

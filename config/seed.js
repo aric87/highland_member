@@ -1,5 +1,5 @@
 var Song = require('../app/models/song');
-var User = require('../app/models/user')
+var User = require('../app/models/user');
 exports.run = function(callback, errback) {
     Song.create(
         {name:'Amazing grace', melody:'tunes/AmazingGraceMelody.pdf', seconds:'tunes/AmazingGraceSeconds.pdf', thirds:'tunes/AmazingGraceThirds.pdf'},
@@ -49,7 +49,7 @@ exports.run = function(callback, errback) {
                 errback(err);
                 return;
             }
-       
+
     User.create(
         {
         name:"Aric",
@@ -60,11 +60,11 @@ exports.run = function(callback, errback) {
         },
         function(err,user){
             if (err){
-                errback(err)
-                return
+                errback(err);
+                return;
             }
-            callback()
-        })
+            callback();
+        });
      });
 };
 

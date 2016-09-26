@@ -7,12 +7,13 @@
     <h2>{{tune.name}}    {% if user.role == 'admin' %} <a href="/tunes/edit/{{tune.name}}" class="pull-right"><button class="btn btn-warning">Edit Tune Details</button></a>{% endif %}</h2>
 
     <ul class="list-unstyled">
-        {% if tune.melody %}<li><a href="{{tune.melody}}">Melody</a></li>{% endif %}
-        {% if tune.seconds %}<li><a href="{{tune.seconds}}">Seconds</a></li>{% endif %}
-        {% if tune.thirds %}<li><a href="{{tune.thirds}}">Thirds</a></li>{% endif %}
-        {% if tune.snare %}<li><a href="{{tune.snare}}">Snare</a></li>{% endif %}
-        {% if tune.tenors %}<li><a href="{{tune.tenors}}">Tenors</a></li>{% endif %}
-        {% if tune.bass %}<li><a href="{{tune.bass}}">Bass</a></li>{% endif %}
+        {% if tune.melody %}<li>Melody: <a target="_Blank" href="{{tune.melody}}">Browser</a> <a target="_Blank" href="{{tune.melody}}" download >Download</a></li>{% endif %}
+        {% if tune.seconds %}<li>Seconds: <a target="_Blank" href="{{tune.seconds}}">Open in browser</a> <a target="_Blank" href="{{tune.seconds}}" download >Download</a></li>{% endif %}
+        {% if tune.thirds %}<li>Thirds: <a target="_Blank" href="{{tune.thirds}}">Open in browser</a> <a target="_Blank" href="{{tune.thirds}}" download >Download</a></li>{% endif %}
+        {% if tune.snare %}<li>Snare: <a target="_Blank" href="{{tune.snare}}">Open in browser</a> <a target="_Blank" href="{{tune.snare}}" download >Download</a></li>{% endif %}
+        {% if tune.tenors %}<li>Tenors: <a target="_Blank" href="{{tune.tenors}}">Open in browser</a> <a target="_Blank" href="{{tune.tenors}}" download >Download</a></li>{% endif %}
+        {% if tune.bass %}<li>Bass: <a target="_Blank" href="{{tune.bass}}">Open in browser</a> <a target="_Blank" href="{{tune.bass}}" download >Download</a></li>{% endif %}
+        {% if tune.audio %}<li>Audio: <a target="_Blank" href="{{tune.audio}}">Open in browser</a> <a target="_Blank" href="{{tune.audio}}" download>Download</a></li>{% endif %}
     </ul>
 
 </div>

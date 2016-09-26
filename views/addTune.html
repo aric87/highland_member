@@ -5,9 +5,15 @@
 {% block content %}
 <div class="col-sm-6 col-sm-offset-3">
     <div class="well">
-        <form method="POST" action="/tunes/new" enctype="multipart/form-data">
-        <label for="name">Tune <input type="text" name="name" ></label>
-        <label for="file">File: </label><input type="file" name="file" /></label>
+        <form method="POST" action="/tunes" enctype="multipart/form-data">
+        <label for="name">Tune <input type="text" name="name" {% if tune.name %} value="{{tune.name}}" {% endif %} ></label><br/>
+        <label for="file">Melody: <input type="file" name="melody" /></label><br/>
+        <label for="file">Seconds: <input type="file" name="seconds" /></label><br/>
+        <label for="file">Thirds: <input type="file" name="thirds" /></label><br/>
+        <label for="file">Snare: <input type="file" name="snare" /></label><br/>
+        <label for="file">Tenors: <input type="file" name="tenors" /></label><br/>
+        <label for="file">Bass: <input type="file" name="bass" /></label><br/>
+        <label for="file">Audio: <input type="file" name="audio" /></label><br/>
             <br/>
         <button type="submit" class="btn btn-primary">Update</button>
         </form>

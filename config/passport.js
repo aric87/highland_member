@@ -91,7 +91,10 @@ module.exports = function(passport) {
                         newUser.name = req.body.name;
                         newUser.yearsIn = req.body.years || '';
                         newUser.bio = req.body.about || '';
-
+                        newUser.phone = req.body.phone || '';
+                        newUser.address = req.body.address || '';
+                        newUser.inDirectory = req.body.inDirectory === 'true'? true : false;
+                        
                         newUser.save(function(err) {
                             if (err)
                                 throw err;

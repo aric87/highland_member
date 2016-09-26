@@ -10,7 +10,10 @@ var userSchema = mongoose.Schema({
         bio:String,
         email: { type: String, required: true, unique: true },
         password: { type: String, required: true },
-        role:{type:String,default:'member'},
+        address: String,
+        phone: String,
+        role:{type:String, default:'member'},
+        inDirectory: {type: Boolean, default: false},
         resetPasswordToken: String,
         resetPasswordExpires: Date
 

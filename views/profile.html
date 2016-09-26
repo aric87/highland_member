@@ -14,8 +14,13 @@
                 {% if mine %} <a href="/profile/edit" class="pull-right"><button class="btn btn-warning">Edit profile</button></a>{% endif %}
                 <p class="profileText">
                     <strong>E-mail</strong>: {{ user.email }}<br>
+                    <strong>Address</strong>: {{ user.address }}<br>
+                    <strong>Phone</strong>: {{ user.phone }}<br>
                     <strong>Years In the Band</strong>: {{ user.yearsIn }}<br>
                     <strong>Bio</strong>: {{ user.bio }}<br>
+                    {% if mine %}
+                    <strong>Show in Directory</strong>: {{ user.inDirectory }}<br>
+                    {% endif %}
                 </p>
 
             </div>

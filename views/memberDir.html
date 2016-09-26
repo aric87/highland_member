@@ -12,12 +12,14 @@
         <div class="well">
             <ul class="list-unstyled">
                 {% for item in members %}
-                  {% if item.inDirectory %}
-                  <li><a href="/profile?id={{item.id}}" >{{item.name}}</a> </li>
-                  {% endif %}
+                {% if !item.name %}
+                <li><a href="/profile?id={{item.id}}" >{{item.email}}</a> </li>
+                {% else %}
+                <li><a href="/profile?id={{item.id}}" >{{item.name}}</a> </li>
+                {% endif %}
                 {% endfor %}
             </ul>
         </div>
     </div>
-</div>
+
     {% endblock %}

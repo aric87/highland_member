@@ -5,7 +5,7 @@
 {% block content %}
     <div class="col-sm-6 col-sm-offset-3">
 
-        <h1><span class="fa fa-sign-in"></span>{% if user %}Edit Profile {% else %} Signup {% endif %}</h1>
+        <h1><span class="fa fa-sign-in"></span> Signup</h1>
 
         <!-- show any messages that come back with authentication -->
         {% if message.length > 0 %}
@@ -13,55 +13,34 @@
         {% endif %}
 
         <!-- LOGIN FORM -->
-        <form method="post">
+        <form action="/signup" method="post">
           <div class="form-group">
               <label for="name">Name</label>
-              <input type="text" class="form-control" name="name" required {% if user %} value="{{user.name}}" {% endif %}>
+              <input type="text" class="form-control" name="name" required>
           </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="text" class="form-control" name="email" required {% if user %} value="{{user.email}}" {% endif %}>
+                <input type="text" class="form-control" name="email" required>
             </div>
-            <div class="form-group">
-                <label for="address">Address</label>
-                <input type="text" class="form-control" name="address" placeholder="<optional>" {% if user.address %} value="{{user.address}}" {% endif %}>
-            </div>
-            <div class="form-group">
-                <label for="phone">Phone</label>
-                <input type="text" class="form-control" name="phone" placeholder="<optional>" {% if user.phone %} value="{{user.phone}}" {% endif %}>
-            </div>
-            <div class="form-group">
-                <label ><input type="radio" class="" name="inDirectory" value="false" {% if !user || !user.inDirectory %} checked {% endif %} > Don't show in Directory</label><br/>
-                <label> <input type="radio" class="" name="inDirectory" value="true" {% if user.inDirectory %} checked {% endif %} > Show in directory</label><br/>
-            </div>
-            {% if !user %}
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" class="form-control setPassword" name="password" required>
             </div>
             <div class="form-group">
                 <label for="confirmPassword">Confirm Password</label>
-                <input type="password" class="form-control confirmPassword" required >
-            </div>{% endif %}
+                <input type="password" class="form-control confirmPassword" required>
+            </div>
             <div class="form-group">
                 <label for="about">About You</label>
-                <textarea type="text" class="form-control" name="about" placeholder="<optional>">{% if user.bio %} {{user.bio}} {% endif %}</textarea>
+                <textarea type="text" class="form-control" name="about" placeholder="<optional>"></textarea>
             </div>
             <div class="form-group">
                 <label for="years">Years in the Band</label>
-                <input type="text" class="form-control" name="years" placeholder="<optional>" {% if user %} value="{{user.yearsIn}}" {% endif %}>
+                <input type="text" class="form-control" name="years" placeholder="<optional>">
             </div>
-            <button type="submit" class="btn btn-warning btn-lg">{% if user %} Make Changes {% else %} Signup {% endif %}</button>
+            <button type="submit" class="btn btn-warning btn-lg">Signup</button>
         </form>
         <hr>
-        {% if user %}
-        <form method="post" action="/forgot">
-          <input name="email" type="hidden" value="{{user.email}}" />
-          <p> If you want to change your password, click this button. NOTE: any changes to the above fields will not be saved. For security purposes, you will be emailed a link to reset the password.</p>
-            <button type="submit" class="btn btn-warning">Reset Password</button>
-        </form>
-        {% else %}
         <p>Already have an account? <a href="/">Login</a></p>
-        {% endif %}
     </div>
 {% endblock %}

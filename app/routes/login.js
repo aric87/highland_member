@@ -65,6 +65,7 @@ module.exports = function (app, passport, async, crypto, sender) {
         });
     });
     app.post('/forgot', function (req, res, next) {
+        console.log('forgot body ', req.body);
         async.waterfall([
             function (done) {
                 crypto.randomBytes(20, function (err, buf) {
@@ -82,7 +83,6 @@ module.exports = function (app, passport, async, crypto, sender) {
 
                     user.resetPasswordToken = token;
                     user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
-                    user.password = User.generateHash(token + Date.now());
 
                     user.save(function (err) {
                         done(err, token, user);
@@ -109,7 +109,6 @@ module.exports = function (app, passport, async, crypto, sender) {
             if (err){
                return next(err);
              }
-            req.logout();
             res.redirect('/');
         });
     });

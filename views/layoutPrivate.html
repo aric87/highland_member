@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+    <title>{% block title %}Highland light Member Home{% endblock %}</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <link rel="stylesheet" href="/css/member.css">
+</head>
+<body>
+<header>
+    <nav>
+        <a {% if active == 'profile' %} class="active" {% endif %} href="/profile">My Profile</a><a {% if active == 'tunes' %} class="active" {% endif %} href="/tunes">Sheet Music</a><a {% if active == 'documents' %} class="active" {% endif %} href="/documents">Band Documents</a><a {% if active == 'directory' %} class="active" {% endif %} href="/directory">Member Directory</a><a  href="/logout">Logout</a></nav>
+</header>
+<div class="container-fluid">
+
+    {% block content %}{% endblock %}
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="/js/custom.js"></script>
+</body>
+</html>

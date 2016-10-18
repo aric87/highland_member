@@ -1,0 +1,23 @@
+{% extends 'layoutPrivate.html' %}
+{% block title %}Member Profile{% endblock %}
+
+{% block content %}
+<div class="page-header text-center">
+    <h1>Member Directory</h1>
+</div>
+
+<div class="row">
+
+    <div class="col-xs-6 col-xs-offset-3">
+        <div class="well">
+            <ul class="list-unstyled">
+                {% for item in members %}
+                  {% if item.inDirectory %}
+                  <li><a href="/profile?id={{item.id}}" >{{item.name}}</a> </li>
+                  {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+    {% endblock %}

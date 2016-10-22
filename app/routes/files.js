@@ -17,6 +17,7 @@ module.exports = function (app, multipartyMiddleware, fs) {
             });
         });
     });
+
     app.get('/documents/new', isLoggedIn, function (req, res) {
         res.render('addDocument', {
             active: 'documents'
@@ -45,6 +46,7 @@ module.exports = function (app, multipartyMiddleware, fs) {
                 }
             });
         });
+
 
     });
 };

@@ -2,7 +2,6 @@ var User       = require('../models/user');
 var Song       = require('../models/song');
 var isLoggedIn = require('../services');
 
-
 module.exports = function (app, passport, async, crypto, sender) {
     const emailServiceUrl = 'http://emailservice-memsearch.rhcloud.com/email';
     let messageData = (sendTo, subject, text) => {
@@ -26,6 +25,7 @@ module.exports = function (app, passport, async, crypto, sender) {
     }));
     // SIGNUP =================================
     // show the signup form
+
     app.get('/signup', function (req, res) {
         res.render('signup', { message: req.flash('loginMessage') });
     });
@@ -125,13 +125,13 @@ module.exports = function (app, passport, async, crypto, sender) {
             });
         });
     });
+
     app.post('/reset/:token', function (req, res) {
         async.waterfall([
             function (done) {
                 User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
                     if (!user) {
                         req.flash('error', 'Password reset token is invalid or has expired.');
-
                         console.log('User find error');
                         return res.redirect('back');
                     }

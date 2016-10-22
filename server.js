@@ -24,10 +24,12 @@ var multipartyMiddleware = multipart();
 var isLoggedIn = require('./app/services');
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {flags: 'a'});
 
+
 require('./config/passport')(passport); // pass passport for configuration
 
 // set up our express application
 app.use(morgan('combined',{stream:accessLogStream}));
+
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // get information from html forms
@@ -38,12 +40,14 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 })); // session secret
+
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
+
 app.all('/tunes/*', isLoggedIn, function(req, res, next){next();});
 app.use(express.static('views'));
 // routes ======================================================================
@@ -51,6 +55,7 @@ require('./app/routes/login.js')(app, passport, async, crypto, sender); // load 
 require('./app/routes/user.js')(app); // load our routes and pass in our app and fully configured passport
 require('./app/routes/files.js')(app, multipartyMiddleware, fs);
 require('./app/routes/tunes.js')(app, multipartyMiddleware, fs);
+
 
 // launch ======================================================================
 app.listen(port,app_ip_address);

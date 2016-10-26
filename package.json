@@ -4,10 +4,8 @@
   "description": "",
   "main": "start.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "db":"mongod --bind_ip=$IP --dbpath=./mongo_data --rest  --nojournal --quiet --logpath mongodb.log --logappend"
-
   },
   "author": "",
   "license": "ISC",

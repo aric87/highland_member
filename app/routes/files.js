@@ -2,10 +2,12 @@ var Document = require('../models/document'),
     User = require('../models/user'),
     isLoggedIn = require('../services'),
     path = require('path'),
-    docsUploadDir = path.resolve(__dirname, '../../views/documents/');
+    docsUploadDir = process.env.OPENSHIFT_DATA_DIR ? path.resolve(process.env.OPENSHIFT_DATA_DIR, '/docs/') : path.resolve(__dirname, '../../views/documents/');
 
 module.exports = function (app, multipartyMiddleware, fs) {
-    app.get('/documents', isLoggedIn, function (req, res) {
+  app.use('/documents', isLoggedIn, function(req, res, next){next();});
+
+    app.get('/documents', function (req, res) {
         Document.find({}, function (err, documents) {
             if (err) {
                 console.log(err);
@@ -18,7 +20,7 @@ module.exports = function (app, multipartyMiddleware, fs) {
         });
     });
 
-    app.get('/documents/new', isLoggedIn, function (req, res) {
+    app.get('/documents/new', function (req, res) {
         res.render('addDocument', {
             active: 'documents'
         });
@@ -35,7 +37,7 @@ module.exports = function (app, multipartyMiddleware, fs) {
                 } else {
                     Document.create({
                         name: req.body.name,
-                        file: '/documents/' + req.files.file.name
+                        file: createDir
                     }, function (err, document) {
                         if (err) {
                             console.log(err);

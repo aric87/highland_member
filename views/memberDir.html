@@ -14,6 +14,8 @@
                 {% for item in members %}
                   {% if item.inDirectory %}
                   <li><a href="/profile?id={{item.id}}" >{{item.name}}</a> </li>
+                  {% else %}
+                  <li>{{item.name}}</li>
                   {% endif %}
                 {% endfor %}
             </ul>

@@ -22,7 +22,8 @@ var multipart = require('connect-multiparty');
 var multipartyMiddleware = multipart();
 
 var isLoggedIn = require('./app/services');
-var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {flags: 'a'});
+var accessLogDir = process.env.OPENSHIFT_LOG_DIR ? process.env.OPENSHIFT_LOG_DIR : __dirname;
+var accessLogStream = fs.createWriteStream(path.join(accessLogDir, 'access.log'), {flags: 'a'});
 
 
 require('./config/passport')(passport); // pass passport for configuration
@@ -48,8 +49,11 @@ app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 
-app.all('/tunes/*', isLoggedIn, function(req, res, next){next();});
 app.use(express.static('views'));
+if(process.env.OPENSHIFT_DATA_DIR){
+  app.use(express.static(process.env.OPENSHIFT_DATA_DIR));
+  app.use(process.env.OPENSHIFT_DATA_DIR, isLoggedIn, function(req, res, next){next();});
+}
 // routes ======================================================================
 require('./app/routes/login.js')(app, passport, async, crypto, sender); // load our routes and pass in our app and fully configured passport
 require('./app/routes/user.js')(app); // load our routes and pass in our app and fully configured passport

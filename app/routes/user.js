@@ -2,14 +2,14 @@ var User       = require('../models/user');
 var isLoggedIn = require('../services');
 
 module.exports = function(app) {
-    app.get('/profile', isLoggedIn, function (req, res) {
+    app.use('/profile/*', isLoggedIn, function(req, res, next){next();});
+    app.get('/profile', function (req, res) {
         var user = req.user,
         mine = true,
         active = 'profile';
 
 
         if(req.query.id && req.query.id !== req.user._id){
-          console.log(req.query);
           User.findOne({_id:req.query.id},
           function(err, foundUser){
             if(err){
@@ -34,7 +34,7 @@ module.exports = function(app) {
         }
 
     });
-    app.post('/profile/edit', isLoggedIn, function(req, res){
+    app.post('/profile/edit', function(req, res){
             var user = req.user;
             var params = req.body;
             console.log('params before',params);
@@ -65,7 +65,7 @@ module.exports = function(app) {
             });
     });
 
-    app.get('/profile/edit',isLoggedIn,function (req,res){
+    app.get('/profile/edit',function (req,res){
         res.render('signup',{user:req.user, active:'profile'});
     });
     app.get('/directory', isLoggedIn, function (req, res) {

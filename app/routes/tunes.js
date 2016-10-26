@@ -2,11 +2,11 @@ var User = require('../models/user'),
     Song = require('../models/song'),
     isLoggedIn = require('../services'),
     path = require('path');
-    var tunesUploadDir = process.env.OPENSHIFT_DATA_DIR ? path.resolve(process.env.OPENSHIFT_DATA_DIR, '/tunes/') : path.resolve(__dirname, '../../views/tunes/');
+    var tunesUploadDir = process.env.OPENSHIFT_DATA_DIR ? path.join(process.env.OPENSHIFT_DATA_DIR, '/tunes/') : path.resolve(__dirname, '../../views/tunes/');
 
 module.exports = function (app, multipartyMiddleware, fs) {
-  var tunesUploadDir = process.env.OPENSHIFT_DATA_DIR ? path.resolve(process.env.OPENSHIFT_DATA_DIR, '/tunes/') : path.resolve(__dirname, '../../views/tunes/');
-console.log('env: ',process.env.OPENSHIFT_DATA_DIR)
+  var tunesUploadDir = process.env.OPENSHIFT_DATA_DIR ? path.join(process.env.OPENSHIFT_DATA_DIR, '/tunes/') : path.resolve(__dirname, '../../views/tunes/');
+  console.log('env: ',process.env.OPENSHIFT_DATA_DIR)
     app.get('/tunes', isLoggedIn, function (req, res) {
         Song.find({}, function (err, tunes) {
             if (err) {

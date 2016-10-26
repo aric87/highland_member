@@ -5,8 +5,7 @@ var User = require('../models/user'),
     tunesUploadDir = process.env.OPENSHIFT_DATA_DIR ? path.resolve(process.env.OPENSHIFT_DATA_DIR, '/tunes/') : path.resolve(__dirname, '../../views/tunes/');
 
 module.exports = function (app, multipartyMiddleware, fs) {
-    app.all('/tunes/*', isLoggedIn, function(req, res, next){next();});
-    app.get('/tunes', function (req, res) {
+    app.get('/tunes', isLoggedIn, function (req, res) {
         Song.find({}, function (err, tunes) {
             if (err) {
                 console.log(err);
@@ -18,12 +17,12 @@ module.exports = function (app, multipartyMiddleware, fs) {
             });
         });
     });
-    app.get('/tunes/new', function (req, res) {
+    app.get('/tunes/new', isLoggedIn, function (req, res) {
         res.render('addTune', {
             active: 'tunes'
         });
     });
-    app.post('/tunes', multipartyMiddleware, function (req, res) {
+    app.post('/tunes', isLoggedIn, multipartyMiddleware, function (req, res) {
       console.log(tunesUploadDir);
       var newSong = {};
 
@@ -60,11 +59,11 @@ module.exports = function (app, multipartyMiddleware, fs) {
 
         })
         .catch(function(e){
-          res.status(400).send(err);
+          res.status(400).send(e);
         });
 
     });
-    app.get('/tunes/:name', function (req, res) {
+    app.get('/tunes/:name', isLoggedIn, function (req, res) {
         Song.find({
             name: req.params.name
         }, function (err, tune) {
@@ -79,7 +78,7 @@ module.exports = function (app, multipartyMiddleware, fs) {
         });
     });
 
-    app.get('/tunes/edit/:name', function (req, res) {
+    app.get('/tunes/edit/:name', isLoggedIn, function (req, res) {
         Song.findOne({
             name: req.params.name
         }, function (err, tune) {

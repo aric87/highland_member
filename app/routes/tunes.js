@@ -2,7 +2,7 @@ var User = require('../models/user'),
     Song = require('../models/song'),
     isLoggedIn = require('../services'),
     path = require('path'),
-    tunesUploadDir = process.env.OPENSHIFT_DATA_DIR ? '/tunes' : path.resolve(__dirname, '../../views/tunes');
+    tunesUploadDir = process.env.OPENSHIFT_DATA_DIR ? path.join(process.env.OPENSHIFT_DATA_DIR, '/tunes/') : path.resolve(__dirname, '../../views/tunes/');
 
 module.exports = function (app, multipartyMiddleware, fs) {
     app.get('/tunes', isLoggedIn, function (req, res) {
@@ -40,7 +40,7 @@ module.exports = function (app, multipartyMiddleware, fs) {
                   if (err) {
                     reject(err);
                   }else{
-                    newSong[file.fieldName] = createDir;
+                    newSong[file.fieldName] = '/tunes/'+file.name;
                     resolve();
                   }
                 });

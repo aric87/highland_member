@@ -2,7 +2,7 @@ var User       = require('../models/user');
 var isLoggedIn = require('../services');
 
 module.exports = function(app) {
-    app.use('/profile/*', isLoggedIn, function(req, res, next){next();});
+    app.all('/profile/*', isLoggedIn, function(req, res, next){next();});
     app.get('/profile', function (req, res) {
         var user = req.user,
         mine = true,

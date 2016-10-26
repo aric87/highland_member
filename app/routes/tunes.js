@@ -5,7 +5,7 @@ var User = require('../models/user'),
     tunesUploadDir = process.env.OPENSHIFT_DATA_DIR ? path.resolve(process.env.OPENSHIFT_DATA_DIR, '/tunes/') : path.resolve(__dirname, '../../views/tunes/');
 
 module.exports = function (app, multipartyMiddleware, fs) {
-
+    app.all('/tunes/*', isLoggedIn, function(req, res, next){next();});
     app.get('/tunes', function (req, res) {
         Song.find({}, function (err, tunes) {
             if (err) {

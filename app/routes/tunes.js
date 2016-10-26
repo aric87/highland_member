@@ -5,7 +5,7 @@ var User = require('../models/user'),
     tunesUploadDir = process.env.OPENSHIFT_DATA_DIR ? path.resolve(process.env.OPENSHIFT_DATA_DIR, '/tunes/') : path.resolve(__dirname, '../../views/tunes/');
 
 module.exports = function (app, multipartyMiddleware, fs) {
-    
+
     app.get('/tunes', function (req, res) {
         Song.find({}, function (err, tunes) {
             if (err) {
@@ -24,17 +24,9 @@ module.exports = function (app, multipartyMiddleware, fs) {
         });
     });
     app.post('/tunes', multipartyMiddleware, function (req, res) {
-      var newSong;
-      Song.findOne({name:req.body.name},
-        function(err,tune){
-          if (err){
-            console.log(err);
-            return;
-          }
-          newSong = tune || {
-           name:req.body.name
-         };
-        });
+      console.log(tunesUploadDir);
+      var newSong = {};
+
 
       var fileUploads = [];
       for(var key in req.files){

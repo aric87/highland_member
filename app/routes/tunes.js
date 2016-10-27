@@ -35,12 +35,12 @@ module.exports = function (app, multipartyMiddleware, fs) {
         if(file.name){
           let p = new Promise((resolve, reject) => {
             fs.readFile(file.path, function (err, data) {
-              let createDir = tunesUploadDir + '/' + file.name;
+              let createDir = tunesUploadDir + file.name;
               fs.writeFile(createDir,data,function (err) {
                   if (err) {
                     reject(err);
                   }else{
-                    newSong[file.fieldName] = '/tunes/'+file.name;
+                    newSong[file.fieldName] = 'tunes/'+file.name;
                     resolve();
                   }
                 });

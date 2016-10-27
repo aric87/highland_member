@@ -1,8 +1,1 @@
-// TODO
-make tune upload
-
-Member Directory page link to profile detail
-
-add contact info to directory page
-
-add audio to tune model
+fix the edit tune, so it doesn't create a new version of the same tune.

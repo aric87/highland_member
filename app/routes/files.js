@@ -2,7 +2,7 @@ var Document = require('../models/document'),
     User = require('../models/user'),
     isLoggedIn = require('../services'),
     path = require('path'),
-    docsUploadDir = process.env.OPENSHIFT_DATA_DIR ? path.resolve(process.env.OPENSHIFT_DATA_DIR, '/docs/') : path.resolve(__dirname, '../../views/documents/');
+    docsUploadDir = process.env.OPENSHIFT_DATA_DIR ? path.join(process.env.OPENSHIFT_DATA_DIR, '/docs/') : path.resolve(__dirname, '../../views/docs/');
 
 module.exports = function (app, multipartyMiddleware, fs) {
   app.use('/documents', isLoggedIn, function(req, res, next){next();});
@@ -30,14 +30,14 @@ module.exports = function (app, multipartyMiddleware, fs) {
             fs.mkdirSync(docsUploadDir);
         }
         fs.readFile(req.files.file.path, function (err, data) {
-            var createDir = docsUploadDir + '/' + req.files.file.name;
+            var createDir = docsUploadDir + req.files.file.name;
             fs.writeFile(createDir, data, function (err) {
                 if (err) {
                     res.status(400).send(err);
                 } else {
                     Document.create({
                         name: req.body.name,
-                        file: createDir
+                        file: 'docs/'+req.files.file.name
                     }, function (err, document) {
                         if (err) {
                             console.log(err);

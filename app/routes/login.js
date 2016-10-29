@@ -46,6 +46,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
                 }
                 let text = 'You are receiving this because you (or someone else) have created an account on Highland Light\'s member page.\n\n' +
                 'If you forget your password, you can reset it on the site. Be sure to update your profile!';
+
                 var mailOptions = messageData(user.email, 'New Account', text);
                 sender
                 .post(emailServiceUrl)

@@ -34,8 +34,8 @@
                 <label> <input type="radio" class="" name="inDirectory" value="true" {% if user.inDirectory %} checked {% endif %} > Show details in directory (Your name will always show)</label><br/>
             </div>
             <div class="form-group">
-                <label for="freelance">Interested in solo/freelance gigs</label>
-                <input type="text" class="form-control" name="freelance" required {% if user.freelance %} value="{{user.freelance}}" {% endif %}>
+                <label for="freelance" class="form-control">Interested in solo/freelance gigs
+                <input type="checkbox"  name="freelance" {% if user.freelance %} checked {% endif %}> </label>
             </div>
             {% if !user %}
             <div class="form-group">

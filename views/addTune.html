@@ -7,13 +7,14 @@
     <div class="well">
         <form method="POST" action="/tunes" enctype="multipart/form-data">
         <label for="name">Tune <input type="text" name="name" {% if tune.name %} value="{{tune.name}}" {% endif %} ></label><br/>
-        <label for="file">Melody: <input type="file" name="melody" /></label><br/>
-        <label for="file">Seconds: <input type="file" name="seconds" /></label><br/>
-        <label for="file">Thirds: <input type="file" name="thirds" /></label><br/>
-        <label for="file">Snare: <input type="file" name="snare" /></label><br/>
-        <label for="file">Tenors: <input type="file" name="tenors" /></label><br/>
-        <label for="file">Bass: <input type="file" name="bass" /></label><br/>
-        <label for="file">Audio: <input type="file" name="audio" /></label><br/>
+        <label for="file">Melody: {% if tune.melody %}<span class="sub">(current: {{tune.melody}})</span> {% endif %}<input type="file" name="melody" /></label><br/>
+
+        <label for="file">Seconds: {% if tune.seconds %}<span class="sub">(current: {{tune.seconds}})</span> {% endif %}<input type="file" name="seconds" /></label><br/>
+        <label for="file">Thirds: {% if tune.thirds %}<span class="sub">(current: {{tune.thirds}})</span> {% endif %}<input type="file" name="thirds" /></label><br/>
+        <label for="file">Snare: {% if tune.snare %}<span class="sub">(current: {{tune.snare}})</span> {% endif %}<input type="file" name="snare" /></label><br/>
+        <label for="file">Tenors: {% if tune.tenors %}<span class="sub">(current: {{tune.tenors}})</span> {% endif %}<input type="file" name="tenors" /></label><br/>
+        <label for="file">Bass: {% if tune.bass %}<span class="sub">(current: {{tune.bass}})</span> {% endif %} <input type="file" name="bass" /></label><br/>
+        <label for="file">Audio: {% if tune.audio %}<span class="sub">(current: {{tune.audio}})</span> {% endif %}<input type="file" name="audio" /></label><br/>
             <br/>
         <button type="submit" class="btn btn-primary">Update</button>
         </form>

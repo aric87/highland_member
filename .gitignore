@@ -3,3 +3,7 @@ mongo_data
 .idea
 mongodb.log
 access.log
+views/documents
+views/tunes
+views/profileImages
+views/drum-scores

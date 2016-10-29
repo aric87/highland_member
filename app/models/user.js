@@ -12,8 +12,10 @@ var userSchema = mongoose.Schema({
         password: { type: String, required: true },
         address: String,
         phone: String,
+        active:{type:Boolean, default:true},
         role:{type:String, default:'member'},
         inDirectory: {type: Boolean, default: false},
+        profileImage:{type:String, default:'/images/default.jpg'},
         resetPasswordToken: String,
         resetPasswordExpires: Date
 

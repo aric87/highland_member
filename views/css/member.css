@@ -11,16 +11,19 @@ header {
 a {
   text-decoration:none;
 }
-
+.spaceBelow{margin-bottom:35px;}
+.spaceBelow h5{border-bottom:1px solid rgba(0,0,0,.3);}
+.memberAdminFunctions a{margin-right:5px;}
 nav{
   width:100%;
   text-align:justify;
   position:absolute;
   bottom:-45px;
+  display:flex;
 }
 nav >a{
-  width:20%;
-  display:inline-block;
+
+  flex-grow:1;
   text-align:center;
   background-color:black;
   height:45px;

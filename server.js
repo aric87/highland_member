@@ -7,10 +7,10 @@ var app_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
-var morgan       = require('morgan');
+var morgan  = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser   = require('body-parser');
-var session      = require('express-session');
+var bodyParser  = require('body-parser');
+var session   = require('express-session');
 var swig = require('swig');
 var crypto = require('crypto');
 var async = require('async');
@@ -21,7 +21,7 @@ var sender = require('superagent');
 var multipart = require('connect-multiparty');
 var multipartyMiddleware = multipart();
 
-var isLoggedIn = require('./app/services');
+var isLoggedIn = require('./app/services').isLoggedIn;
 var accessLogDir = process.env.OPENSHIFT_LOG_DIR ? process.env.OPENSHIFT_LOG_DIR : __dirname;
 var accessLogStream = fs.createWriteStream(path.join(accessLogDir, 'access.log'), {flags: 'a'});
 
@@ -55,8 +55,9 @@ if(process.env.OPENSHIFT_DATA_DIR){
   app.use(process.env.OPENSHIFT_DATA_DIR, isLoggedIn, function(req, res, next){next();});
 }
 // routes ======================================================================
-require('./app/routes/login.js')(app, passport, async, crypto, sender); // load our routes and pass in our app and fully configured passport
-require('./app/routes/user.js')(app); // load our routes and pass in our app and fully configured passport
+require('./app/routes/login.js')(app, passport, async, crypto, sender, multipartyMiddleware); // load our routes and pass in our app and fully configured passport
+require('./app/routes/user.js')(app, multipartyMiddleware, fs);
+require('./app/routes/admin.js')(app); // load our routes and pass in our app and fully configured passport
 require('./app/routes/files.js')(app, multipartyMiddleware, fs);
 require('./app/routes/tunes.js')(app, multipartyMiddleware, fs);
 

@@ -4,6 +4,7 @@
 {% block content %}
     <div class="page-header text-center">
         <h1>{{user.name}}'s Profile</h1>
+        <img src="{{user.profileImage}}" />
     </div>
 
     <div class="row">
@@ -21,6 +22,7 @@
                     {% if mine %}
                     <strong>Show in Directory</strong>: {{ user.inDirectory }}<br>
                     {% endif %}
+
                 </p>
 
             </div>

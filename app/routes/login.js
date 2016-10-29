@@ -1,8 +1,8 @@
 var User       = require('../models/user');
 var Song       = require('../models/song');
-var isLoggedIn = require('../services');
+var {isLoggedIn, getAnnouncements} = require('../services');
 
-module.exports = function (app, passport, async, crypto, sender) {
+module.exports = function (app, passport, async, crypto, sender, multipartyMiddleware) {
     const emailServiceUrl = 'http://emailservice-memsearch.rhcloud.com/email';
     let messageData = (sendTo, subject, text) => {
       return {
@@ -14,7 +14,9 @@ module.exports = function (app, passport, async, crypto, sender) {
     };
     // show the login form
     app.get('/', function (req, res) {
-        res.render('login', { message: req.flash('loginMessage') });
+        getAnnouncements('public').then(function(announcements){
+          res.render('login', { message: req.flash('loginMessage'),announcements:announcements });
+        });
     });
 
     // process the login form
@@ -30,7 +32,7 @@ module.exports = function (app, passport, async, crypto, sender) {
         res.render('signup', { message: req.flash('loginMessage') });
     });
     // process the signup form
-    app.post('/signup', function (req,res,next) {
+    app.post('/signup', multipartyMiddleware, function (req,res,next) {
         passport.authenticate('local-signup', function (err, user, info) {
             if (err) {
                 return next(err);
@@ -115,7 +117,6 @@ module.exports = function (app, passport, async, crypto, sender) {
     });
     app.get('/reset/:token', function (req, res) {
         User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
-            console.log('user', user);
             if (!user) {
                 req.flash('error', 'Password reset token is invalid or has expired.');
                 return res.redirect('/forgot');
@@ -140,7 +141,7 @@ module.exports = function (app, passport, async, crypto, sender) {
                     user.resetPasswordExpires = undefined;
                     user.save(function (err) {
                         if (err) {
-                          console.log('fucked' + err );
+                          console.log(err);
                         }
                         done(err, user);
                     });

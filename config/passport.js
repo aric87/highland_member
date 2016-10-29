@@ -1,9 +1,9 @@
 // load all the things we need
 var LocalStrategy    = require('passport-local').Strategy;
-
-// load up the user model
-var User       = require('../app/models/user');
-
+var User       = require('../app/models/user'),
+path = require('path'),
+fs = require('fs'),
+profileImageDir  = process.env.OPENSHIFT_DATA_DIR ? path.join(process.env.OPENSHIFT_DATA_DIR, '/profileImages/') : path.resolve(__dirname, '../views/profileImages/');
 
 
 module.exports = function(passport) {
@@ -29,27 +29,24 @@ module.exports = function(passport) {
             passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
         },
         function(req, email, password, done) {
-
-            // asynchronous
-            process.nextTick(function() {
                 User.findOne({ 'email' :  email }, function(err, user) {
                     // if there are any errors, return the error
                     if (err)
                         return done(err);
 
                     // if no user is found, return the message
-                    if (!user)
-                        return done(null, false, req.flash('loginMessage', 'No user found.'));
-                    console.log('check user',user.validPassword(password));
-                    if (!user.validPassword(password)){
-                        return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
+                    if (!user || !user.validPassword(password))
+                        return done(null, false, req.flash('loginMessage', 'Username or Password are incorrect'));
+                    if (!user.active){
+                        return done(null, false, req.flash('loginMessage', 'Your user account is inactive. Contact your system administrator to get it reactivated'));
+                    }
+                    if(user.role !== 'member' && user.role !== 'admin'){
+                      return done(null, false, req.flash('loginMessage', 'It looks like you\'ve got a new account, or something went very wrong. If your account isn\'t new, contact the system admin. If it is, then your account will be approved shortly.'));
                     }
                     else{
                         return done(null, user);
                     }
                 });
-            });
-
         }));
 
     // =========================================================================
@@ -62,21 +59,17 @@ module.exports = function(passport) {
             passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
         },
         function(req, email, password, done) {
-
-            // asynchronous
-            process.nextTick(function() {
-
                 //  Whether we're signing up or connecting an account, we'll need
                 //  to know if the email address is in use.
                 User.findOne({'email': email}, function(err, existingUser) {
                     // if there are any errors, return the error
-                    if (err)
+                    if (err){
                         return done(err);
-
+                    }
                     // check to see if there's already a user with that email
-                    if (existingUser)
+                    if (existingUser){
                         return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
-
+                      }
                     //  If we're logged in, we're connecting a new local account.
                     if(req.user) {
                         return done(null,req.user);
@@ -85,7 +78,6 @@ module.exports = function(passport) {
                     else {
                         // create the user
                         var newUser = new User();
-                        console.log(req.body);
                         newUser.email    = email;
                         newUser.password = password;
                         newUser.name = req.body.name;
@@ -94,18 +86,45 @@ module.exports = function(passport) {
                         newUser.phone = req.body.phone || '';
                         newUser.address = req.body.address || '';
                         newUser.inDirectory = req.body.inDirectory === 'true'? true : false;
+                        var p;
+                        if(req.files.profileimage.size){
+                          p = new Promise((resolve, reject) =>{
+                            fs.readFile(req.files.profileimage.path, function (err, data) {
+                              var fileName = Date.now() + req.files.profileimage.name
+                                var createDir = profileImageDir + '/' + fileName;
+                                fs.writeFile(createDir, data, function (err) {
+                                    if (err) {
+                                      reject(err);
+                                    } else {
+                                      newUser.profileImage = '/profileImages/' + fileName;
+                                      resolve(newUser.profileImage);
+                                    }
+                                });
+                            });
+                          });
+                        }
+                        if(p){
+                          p.then(function(){
 
-                        newUser.save(function(err) {
-                            if (err)
-                                throw err;
+                            newUser.save(function(err) {
+                                if (err)
+                                    throw err;
 
-                            return done(null, newUser);
-                        });
+                                return done(null, newUser);
+                            });
+                          });
+                        } else{
+                          newUser.save(function(err) {
+                              if (err)
+                                  throw err;
+
+                              return done(null, newUser);
+                          });
+                        }
+
                     }
 
                 });
-            });
-
         }));
 
 

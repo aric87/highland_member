@@ -5,6 +5,9 @@ var {isLoggedIn, getAnnouncements} = require('../services');
 
 module.exports = function(app) {
     app.get('/admin', isLoggedIn, function (req, res) {
+      if(req.user.role !== 'admin'){
+        return res.redirect('/profile');
+      }
       var anp = new Promise((resolve, reject) => {
         Announcement.find({},(err,data) => {
           if(err){
@@ -27,7 +30,9 @@ module.exports = function(app) {
     });
 
     app.get('/announcement/edit', isLoggedIn, function (req, res) {
-
+      if(req.user.role !== 'admin'){
+        res.redirect('/profile');
+      }
       var anp = new Promise((resolve, reject) => {
         Announcement.findOne({_id:req.query.id},(err,data) => {
           if(err){
@@ -96,6 +101,9 @@ module.exports = function(app) {
       });
     });
     app.get('/announcement/new', isLoggedIn, function (req, res) {
+      if(req.user.role !== 'admin'){
+        res.redirect('/profile');
+      }
         res.render('announcementEdit',{user:req.user});
       });
     app.post('/announcement/new', isLoggedIn, function (req, res) {

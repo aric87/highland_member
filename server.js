@@ -17,7 +17,7 @@ var async = require('async');
 var fs = require('fs');
 var path = require('path');
 var sender = require('superagent');
-
+var sysInfo = require('./utils/sys-info');
 var multipart = require('connect-multiparty');
 var multipartyMiddleware = multipart();
 
@@ -60,7 +60,21 @@ require('./app/routes/user.js')(app, multipartyMiddleware, fs);
 require('./app/routes/admin.js')(app); // load our routes and pass in our app and fully configured passport
 require('./app/routes/files.js')(app, multipartyMiddleware, fs);
 require('./app/routes/tunes.js')(app, multipartyMiddleware, fs);
-
+app.get('/health',function(req,res){
+  res.sendStatus(200)
+});
+app.get('/info/:token',(req,res,next) => {
+  if(req.params.token == 'gen'|| req.params.token == 'poll'){
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Cache-Control', 'no-cache, no-store');
+  res.json(JSON.stringify(sysInfo[req.params.token]()));
+} else {
+  next();
+}
+});
+app.get('*',function(req,res){
+  res.status(404).render('404');
+})
 
 // launch ======================================================================
 app.listen(port,app_ip_address);

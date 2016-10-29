@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="col-sm-6 col-sm-offset-3">
-    <h2>{{tune.name}}    {% if user.role  %}  <a href="/tunes/edit/{{tune.name}}" class="pull-right"><button class="btn btn-warning">Edit Tune Details</button></a>{% endif %}</h2>
+    <h2>{{tune.name}}    {% if user.role == 'admin' %} <a href="/tunes/edit/{{tune.name}}" class="pull-right"><button class="btn btn-warning">Edit Tune Details</button></a>{% endif %}</h2>
 
     <ul class="list-unstyled">
         {% if tune.melody %}<li class="col-xs-12">Melody: <a target="_Blank" href="/{{tune.melody}}">Open in Browser</a> <a target="_Blank" href="/{{tune.melody}}" download >Download</a></li>{% endif %}

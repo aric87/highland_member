@@ -12,7 +12,7 @@
         <div class="well">
             <ul class="list-unstyled">
                 {% for item in members %}
-                  {% if item.inDirectory %}
+                  {% if item.inDirectory || user.role == 'admin' %}
                   <li><a href="/profile?id={{item.id}}" >{{item.name}}</a> </li>
                   {% else %}
                   <li>{{item.name}}</li>

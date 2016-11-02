@@ -3,8 +3,8 @@ var {isLoggedIn, getAnnouncements} = require('../services'),
 path = require('path'),
 profileImageDir  = process.env.OPENSHIFT_DATA_DIR ? path.join(process.env.OPENSHIFT_DATA_DIR, '/profileImages/') : path.resolve(__dirname, '../../views/profileImages/');
 
-module.exports = function(app, multipartyMiddleware, fs) {
-    app.get('/profile', isLoggedIn, function (req, res) {
+module.exports = function(app, multipartyMiddleware, fs, logger) {
+    app.get('/profile', isLoggedIn, function (req, res, next) {
         var user = req.user,
         mine = true,
         active = 'profile';
@@ -13,8 +13,8 @@ module.exports = function(app, multipartyMiddleware, fs) {
           User.findOne({_id:req.query.id},
           function(err, foundUser){
             if(err){
-              console.log(err);
-              return;
+              logger.error(`profile get find err: ${err}`);
+              return next(err);
             }
             user = foundUser;
             mine = false;
@@ -36,7 +36,7 @@ module.exports = function(app, multipartyMiddleware, fs) {
         }
       });
     });
-    app.post('/profile/edit', isLoggedIn, multipartyMiddleware, function(req, res){
+    app.post('/profile/edit', isLoggedIn, multipartyMiddleware, function(req, res, next){
             var user = req.user;
             var params = req.body;
             if(!params.email){params.email = user.email;}
@@ -49,12 +49,17 @@ module.exports = function(app, multipartyMiddleware, fs) {
             if(req.files.profileimage.size){
               p = new Promise((resolve, reject) =>{
                 fs.readFile(req.files.profileimage.path, function (err, data) {
+                    if(err){
+                      logger.error(`profile image upload read err: ${err}, user: ${req.user}`);
+                      return reject(err);
+                    }
                     var fileName = Date.now() + req.files.profileimage.name;
                     var createDir = profileImageDir + '/' + fileName;
                     fs.writeFile(createDir, data, function (err) {
-                        if (err) {
-                          reject(err);
-                        } else {
+                      if(err){
+                        logger.error(`profile image upload write err: ${err}, user: ${req.user.email}`);
+                        return reject(err);
+                      } else {
                           params.profileImage = '/profileImages/' +fileName;
                           resolve(  params.profileImage);
                         }
@@ -72,13 +77,17 @@ module.exports = function(app, multipartyMiddleware, fs) {
             }
             function updateUser(){
               User.update({ _id: req.user._id }, params, function(err){
-                      if (err) {
-                        console.log('err ', err);
+                        if(err){
+                          logger.error(`update user err: ${err}, user: ${req.user.email}`);
                           res.flash('Some Error Occurred');
-                          return;
+                          return next(err);
                       }
                       User.findOne({_id:req.user._id},function(err, newUser){
-                        if (err){ return console.log(err);}
+                        if(err){
+                          logger.error(`update user find err: ${err}, user: ${req.user.email}`);
+                          res.flash('Some Error Occurred');
+                          return next(err);
+                        }
                         res.render('profile', {
                             mine:true,
                             user: newUser,
@@ -94,11 +103,11 @@ module.exports = function(app, multipartyMiddleware, fs) {
       res.render('signup',{user:req.user, active:'profile'});
 
     });
-    app.post('/toggleUser/:id', isLoggedIn, function(req, res){
+    app.post('/toggleUser/:id', isLoggedIn, function(req, res, next){
       User.findOne({_id:req.params.id},function(err, data){
         if(err){
-          console.log(err);
-          res.sendStatus(500);
+          logger.error(`toggleUser user find err: ${err}, user: ${req.user.email}`);
+          return res.sendStatus(500);
         }
         if(req.query.action === 'active'){
             data.active = !data.active;
@@ -108,6 +117,7 @@ module.exports = function(app, multipartyMiddleware, fs) {
         }
         data.save(function(err){
           if(err){
+            logger.error(`toggleUser user save err: ${err}, user: ${req.user.email}, action: ${req.query.action}`);
             res.sendStatus(500);
           }
           res.sendStatus(200);
@@ -117,8 +127,10 @@ module.exports = function(app, multipartyMiddleware, fs) {
     app.post('/profile/imageClear', isLoggedIn, function(req, res){
         req.user.profileImage = '/images/default.jpg';
         req.user.save(function(err) {
-            if (err)
-                res.sendStatus(500);
+            if (err){
+              logger.error(`image clear save err: ${err}, user: ${req.user.email}`);
+              return res.sendStatus(500);
+            }
             res.sendStatus(200);
         });
     });
@@ -127,7 +139,7 @@ module.exports = function(app, multipartyMiddleware, fs) {
       getAnnouncements().then((announcements) => {
        User.find({},function(err,members){
            if (err) {
-               console.log(err);
+               logger.error(`geet directory err: ${err}, user: ${req.user.email}`);
                return;
            }
            res.render('memberDir', {

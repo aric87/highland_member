@@ -4,13 +4,13 @@ var User = require('../models/user'),
     path = require('path'),
     tunesUploadDir = process.env.OPENSHIFT_DATA_DIR ? path.join(process.env.OPENSHIFT_DATA_DIR, '/tunes/') : path.resolve(__dirname, '../../views/tunes/');
 
-module.exports = function (app, multipartyMiddleware, fs) {
-    app.get('/tunes', isLoggedIn, function (req, res) {
+module.exports = function (app, multipartyMiddleware, fs, logger) {
+    app.get('/tunes', isLoggedIn, function (req, res, next) {
       getAnnouncements().then((announcements) => {
         Song.find({}, function (err, tunes) {
             if (err) {
-                console.log(err);
-                return;
+              logger.error(` /tunes song find err: ${err}`);
+              return next(err);
             }
             res.render('tunes', {
                 tunes: tunes,
@@ -27,13 +27,14 @@ module.exports = function (app, multipartyMiddleware, fs) {
             user:req.user
         });
     });
-    app.post('/tunes', isLoggedIn, multipartyMiddleware, function (req, res) {
+    app.post('/tunes', isLoggedIn, multipartyMiddleware, function (req, res, next) {
       var newSong = {
         name:req.body.name
       };
       var getSong = new Promise((resolve,reject) => {
         Song.findOne({name:req.body.name},function(err,data){
             if(err){
+              logger.error(`post song find err: ${err}, name: ${req.body.name}`);
               reject(err);
             }
             resolve(data);
@@ -47,10 +48,15 @@ module.exports = function (app, multipartyMiddleware, fs) {
         if(file.name){
           let p = new Promise((resolve, reject) => {
             fs.readFile(file.path, function (err, data) {
+              if(err){
+                logger.error(`post song read err: ${err}, name: ${req.body.name}, file: ${file.name}`);
+                return reject(err);
+              }
               let createDir = tunesUploadDir + '/'+ file.name;
               fs.writeFile(createDir,data,function (err) {
-                  if (err) {
-                    reject(err);
+                if(err){
+                  logger.error(`post song write err: ${err}, name: ${req.body.name}, file: ${file.name}`);
+                  reject(err);
                   }else{
                     newSong[file.fieldName] = 'tunes/'+file.name;
                     resolve();
@@ -70,51 +76,52 @@ module.exports = function (app, multipartyMiddleware, fs) {
             }
             tune.save(function(err){
               if(err){
-                console.log(err);
+                logger.error(`tune update save err: ${err}, name: ${req.body.name}`);
+                return next(err);
               }
               res.redirect('/tunes/'+newSong.name);
             });
           } else{
             Song.create(newSong, function (err, song) {
                 if (err) {
-                    console.log(err);
-                    return;
+                  logger.error(`tune create err: ${err}, name: ${req.body.name}`);
+                  return next(err);
                 }
                 res.redirect('/tunes/'+song.name);
             });
           }
         })
         .catch(function(e){
+          logger.error(`tune create err: ${err}, name: ${req.body.name}`);
           res.status(400).send(e);
         });
 
     });
-    app.get('/tunes/:name', isLoggedIn, function (req, res) {
+    app.get('/tunes/:name', isLoggedIn, function (req, res, next) {
       getAnnouncements().then((announcements) => {
         Song.find({
             name: req.params.name
         }, function (err, tune) {
             if (err) {
-                console.log(err);
-                return;
+              logger.error(`tune get err: ${err}, name: ${req.params.name}`);
+                return next(err);
             }
             res.render('tuneDetail', {
                 user: req.user,
                 tune: tune[0],
-                announcements:announcements,
-                user:req.user
+                announcements:announcements
             });
         });
       });
     });
 
-    app.get('/tunes/edit/:name', isLoggedIn, function (req, res) {
+    app.get('/tunes/edit/:name', isLoggedIn, function (req, res, next) {
         Song.findOne({
             name: req.params.name
         }, function (err, tune) {
             if (err) {
-                console.log(err);
-                return;
+              logger.error(`tune edit, get err: ${err}, name: ${req.params.name}`);
+                return next(err);
             }
             res.render('addTune', {
                 tune: tune,

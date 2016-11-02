@@ -1,7 +1,20 @@
 // get all the tools we need
 require('./config/connect');
 var express  = require('express');
+var helmet = require('helmet');
+var csp = require('helmet-csp');
 var app      = express();
+app.use(helmet());
+app.use(csp({
+  directives: {
+    defaultSrc: ["'self'"],
+    styleSrc: ["'self'", 'maxcdn.bootstrapcdn.com'],
+    scriptSrc:["'self'",'cdnjs.cloudflare.com'],
+    fontSrc:["'self'", 'maxcdn.bootstrapcdn.com'],
+    reportUri: '/report-violation'
+  }
+}));
+app.use(helmet.referrerPolicy({ policy: 'same-origin' }));
 var port     = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 var app_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var mongoose = require('mongoose');
@@ -22,14 +35,14 @@ var multipart = require('connect-multiparty');
 var multipartyMiddleware = multipart();
 
 var isLoggedIn = require('./app/services').isLoggedIn;
-var accessLogDir = process.env.OPENSHIFT_LOG_DIR ? process.env.OPENSHIFT_LOG_DIR : __dirname;
-var accessLogStream = fs.createWriteStream(path.join(accessLogDir, 'access.log'), {flags: 'a'});
+var logDir = process.env.OPENSHIFT_LOG_DIR ? process.env.OPENSHIFT_LOG_DIR : __dirname;
+var accessLogStream = fs.createWriteStream(path.join(logDir, 'access.log'), {flags: 'a'});
+var logger = require('./config/logger');
 
-
-require('./config/passport')(passport); // pass passport for configuration
+require('./config/passport')(passport, logger); // pass passport for configuration
 
 // set up our express application
-app.use(morgan('combined',{stream:accessLogStream}));
+app.use(morgan('common',{stream:accessLogStream}));
 
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json());
@@ -55,26 +68,38 @@ if(process.env.OPENSHIFT_DATA_DIR){
   app.use(process.env.OPENSHIFT_DATA_DIR, isLoggedIn, function(req, res, next){next();});
 }
 // routes ======================================================================
-require('./app/routes/login.js')(app, passport, async, crypto, sender, multipartyMiddleware); // load our routes and pass in our app and fully configured passport
-require('./app/routes/user.js')(app, multipartyMiddleware, fs);
-require('./app/routes/admin.js')(app); // load our routes and pass in our app and fully configured passport
-require('./app/routes/files.js')(app, multipartyMiddleware, fs);
-require('./app/routes/tunes.js')(app, multipartyMiddleware, fs);
+require('./app/routes/login.js')(app, passport, async, crypto, sender, multipartyMiddleware, logger); // load our routes and pass in our app and fully configured passport
+require('./app/routes/user.js')(app, multipartyMiddleware, fs, logger);
+require('./app/routes/admin.js')(app, logger); // load our routes and pass in our app and fully configured passport
+require('./app/routes/files.js')(app, multipartyMiddleware, fs, logger);
+require('./app/routes/tunes.js')(app, multipartyMiddleware, fs, logger);
 app.get('/health',function(req,res){
-  res.sendStatus(200)
+  res.sendStatus(200);
 });
 app.get('/info/:token',(req,res,next) => {
   if(req.params.token == 'gen'|| req.params.token == 'poll'){
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Cache-Control', 'no-cache, no-store');
   res.json(JSON.stringify(sysInfo[req.params.token]()));
-} else {
-  next();
-}
+  } else {
+    next();
+  }
+});
+app.post('/report-violation', function (req, res) {
+  if (req.body) {
+    console.log('CSP Violation: ', req.body);
+  } else {
+    console.log('CSP Violation: No data received!');
+  }
+  res.status(204).end();
 });
 app.get('*',function(req,res){
   res.status(404).render('404');
-})
+});
+app.use((err, req, res, next) => {
+  logger.error(`uncaught error: ${err} , \n req.path: ${req.path}`);
+  res.status(500).json({error: 'Something went wrong'}).end();
+});
 
 // launch ======================================================================
 app.listen(port,app_ip_address);

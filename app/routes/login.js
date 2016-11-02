@@ -2,8 +2,8 @@ var User       = require('../models/user');
 var Song       = require('../models/song');
 var {isLoggedIn, getAnnouncements} = require('../services');
 
-module.exports = function (app, passport, async, crypto, sender, multipartyMiddleware) {
-    const emailServiceUrl = 'http://emailservice-memsearch.rhcloud.com/email';
+module.exports = function (app, passport, async, crypto, sender, multipartyMiddleware, logger) {
+    const emailServiceUrl = 'http://emailservice-memsearch.rhcloud.com/email'; // TODO: make env var
     let messageData = (sendTo, subject, text) => {
       return {
         'sendTo':sendTo,
@@ -32,16 +32,19 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
         res.render('signup', { message: req.flash('loginMessage') });
     });
     // process the signup form
-    app.post('/signup', multipartyMiddleware, function (req,res,next) {
+    app.post('/signup', multipartyMiddleware, function (req, res, next) {
         passport.authenticate('local-signup', function (err, user, info) {
             if (err) {
+                logger.error(` signup post error: ${err}`);
                 return next(err);
               }
             if (!user) {
+              logger.error(` signup post no user: ${info}`);
               return res.redirect('/');
             }
             req.logIn(user, function (err) {
                 if (err) {
+                  logger.error(` signup post login user error: ${err}`);
                   return next(err);
                 }
                 let text = 'You are receiving this because you (or someone else) have created an account on Highland Light\'s member page.\n\n' +
@@ -52,6 +55,9 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
                 .post(emailServiceUrl)
                 .send(mailOptions)
                 .end(function (err) {
+                    if(err){
+                      logger.error(` email new user err: ${err}`);
+                    }
                     return res.redirect('/profile/');
                 });
             });
@@ -77,8 +83,11 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
             },
             function (token, done) {
                 User.findOne({ email: req.body.email }, function (err, user) {
+                    if(err){
+                        logger.error(`forgot: find user err: ${err}`);
+                        return next(err);
+                    }
                     if (!user) {
-                        console.log('error');
                         req.flash('error', 'No account with that email address exists.');
                         return res.redirect('/forgot');
                     }
@@ -88,6 +97,9 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
                     user.password = User.generateHash(token + Date.now());
 
                     user.save(function (err) {
+                        if(err){
+                          logger.error(`forgot: user save err: ${err}`);
+                        }
                         done(err, token, user);
                     });
                 });
@@ -104,20 +116,28 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
                     .post(emailServiceUrl)
                     .send(mailOptions)
                     .end(function (err) {
+                        if(err){
+                          logger.error(` email new user err: ${err}`);
+                        }
                         done(err, 'done');
                     });
             }
         ],
         function (err) {
             if (err){
+              logger.error(` waterfall err: ${err}`);
                return next(err);
              }
             req.logout();
             res.redirect('/');
         });
     });
-    app.get('/reset/:token', function (req, res) {
+    app.get('/reset/:token', function (req, res, next) {
         User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
+            if(err){
+              logger.error(` get reset token finOne err: ${err}`);
+              return next(err);
+            }
             if (!user) {
                 req.flash('error', 'Password reset token is invalid or has expired.');
                 return res.redirect('/forgot');
@@ -128,10 +148,14 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
         });
     });
 
-    app.post('/reset/:token', function (req, res) {
+    app.post('/reset/:token', function (req, res, next) {
         async.waterfall([
             function (done) {
                 User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
+                    if(err){
+                      logger.error(` post reset token finOne err: ${err}`);
+                      return next(err);
+                    }
                     if (!user) {
                         req.flash('error', 'Password reset token is invalid or has expired.');
                         console.log('User find error');
@@ -142,7 +166,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
                     user.resetPasswordExpires = undefined;
                     user.save(function (err) {
                         if (err) {
-                          console.log(err);
+                          logger.error(` post reset token user save err: ${err}`);
                         }
                         done(err, user);
                     });
@@ -156,10 +180,16 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
               .post(emailServiceUrl)
               .send(mailOptions)
               .end(function (err) {
+                  if(err){
+                    logger.error(` email new user err: ${err}`);
+                  }
                   done(err, 'done');
               });
             }
         ], function (err) {
+            if(err){
+              logger.error(` waterfall reset post err: ${err}`);
+            }
             res.redirect('/');
         });
     });

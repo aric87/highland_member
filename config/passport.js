@@ -6,7 +6,7 @@ fs = require('fs'),
 profileImageDir  = process.env.OPENSHIFT_DATA_DIR ? path.join(process.env.OPENSHIFT_DATA_DIR, '/profileImages/') : path.resolve(__dirname, '../views/profileImages/');
 
 
-module.exports = function(passport) {
+module.exports = function(passport, logger) {
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
         done(null, user.id);
@@ -31,19 +31,25 @@ module.exports = function(passport) {
         function(req, email, password, done) {
                 User.findOne({ 'email' :  email }, function(err, user) {
                     // if there are any errors, return the error
-                    if (err)
-                        return done(err);
-
+                    if (err){
+                      logger.error(`Login error: ${err}, \n email: ${email}`);
+                      return done(err);
+                    }
                     // if no user is found, return the message
-                    if (!user || !user.validPassword(password))
+                    if (!user || !user.validPassword(password)){
+                        logger.warn(`Invalid login attempt. \n email: ${email}, \n pass: ${password}`);
                         return done(null, false, req.flash('loginMessage', 'Username or Password are incorrect'));
+                    }
                     if (!user.active){
+                        logger.warn(`Inactive login attempt. \n email: ${email}`);
                         return done(null, false, req.flash('loginMessage', 'Your user account is inactive. Contact your system administrator to get it reactivated'));
                     }
                     if(user.role !== 'member' && user.role !== 'admin'){
+                      logger.warn(`non-member login attempt. \n email: ${email}, role: ${user.role}`);
                       return done(null, false, req.flash('loginMessage', 'It looks like you\'ve got a new account, or something went very wrong. If your account isn\'t new, contact the system admin. If it is, then your account will be approved shortly.'));
                     }
                     else{
+                      logger.info(`${user.email} has logged in`);
                         return done(null, user);
                     }
                 });
@@ -64,10 +70,12 @@ module.exports = function(passport) {
                 User.findOne({'email': email}, function(err, existingUser) {
                     // if there are any errors, return the error
                     if (err){
+                        logger.error(`Signup error: ${err} \n email: ${email}`);
                         return done(err);
                     }
                     // check to see if there's already a user with that email
                     if (existingUser){
+                        logger.warn(`Signup with existing email: \n email: ${email}`);
                         return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
                       }
                     //  If we're logged in, we're connecting a new local account.
@@ -90,34 +98,43 @@ module.exports = function(passport) {
                         if(req.files.profileimage.size){
                           p = new Promise((resolve, reject) =>{
                             fs.readFile(req.files.profileimage.path, function (err, data) {
-                              var fileName = Date.now() + req.files.profileimage.name
-                                var createDir = profileImageDir + '/' + fileName;
-                                fs.writeFile(createDir, data, function (err) {
-                                    if (err) {
-                                      reject(err);
-                                    } else {
-                                      newUser.profileImage = '/profileImages/' + fileName;
-                                      resolve(newUser.profileImage);
-                                    }
-                                });
+                              if (err){
+                                logger.error(`user file image err on signup, read: ${err}, \n email: ${email},`);
+                                reject(err);
+                              }
+                              var fileName = Date.now() + req.files.profileimage.name;
+                              var createDir = profileImageDir + '/' + fileName;
+                              fs.writeFile(createDir, data, function (err) {
+                                  if (err) {
+                                    logger.error(`user file image err on signup, write: ${err}, \n email: ${email},`);
+                                    reject(err);
+                                  } else {
+                                    newUser.profileImage = '/profileImages/' + fileName;
+                                    resolve(newUser.profileImage);
+                                  }
+                              });
                             });
                           });
                         }
                         if(p){
+                          //  if there's a file, wait for it to upload
                           p.then(function(){
-
                             newUser.save(function(err) {
-                                if (err)
+                                if (err){
+                                    logger.error(`user create erro on signup: ${err}, \n email: ${email},`);
                                     throw err;
-
+                                }
+                                logger.info(`new user created: ${newUser.name}, \n email: ${newUser.email},`);
                                 return done(null, newUser);
                             });
                           });
                         } else{
                           newUser.save(function(err) {
-                              if (err)
-                                  throw err;
-
+                            if (err){
+                                logger.error(`user create erro on signup: ${err}, \n email: ${email},`);
+                                throw err;
+                            }
+                            logger.info(`new user created: ${newUser.name}, \n email: ${newUser.email},`);
                               return done(null, newUser);
                           });
                         }

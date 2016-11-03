@@ -1,19 +1,13 @@
 var User       = require('../models/user');
 var Song       = require('../models/song');
-var {isLoggedIn, getAnnouncements} = require('../services');
+var {isLoggedIn, getAnnouncements, emailAdmins, emailuser} = require('../services');
 
 module.exports = function (app, passport, async, crypto, sender, multipartyMiddleware, logger) {
-    const emailServiceUrl = 'http://emailservice-memsearch.rhcloud.com/email'; // TODO: make env var
-    let messageData = (sendTo, subject, text) => {
-      return {
-        'sendTo':sendTo,
-        'subject':subject,
-        'text':text,
-        'slackOption':false
-      };
-    };
     // show the login form
-    app.get('/', function (req, res) {
+    app.get('/',function(req, res, next){
+      res.redirect('/login');
+    });
+    app.get('/login', function (req, res) {
         getAnnouncements('public').then(function(announcements){
           res.render('login', { message: req.flash('loginMessage'),announcements:announcements });
         });
@@ -39,28 +33,37 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
                 return next(err);
               }
             if (!user) {
-              logger.error(` signup post no user: ${info}`);
+              logger.error(` signup post no user: ${user}`);
               return res.redirect('/');
             }
-            req.logIn(user, function (err) {
-                if (err) {
-                  logger.error(` signup post login user error: ${err}`);
-                  return next(err);
-                }
-                let text = 'You are receiving this because you (or someone else) have created an account on Highland Light\'s member page.\n\n' +
-                'If you forget your password, you can reset it on the site. Be sure to update your profile!';
+            let text = 'You are receiving this because you (or someone else) have created an account on Highland Light\'s member page.\n\n' +
+            'Your account has been created, however you will not be able to access anything on the site besides your profile until your account has been approved. \n\n Naturally, we want to keep band stuff super secret. We hope you understand.' +
+            'If you forget your password, you can reset it on the site. Be sure to update your profile!';
 
-                var mailOptions = messageData(user.email, 'New Account', text);
-                sender
-                .post(emailServiceUrl)
-                .send(mailOptions)
-                .end(function (err) {
-                    if(err){
-                      logger.error(` email new user err: ${err}`);
-                    }
-                    return res.redirect('/profile/');
+            emailuser(user.email, 'New Account', text).then((err) =>{
+                if(err){
+                  logger.error(` email new user err: ${err}`);
+                  if(err.toLowerCase().indexOf('not found') > 0){
+                    res.flash('loginMessage','There was a problem sending the welcome email do to an error with the email address you signed up with. Contact the system admin to correct problem');
+
+                  }
+                  return res.redirect('/');
+                }
+
+
+                  let adminMessage = `A new user has signed up for the site with the email ${user.email}. If you recognize the email, you should login and set their account type to member, so they can access the site. Otherwise, let Aric know so he can take care of tracking down the perp trying to steal our secrets`;
+                  emailAdmins('New user Signup', adminMessage).then((err) =>{
+                    if(err){logger.error(`Admin email error : ${err}`);}
+                    req.logIn(user, function (err) {
+                        if (err) {
+                          logger.error(` signup post login user error: ${err}`);
+                          return next(err);
+                        }
+                        return res.redirect('/profile/');
+                    });
+
+                  });
                 });
-            });
         })(req, res, next);
     });
     // LOGOUT ==============================
@@ -74,6 +77,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
         });
     });
     app.post('/forgot', function (req, res, next) {
+      logger.info(`${req.body.email} has requested a password reset token`);
         async.waterfall([
             function (done) {
                 crypto.randomBytes(20, function (err, buf) {
@@ -111,11 +115,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
                     'http://' + req.headers.host + '/reset/' + token + '\n\n' +
                     'If you did not request this, please ignore this email and your password will remain unchanged.\n' +
                     'This is an auto-generated email. Responses will be lost in the abyss.';
-                    var mailOptions = messageData(user.email, 'Password Reset', text);
-                    sender
-                    .post(emailServiceUrl)
-                    .send(mailOptions)
-                    .end(function (err) {
+                    emailuser(user.email, 'Password Reset', text).then((err)  => {
                         if(err){
                           logger.error(` email new user err: ${err}`);
                         }
@@ -133,15 +133,18 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
         });
     });
     app.get('/reset/:token', function (req, res, next) {
+
         User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function (err, user) {
             if(err){
               logger.error(` get reset token finOne err: ${err}`);
               return next(err);
             }
             if (!user) {
+               logger.info(`someone tried to reset with a bad token`);
                 req.flash('error', 'Password reset token is invalid or has expired.');
                 return res.redirect('/forgot');
             }
+           logger.info(`${user.email} visited the password reset page with a good token`);
             res.render('reset', {
                 user: user
             });
@@ -161,6 +164,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
                         console.log('User find error');
                         return res.redirect('back');
                     }
+
                     user.password = req.body.password[0];
                     user.resetPasswordToken = undefined;
                     user.resetPasswordExpires = undefined;
@@ -168,6 +172,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
                         if (err) {
                           logger.error(` post reset token user save err: ${err}`);
                         }
+                        logger.info(`${user.email} successfully changed their password`);
                         done(err, user);
                     });
                 });
@@ -175,11 +180,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
             function (user, done) {
               let text = 'Hello,\n\n' +
               'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n';
-              var mailOptions = messageData(user.email, 'Your password has been changed', text);
-              sender
-              .post(emailServiceUrl)
-              .send(mailOptions)
-              .end(function (err) {
+              emailuser(user.email, 'Your password has been changed', text).then((err) => {
                   if(err){
                     logger.error(` email new user err: ${err}`);
                   }

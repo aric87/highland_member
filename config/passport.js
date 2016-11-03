@@ -44,10 +44,6 @@ module.exports = function(passport, logger) {
                         logger.warn(`Inactive login attempt. \n email: ${email}`);
                         return done(null, false, req.flash('loginMessage', 'Your user account is inactive. Contact your system administrator to get it reactivated'));
                     }
-                    if(user.role !== 'member' && user.role !== 'admin'){
-                      logger.warn(`non-member login attempt. \n email: ${email}, role: ${user.role}`);
-                      return done(null, false, req.flash('loginMessage', 'It looks like you\'ve got a new account, or something went very wrong. If your account isn\'t new, contact the system admin. If it is, then your account will be approved shortly.'));
-                    }
                     else{
                       logger.info(`${user.email} has logged in`);
                         return done(null, user);

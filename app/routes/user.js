@@ -1,10 +1,16 @@
 var User       = require('../models/user');
-var {isLoggedIn, getAnnouncements} = require('../services'),
+var {isLoggedIn, getAnnouncements, messageData, emailAdmins} = require('../services'),
 path = require('path'),
 profileImageDir  = process.env.OPENSHIFT_DATA_DIR ? path.join(process.env.OPENSHIFT_DATA_DIR, '/profileImages/') : path.resolve(__dirname, '../../views/profileImages/');
 
-module.exports = function(app, multipartyMiddleware, fs, logger) {
+module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
     app.get('/profile', isLoggedIn, function (req, res, next) {
+      var message = "";
+
+      if(req.user.role !== 'admin' && req.user.role !== 'member'){
+        req.query.id = req.user._id;
+         var message = "Your account is waiting for an admin approval. Please hold, your call is important to us.";
+      }
         var user = req.user,
         mine = true,
         active = 'profile';
@@ -23,7 +29,8 @@ module.exports = function(app, multipartyMiddleware, fs, logger) {
                 user: user,
                 mine: mine,
                 active: active,
-                announcements:announcements
+                announcements:announcements,
+                message:message
             });
           });
         } else {
@@ -31,7 +38,8 @@ module.exports = function(app, multipartyMiddleware, fs, logger) {
               user: user,
               mine: mine,
               active: active,
-              announcements:announcements
+              announcements:announcements,
+              message:message
           });
         }
       });
@@ -120,7 +128,23 @@ module.exports = function(app, multipartyMiddleware, fs, logger) {
             logger.error(`toggleUser user save err: ${err}, user: ${req.user.email}, action: ${req.query.action}`);
             res.sendStatus(500);
           }
-          res.sendStatus(200);
+          let text = '';
+          if(req.query.action === 'role'){
+            text = `You are receiving this because the status your account on Highland Light\'s member page has been changed.\n\n You are now an ${data.role} user, with all the rights privaleges, and responsibilities. \n\n Please don't share your account information with anyone!`;
+          } else if (req.query.action === 'active'){
+              text = `You are receiving this because the status your account on Highland Light\'s member page has been changed. You are now an ${data.active ? "active" : "inactive"} user, with all the rights privaleges, and responsibilities. Please don't share your account information with anyone!`;
+          }
+          var mailOptions = messageData(data.email, 'Account type change', text);
+          sender
+          .post(process.env.emailServiceUrl)
+          .send(mailOptions)
+          .end(function (err) {
+              if(err){
+                logger.error(` email user status change err: ${err}`);
+              }
+              res.sendStatus(200);
+          });
+
         });
       });
     });
@@ -136,6 +160,10 @@ module.exports = function(app, multipartyMiddleware, fs, logger) {
     });
 
     app.get('/directory', isLoggedIn, function (req, res) {
+      if(req.user.role !== 'admin' && req.user.role !== 'member'){
+        req.flash('loginMessage', 'Your user account isn\'t approved. Contact your system administrator to get it enabled.');
+        return res.redirect('/profile');
+      }
       getAnnouncements().then((announcements) => {
        User.find({},function(err,members){
            if (err) {

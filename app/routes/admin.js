@@ -38,7 +38,7 @@ module.exports = function(app, logger) {
     app.get('/announcement/edit', isLoggedIn, function (req, res) {
       if(req.user.role !== 'admin'){
         logger.warn(`${req.user.email} tried accessing ann. edit endpoint`);
-        res.redirect('/profile');
+        return res.redirect('/profile');
       }
       var anp = new Promise((resolve, reject) => {
         Announcement.findOne({_id:req.query.id},(err,data) => {
@@ -58,6 +58,10 @@ module.exports = function(app, logger) {
       });
     });
     app.post('/announcement/edit', isLoggedIn, function (req, res) {
+      if(req.user.role !== 'admin'){
+        logger.warn(`${req.user.email} tried accessing ann. edit endpoint`);
+        return res.redirect('/profile');
+      }
       if(req.query.action === 'delete'){
 
         Announcement.findByIdAndRemove(req.query.id, (err, data) => {
@@ -120,11 +124,16 @@ module.exports = function(app, logger) {
     });
     app.get('/announcement/new', isLoggedIn, function (req, res) {
       if(req.user.role !== 'admin'){
-        res.redirect('/profile');
+        logger.error(`Ann. new accessed by non admin:  ${req.user.email} `);
+        return res.redirect('/profile');
       }
         res.render('announcementEdit',{user:req.user});
       });
     app.post('/announcement/new', isLoggedIn, function (req, res) {
+      if(req.user.role !== 'admin'){
+        logger.error(`Ann. new post accessed by non admin:  ${req.user.email} `);
+        return res.redirect('/profile');
+      }
       var newobj = {
         title:req.body.title,
         content:req.body.content,

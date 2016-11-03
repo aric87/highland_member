@@ -5,8 +5,6 @@ var Document = require('../models/document'),
     docsUploadDir = process.env.OPENSHIFT_DATA_DIR ? path.join(process.env.OPENSHIFT_DATA_DIR, '/docs/') : path.resolve(__dirname, '../../views/docs/');
 
 module.exports = function (app, multipartyMiddleware, fs, logger) {
-  app.use('/documents', isLoggedIn, function(req, res, next){next();});
-
     app.get('/documents', function (req, res, next) {
       getAnnouncements().then(function(announcements){
         Document.find({}, function (err, documents) {

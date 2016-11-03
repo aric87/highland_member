@@ -2,6 +2,10 @@
 {% block title %}Member Profile{% endblock %}
 
 {% block content %}
+
+{% if message.length > 0 %}
+ <div class="alert alert-danger text-center">{{ message }}</div>
+{% endif %}
     <div class="page-header text-center">
         <h1>{{user.name}}'s Profile</h1>
         <img src="{{user.profileImage}}" />

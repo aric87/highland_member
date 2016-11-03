@@ -8,7 +8,10 @@ var SongSchema = new mongoose.Schema({
     snare:String,
     tenors:String,
     bass:String,
-    audio:String
+    fullAudio:String,
+    drumAudio:String,
+    pipeAudio:String,
+    practiceAudio:String
 });
 
 var Song = mongoose.model('Song', SongSchema);

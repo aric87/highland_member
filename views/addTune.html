@@ -14,7 +14,10 @@
         <label for="file">Snare: {% if tune.snare %}<span class="sub">(current: {{tune.snare}})</span> {% endif %}<input type="file" name="snare" /></label><br/>
         <label for="file">Tenors: {% if tune.tenors %}<span class="sub">(current: {{tune.tenors}})</span> {% endif %}<input type="file" name="tenors" /></label><br/>
         <label for="file">Bass: {% if tune.bass %}<span class="sub">(current: {{tune.bass}})</span> {% endif %} <input type="file" name="bass" /></label><br/>
-        <label for="file">Audio: {% if tune.audio %}<span class="sub">(current: {{tune.audio}})</span> {% endif %}<input type="file" name="audio" /></label><br/>
+        <label for="file">Full Audio: {% if tune.fullAudio %}<span class="sub">(current: {{tune.fullAudio}})</span> {% endif %}<input type="file" name="fullAudio" /></label><br/>
+        <label for="file">Pipe only Audio: {% if tune.pipeAudio %}<span class="sub">(current: {{tune.pipeAudio}})</span> {% endif %}<input type="file" name="pipeAudio" /></label><br/>
+        <label for="file">Drum Audio: {% if tune.drumAudio %}<span class="sub">(current: {{tune.drumAudio}})</span> {% endif %}<input type="file" name="drumAudio" /></label><br/>
+        <label for="file">ractice Chanter Audio: {% if tune.practiceAudio %}<span class="sub">(current: {{tune.practiceAudio}})</span> {% endif %}<input type="file" name="practiceAudio" /></label><br/>
             <br/>
         <button type="submit" class="btn btn-primary">Update</button>
         </form>

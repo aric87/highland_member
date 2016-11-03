@@ -120,7 +120,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
             name: req.params.name
         }, function (err, tune) {
             if (err) {
-              logger.error(`tune edit, get err: ${err}, name: ${req.params.name}`);
+                logger.error(`tune edit, get err: ${err}, name: ${req.params.name}`);
                 return next(err);
             }
             res.render('addTune', {

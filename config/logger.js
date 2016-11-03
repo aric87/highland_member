@@ -4,7 +4,7 @@ var logDir = process.env.OPENSHIFT_LOG_DIR ? process.env.OPENSHIFT_LOG_DIR : pat
 
 var logger = new (winston.Logger)({
     transports: [
-      new (winston.transports.File)({ filename: logDir + '/somefile.log' })
+      new (winston.transports.File)({ filename: logDir + '/winston.log' })
     ]
   });
 module.exports = logger;

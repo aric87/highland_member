@@ -8,3 +8,4 @@ views/tunes
 views/profileImages
 views/drum-scores
 winston.log
+dump.rdb

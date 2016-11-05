@@ -38,7 +38,7 @@ var sender = require('superagent');
 var sysInfo = require('./utils/sys-info');
 var multipart = require('connect-multiparty');
 var multipartyMiddleware = multipart();
-
+const limiter = require('express-limiter')(app, redisClient);
 var isLoggedIn = require('./app/services').isLoggedIn;
 var logDir = process.env.OPENSHIFT_LOG_DIR ? process.env.OPENSHIFT_LOG_DIR : __dirname;
 var accessLogStream = fs.createWriteStream(path.join(logDir, 'access.log'), {flags: 'a'});
@@ -63,7 +63,12 @@ app.use(session({
     name:"HLPB_awesome_cookie"
   })
 );
-
+// limit requests per hour
+limiter({
+  lookup: ['connection.remoteAddress'],
+  total: 20,
+  expire: 1000 * 120
+});
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session

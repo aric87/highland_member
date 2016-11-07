@@ -52,16 +52,17 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
 
 
                   let adminMessage = `A new user has signed up for the site with the email ${user.email}. If you recognize the email, you should login and set their account type to member, so they can access the site. Otherwise, let Aric know so he can take care of tracking down the perp trying to steal our secrets`;
-                  emailAdmins('New user Signup', adminMessage).then((err) =>{
-                    if(err){logger.error(`Admin email error : ${err}`);}
-                    req.logIn(user, function (err) {
-                        if (err) {
-                          logger.error(` signup post login user error: ${err}`);
-                          return next(err);
-                        }
-                        return res.redirect('/profile/');
-                    });
 
+                    emailAdmins('New user Signup', adminMessage).catch((err) => {
+                      logger.error(`Admin email error caught: ${err}`);
+                    }).then(() =>{
+                      req.logIn(user, function (err) {
+                          if (err) {
+                            logger.error(` signup post login user error: ${err}`);
+                            return res.redirect('/profile/');
+                          }
+                          return res.redirect('/profile/');
+                      });
                   });
                 });
         })(req, res, next);

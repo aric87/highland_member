@@ -161,7 +161,6 @@ module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
 
     app.get('/directory', isLoggedIn, function (req, res) {
       if(req.user.role !== 'admin' && req.user.role !== 'member'){
-        req.flash('loginMessage', 'Your user account isn\'t approved. Contact your system administrator to get it enabled.');
         return res.redirect('/profile');
       }
       getAnnouncements().then((announcements) => {

@@ -38,13 +38,11 @@ var sender = require('superagent');
 var sysInfo = require('./utils/sys-info');
 var multipart = require('connect-multiparty');
 var multipartyMiddleware = multipart();
-const limiter = require('express-limiter')(app, redisClient);
+
 var isLoggedIn = require('./app/services').isLoggedIn;
 var logDir = process.env.OPENSHIFT_LOG_DIR ? process.env.OPENSHIFT_LOG_DIR : __dirname;
 var accessLogStream = fs.createWriteStream(path.join(logDir, 'access.log'), {flags: 'a'});
 var logger = require('./config/logger');
-logger.warn('redis '+redisHost )
-logger.warn(redisPort)
 
 require('./config/passport')(passport, logger); // pass passport for configuration
 
@@ -55,7 +53,7 @@ app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // get information from html forms
 // required for passport
-logger.warn('OPENSHIFT_SESSION_SECRET ' + process.env.OPENSHIFT_SESSION_SECRET)
+logger.warn('redis '+ redisClient)
 app.use(session({
     secret: process.env.OPENSHIFT_SESSION_SECRET,
     // create new redis store.
@@ -67,6 +65,7 @@ app.use(session({
   })
 );
 // limit requests per hour
+const limiter = require('express-limiter')(app, redisClient);
 limiter({
   lookup: ['connection.remoteAddress'],
   total: 20,

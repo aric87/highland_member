@@ -177,12 +177,17 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
             function (user, done) {
               let text = 'Hello,\n\n' +
               'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n';
-              emailuser(user.email, 'Your password has been changed', text).then((err) => {
-                  if(err){
-                    logger.error(` email new user err: ${err}`);
-                  }
-                  done(err, 'done');
+              emailuser(user.email, 'Your password has been changed', text)
+              .then(() => {
+                done(null, 'done');
+              })
+              .catch((err)=>{
+                if(err){
+                  logger.error(` email new user err: ${err}`);
+                }
+                done(err, 'done');
               });
+
             }
         ], function (err) {
             if(err){

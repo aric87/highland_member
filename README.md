@@ -1,4 +1,3 @@
-- email admins on new signup
 - events
 
 -- get db backup

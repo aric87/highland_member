@@ -4,6 +4,7 @@ mongo_data
 mongodb.log
 access.log
 views/documents
+views/docs
 views/tunes
 views/profileImages
 views/drum-scores

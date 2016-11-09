@@ -26,12 +26,12 @@
               <input type="checkbox" name="active" {% if announcement && announcement.active %} checked {% endif %}> Actively Show to Users</label>
           </div>
           <div class="form-group">
-              <label for="public" class="form-control">
-              <input type="checkbox"  name="public" {% if announcement && announcement.showPublic %} checked {% endif %}> Show to users on public pages</label>
+              <label for="showPublic" class="form-control">
+              <input type="checkbox"  name="showPublic" {% if announcement && announcement.showPublic %} checked {% endif %}> Show to users on public pages</label>
           </div>
           <div class="form-group">
-              <label for="private" class="form-control">
-              <input type="checkbox"  name="private" {% if announcement && announcement.showPrivate %} checked {% endif %}> Show to users on private pages</label>
+              <label for="showPrivate" class="form-control">
+              <input type="checkbox"  name="showPrivate" {% if announcement && announcement.showPrivate %} checked {% endif %}> Show to users on private pages</label>
           </div>
 
             <button type="submit" class="btn btn-warning btn-lg">{% if user %} Make Changes {% else %} Create {% endif %}</button>

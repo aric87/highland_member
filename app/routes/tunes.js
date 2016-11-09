@@ -1,12 +1,14 @@
 var User = require('../models/user'),
     Song = require('../models/song'),
-    {isLoggedIn, getAnnouncements} = require('../services'),
+    {getAnnouncements} = require('../controllers/announcement'),
+    {uploadFile} = require('../controllers/files'),
+    {isLoggedIn} = require('../services'),
     path = require('path'),
     tunesUploadDir = process.env.OPENSHIFT_DATA_DIR ? path.join(process.env.OPENSHIFT_DATA_DIR, '/tunes/') : path.resolve(__dirname, '../../views/tunes/');
 
 module.exports = function (app, multipartyMiddleware, fs, logger) {
     app.get('/tunes', isLoggedIn, function (req, res, next) {
-      getAnnouncements().then((announcements) => {
+      getAnnouncements().catch((e)=>{logger.error(e);}).then((announcements) => {
         Song.find({}, function (err, tunes) {
             if (err) {
               logger.error(` /tunes song find err: ${err}`);
@@ -41,38 +43,20 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
         });
       });
 
-
       var fileUploads = [getSong];
       for(var key in req.files){
         let file = req.files[key];
         if(file.name){
-          let p = new Promise((resolve, reject) => {
-            fs.readFile(file.path, function (err, data) {
-              if(err){
-                logger.error(`post song read err: ${err}, name: ${req.body.name}, file: ${file.name}`);
-                return reject(err);
-              }
-              let createDir = tunesUploadDir + '/'+ file.name;
-              fs.writeFile(createDir,data,function (err) {
-                if(err){
-                  logger.error(`post song write err: ${err}, name: ${req.body.name}, file: ${file.name}`);
-                  reject(err);
-                  }else{
-                    newSong[file.fieldName] = 'tunes/'+file.name;
-                    resolve();
-                  }
-                });
-              });
-            });
+            let p = uploadFile(file, tunesUploadDir);
+            logger.warn('file ' + file.name);
             fileUploads.push(p);
           }
-        }
-        Promise.all(fileUploads)
-        .then(function(values){
+      }
+      Promise.all(fileUploads).then((values) => {
           if(values[0]){
             var tune = values[0];
-            for(let key in newSong){
-              tune[key] = newSong[key];
+            for(let key in values){
+              tune[values[key].field] = 'tunes/'+values[key].filename;
             }
             tune.save(function(err){
               if(err){
@@ -81,7 +65,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
               }
               res.redirect('/tunes/'+newSong.name);
             });
-          } else{
+          } else {
             Song.create(newSong, function (err, song) {
                 if (err) {
                   logger.error(`tune create err: ${err}, name: ${req.body.name}`);
@@ -98,7 +82,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
 
     });
     app.get('/tunes/:name', isLoggedIn, function (req, res, next) {
-      getAnnouncements().then((announcements) => {
+      getAnnouncements().catch((e)=>{logger.error(e);}).then((announcements) => {
         Song.find({
             name: req.params.name
         }, function (err, tune) {

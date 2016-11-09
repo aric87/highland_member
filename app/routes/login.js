@@ -1,9 +1,11 @@
 var User       = require('../models/user');
 var Song       = require('../models/song');
-var {isLoggedIn, getAnnouncements, emailAdmins, emailuser} = require('../services');
+var {getAnnouncements} = require('../controllers/announcement');
+var {uploadFile} = require('../controllers/files');
+var {emailAdmins, emailuser} = require('../controllers/user');
+var {isLoggedIn} = require('../services');
 
 module.exports = function (app, passport, async, crypto, sender, multipartyMiddleware, logger) {
-    // show the login form
     app.get('/',function(req, res, next){
       res.redirect('/login');
     });
@@ -12,7 +14,6 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
           res.render('login', { message: req.flash('loginMessage'),announcements:announcements });
         });
     });
-
     // process the login form
     app.post('/login', passport.authenticate('local-login', {
         successRedirect : '/profile', // redirect to the secure profile section
@@ -44,27 +45,25 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
                 if(err){
                   logger.error(` email new user err: ${err}`);
                   if(err.toLowerCase().indexOf('not found') > 0){
-                    res.flash('loginMessage','There was a problem sending the welcome email do to an error with the email address you signed up with. Contact the system admin to correct problem');
-
+                    logger.error('loginMessage','There was a problem sending the welcome email do to an error with the email address you signed up with. Contact the system admin to correct problem');
                   }
                   return res.redirect('/');
                 }
 
+                let adminMessage = `A new user has signed up for the site with the email ${user.email}. If you recognize the email, you should login and set their account type to member, so they can access the site. Otherwise, let Aric know so he can take care of tracking down the perp trying to steal our secrets`;
 
-                  let adminMessage = `A new user has signed up for the site with the email ${user.email}. If you recognize the email, you should login and set their account type to member, so they can access the site. Otherwise, let Aric know so he can take care of tracking down the perp trying to steal our secrets`;
-
-                    emailAdmins('New user Signup', adminMessage).catch((err) => {
-                      logger.error(`Admin email error caught: ${err}`);
-                    }).then(() =>{
-                      req.logIn(user, function (err) {
-                          if (err) {
-                            logger.error(` signup post login user error: ${err}`);
-                            return res.redirect('/profile/');
-                          }
-                          return res.redirect('/profile/');
-                      });
+                emailAdmins('New user Signup', adminMessage).catch((err) => {
+                  logger.error(`Admin email error caught: ${err}`);
+                }).then(() =>{
+                  req.logIn(user, function (err) {
+                      if (err) {
+                        logger.error(` signup post login user error: ${err}`);
+                        return res.redirect('/profile/');
+                      }
+                      return res.redirect('/profile/');
                   });
                 });
+              });
         })(req, res, next);
     });
     // LOGOUT ==============================
@@ -111,17 +110,17 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
             },
             function (token, user, done) {
 
-                    let text = 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-                    'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-                    'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-                    'If you did not request this, please ignore this email and your password will remain unchanged.\n' +
-                    'This is an auto-generated email. Responses will be lost in the abyss.';
-                    emailuser(user.email, 'Password Reset', text).then((err)  => {
-                        if(err){
-                          logger.error(` email new user err: ${err}`);
-                        }
-                        done(err, 'done');
-                    });
+              let text = 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+              'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+              'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+              'If you did not request this, please ignore this email and your password will remain unchanged.\n' +
+              'This is an auto-generated email. Responses will be lost in the abyss.';
+              emailuser(user.email, 'Password Reset', text).then((err)  => {
+                  if(err){
+                    logger.error(` email new user err: ${err}`);
+                  }
+                  done(err, 'done');
+              });
             }
         ],
         function (err) {

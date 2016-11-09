@@ -7,17 +7,17 @@
     <div class="well">
         <form method="POST" action="/tunes" enctype="multipart/form-data">
         <label for="name">Tune <input type="text" name="name" {% if tune.name %} value="{{tune.name}}" {% endif %} ></label><br/>
-        <label for="file">Melody: {% if tune.melody %}<span class="sub">(current: {{tune.melody}})</span> {% endif %}<input type="file" name="melody" /></label><br/>
+        <label for="file">Melody: {% if tune.melody %}<span class="sub">(<a target="_Blank" href="/{{tune.melody}}">View Current</a>)</span> {% endif %}<input type="file" name="melody" /></label><br/>
 
-        <label for="file">Seconds: {% if tune.seconds %}<span class="sub">(current: {{tune.seconds}})</span> {% endif %}<input type="file" name="seconds" /></label><br/>
-        <label for="file">Thirds: {% if tune.thirds %}<span class="sub">(current: {{tune.thirds}})</span> {% endif %}<input type="file" name="thirds" /></label><br/>
-        <label for="file">Snare: {% if tune.snare %}<span class="sub">(current: {{tune.snare}})</span> {% endif %}<input type="file" name="snare" /></label><br/>
-        <label for="file">Tenors: {% if tune.tenors %}<span class="sub">(current: {{tune.tenors}})</span> {% endif %}<input type="file" name="tenors" /></label><br/>
-        <label for="file">Bass: {% if tune.bass %}<span class="sub">(current: {{tune.bass}})</span> {% endif %} <input type="file" name="bass" /></label><br/>
-        <label for="file">Full Audio: {% if tune.fullAudio %}<span class="sub">(current: {{tune.fullAudio}})</span> {% endif %}<input type="file" name="fullAudio" /></label><br/>
-        <label for="file">Pipe only Audio: {% if tune.pipeAudio %}<span class="sub">(current: {{tune.pipeAudio}})</span> {% endif %}<input type="file" name="pipeAudio" /></label><br/>
-        <label for="file">Drum Audio: {% if tune.drumAudio %}<span class="sub">(current: {{tune.drumAudio}})</span> {% endif %}<input type="file" name="drumAudio" /></label><br/>
-        <label for="file">ractice Chanter Audio: {% if tune.practiceAudio %}<span class="sub">(current: {{tune.practiceAudio}})</span> {% endif %}<input type="file" name="practiceAudio" /></label><br/>
+        <label for="file">Seconds: {% if tune.seconds %}<span class="sub">(<a target="_Blank" href="/{{tune.seconds}}">View Current</a>)</span> {% endif %}<input type="file" name="seconds" /></label><br/>
+        <label for="file">Thirds: {% if tune.thirds %}<span class="sub">(<a target="_Blank" href="{{tune.thirds}}">View Current</a>)</span> {% endif %}<input type="file" name="thirds" /></label><br/>
+        <label for="file">Snare: {% if tune.snare %}<span class="sub">(<a target="_Blank" href="{{tune.snare}}">View Current</a>)</span> {% endif %}<input type="file" name="snare" /></label><br/>
+        <label for="file">Tenors: {% if tune.tenors %}<span class="sub">(<a target="_Blank" href="{{tune.tenors}}">View Current</a>)</span> {% endif %}<input type="file" name="tenors" /></label><br/>
+        <label for="file">Bass: {% if tune.bass %}<span class="sub">(<a target="_Blank" href="{{tune.bass}}">View Current</a>)</span> {% endif %} <input type="file" name="bass" /></label><br/>
+        <label for="file">Full Audio: {% if tune.fullAudio %}<span class="sub">(<a target="_Blank" href="{{tune.fullAudio}}">View Current</a>)</span> {% endif %}<input type="file" name="fullAudio" /></label><br/>
+        <label for="file">Pipe only Audio: {% if tune.pipeAudio %}<span class="sub">(<a target="_Blank" href="{{tune.pipeAudio}}">View Current</a>)</span> {% endif %}<input type="file" name="pipeAudio" /></label><br/>
+        <label for="file">Drum Audio: {% if tune.drumAudio %}<span class="sub">(<a target="_Blank" href="{{tune.drumAudio}}">View Current</a>)</span> {% endif %}<input type="file" name="drumAudio" /></label><br/>
+        <label for="file">ractice Chanter Audio: {% if tune.practiceAudio %}<span class="sub">(<a target="_Blank" href="{{tune.practiceAudio}}">View Current</a>)</span> {% endif %}<input type="file" name="practiceAudio" /></label><br/>
             <br/>
         <button type="submit" class="btn btn-primary">Update</button>
         </form>

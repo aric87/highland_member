@@ -98,7 +98,7 @@ if(process.env.OPENSHIFT_DATA_DIR){
 require('./app/routes/login.js')(app, passport, async, crypto, sender, multipartyMiddleware, logger); // load our routes and pass in our app and fully configured passport
 require('./app/routes/user.js')(app, multipartyMiddleware, fs, logger, sender);
 require('./app/routes/admin.js')(app, logger); // load our routes and pass in our app and fully configured passport
-require('./app/routes/files.js')(app, multipartyMiddleware, fs, logger);
+require('./app/routes/files.js')(app, multipartyMiddleware, logger);
 require('./app/routes/tunes.js')(app, multipartyMiddleware, fs, logger);
 app.get('/health',function(req,res){
   res.sendStatus(200);

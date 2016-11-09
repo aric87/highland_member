@@ -1,7 +1,8 @@
 var User       = require('../models/user'),
   Document = require('../models/document'),
   Announcement = require('../models/announcement');
-var {isLoggedIn, getAnnouncements} = require('../services');
+var {getAnnouncements} = require('../controllers/announcement');
+var {isLoggedIn} = require('../services');
 
 module.exports = function(app, logger) {
     app.get('/admin', isLoggedIn, function (req, res) {
@@ -9,15 +10,7 @@ module.exports = function(app, logger) {
         logger.warn(`${req.user.email} tried accessing admin endpoint`);
         return res.redirect('/profile');
       }
-      var anp = new Promise((resolve, reject) => {
-        Announcement.find({},(err,data) => {
-          if(err){
-            logger.error(`admin announcement get err: ${err} `);
-            reject(err);
-          }
-          resolve(data);
-        });
-      });
+      var anp = getAnnouncements('',true);
       var userp = new Promise((resolve,reject) => {
         User.find({},(err,data) => {
           if(err){

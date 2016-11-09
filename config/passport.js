@@ -3,6 +3,7 @@ var LocalStrategy    = require('passport-local').Strategy;
 var User       = require('../app/models/user'),
 path = require('path'),
 fs = require('fs'),
+{uploadFile} = require('../app/controllers/files'),
 profileImageDir  = process.env.OPENSHIFT_DATA_DIR ? path.join(process.env.OPENSHIFT_DATA_DIR, '/profileImages/') : path.resolve(__dirname, '../views/profileImages/');
 
 
@@ -92,24 +93,8 @@ module.exports = function(passport, logger) {
                         newUser.inDirectory = req.body.inDirectory === 'true'? true : false;
                         var p;
                         if(req.files.profileimage.size){
-                          p = new Promise((resolve, reject) =>{
-                            fs.readFile(req.files.profileimage.path, function (err, data) {
-                              if (err){
-                                logger.error(`user file image err on signup, read: ${err}, \n email: ${email},`);
-                                reject(err);
-                              }
-                              var fileName = Date.now() + req.files.profileimage.name;
-                              var createDir = profileImageDir + '/' + fileName;
-                              fs.writeFile(createDir, data, function (err) {
-                                  if (err) {
-                                    logger.error(`user file image err on signup, write: ${err}, \n email: ${email},`);
-                                    reject(err);
-                                  } else {
-                                    newUser.profileImage = '/profileImages/' + fileName;
-                                    resolve(newUser.profileImage);
-                                  }
-                              });
-                            });
+                          p = uploadFile(req.files.profileimage, profileImageDir).then((fileData) => {
+                            newUser.profileImage = '/profileImages/' +fileData.filename;
                           });
                         }
                         if(p){

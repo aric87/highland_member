@@ -11,7 +11,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
     });
     app.get('/login', function (req, res) {
         getAnnouncements('public').then(function(announcements){
-          res.render('login', { message:'',announcements:announcements });
+          res.render('login', { message:req.flash('loginMessage'),announcements:announcements });
         });
     });
     // process the login form
@@ -41,14 +41,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
             'Your account has been created, however you will not be able to access anything on the site besides your profile until your account has been approved. \n\n Naturally, we want to keep band stuff super secret. We hope you understand.' +
             'If you forget your password, you can reset it on the site. Be sure to update your profile!';
 
-            emailuser(user.email, 'New Account', text).then((err) =>{
-                if(err){
-                  logger.error(` email new user err: ${err}`);
-                  if(err.toLowerCase().indexOf('not found') > 0){
-                    logger.error('loginMessage','There was a problem sending the welcome email do to an error with the email address you signed up with. Contact the system admin to correct problem');
-                  }
-                  return res.redirect('/');
-                }
+            emailuser(user.email, 'New Account', text).then(() =>{
 
                 let adminMessage = `A new user has signed up for the site with the email ${user.email}. If you recognize the email, you should login and set their account type to member, so they can access the site. Otherwise, let Aric know so he can take care of tracking down the perp trying to steal our secrets`;
 
@@ -58,11 +51,22 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
                   req.logIn(user, function (err) {
                       if (err) {
                         logger.error(` signup post login user error: ${err}`);
-                        return res.redirect('/profile/');
+                        return res.redirect('/');
                       }
                       return res.redirect('/profile/');
                   });
                 });
+              }).catch((err)=>{
+                logger.error(` email new user err: ${err}`);
+                User.remove({email:user.email},function(err){
+                    if(err){
+                      logger.error(`remove error: ${err}`);
+                    }
+                    logger.warn('bad user email account removed');
+                    req.flash('loginMessage','There was a problem sending the welcome email do to an error with the email address you signed up with. This account has been removed. Contact the system admin to correct problem');
+                    return res.redirect('/');
+                });
+
               });
         })(req, res, next);
     });

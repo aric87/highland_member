@@ -11,7 +11,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
     });
     app.get('/login', function (req, res) {
         getAnnouncements('public').then(function(announcements){
-          res.render('login', { message: req.flash('loginMessage'),announcements:announcements });
+          res.render('login', { message:'',announcements:announcements });
         });
     });
     // process the login form
@@ -24,7 +24,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
     // show the signup form
 
     app.get('/signup', function (req, res) {
-        res.render('signup', { message: req.flash('loginMessage') });
+        res.render('signup', { message: '' });
     });
     // process the signup form
     app.post('/signup', multipartyMiddleware, function (req, res, next) {
@@ -92,7 +92,6 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
                         return next(err);
                     }
                     if (!user) {
-                        req.flash('error', 'No account with that email address exists.');
                         return res.redirect('/forgot');
                     }
 
@@ -141,7 +140,6 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
             }
             if (!user) {
                logger.info(`someone tried to reset with a bad token`);
-                req.flash('error', 'Password reset token is invalid or has expired.');
                 return res.redirect('/forgot');
             }
            logger.info(`${user.email} visited the password reset page with a good token`);
@@ -160,7 +158,6 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
                       return next(err);
                     }
                     if (!user) {
-                        req.flash('error', 'Password reset token is invalid or has expired.');
                         console.log('User find error');
                         return res.redirect('back');
                     }

@@ -39,11 +39,11 @@ module.exports = function(passport, logger) {
                     // if no user is found, return the message
                     if (!user || !user.validPassword(password)){
                         logger.warn(`Invalid login attempt. \n email: ${email}, \n pass: ${password}`);
-                        return done(null, false, req.flash('loginMessage', 'Username or Password are incorrect'));
+                        return done(null, false, {'loginMessage': 'Username or Password are incorrect'});
                     }
                     if (!user.active){
                         logger.warn(`Inactive login attempt. \n email: ${email}`);
-                        return done(null, false, req.flash('loginMessage', 'Your user account is inactive. Contact your system administrator to get it reactivated'));
+                        return done(null, false, {'loginMessage':'Your user account is inactive. Contact your system administrator to get it reactivated'});
                     }
                     else{
                       logger.info(`${user.email} has logged in`);
@@ -73,7 +73,7 @@ module.exports = function(passport, logger) {
                     // check to see if there's already a user with that email
                     if (existingUser){
                         logger.warn(`Signup with existing email: \n email: ${email}`);
-                        return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+                        return done(null, false, {'signupMessage':'That email is already taken.'});
                       }
                     //  If we're logged in, we're connecting a new local account.
                     if(req.user) {

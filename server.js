@@ -29,6 +29,9 @@ var redisStore = require('connect-redis')(session);
 var redisHost = process.env.OPENSHIFT_REDIS_HOST || 'localhost';
 var redisPort = process.env.OPENSHIFT_REDIS_PORT || 6379;
 var redisClient  = redis.createClient({host: redisHost, port: redisPort});
+if(process.env.REDIS_PASSWORD){
+  redisClient.auth(process.env.REDIS_PASSWORD)
+}
 var swig = require('swig');
 var crypto = require('crypto');
 var async = require('async');

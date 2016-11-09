@@ -11,6 +11,9 @@ header {
 a {
   text-decoration:none;
 }
+.profileImage{
+  max-width:100%;
+}
 .spaceBelow{margin-bottom:35px;}
 .spaceBelow h5{border-bottom:1px solid rgba(0,0,0,.3);}
 .memberAdminFunctions a{margin-right:5px;}

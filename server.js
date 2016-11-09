@@ -57,7 +57,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // get information from html forms
 // required for passport
 var rStore = new redisStore({ host: redisHost, port: redisPort, client: redisClient, ttl :  7200,logErrors:true});
-console.dir(rStore)
 app.use(session({
     secret: process.env.OPENSHIFT_SESSION_SECRET,
     // create new redis store.

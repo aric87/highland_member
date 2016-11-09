@@ -4,7 +4,7 @@
   "description": "",
   "main": "start.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node start.js",
     "db": "mongod --bind_ip=$IP --dbpath=./mongo_data --rest  --nojournal --quiet --logpath mongodb.log --logappend",
     "test": "snyk test"
   },

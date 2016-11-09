@@ -77,14 +77,14 @@ app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 app.use('/tunes/*', isLoggedIn, function(req, res, next){
     if(req.user.role !== 'admin' && req.user.role !== 'member'){
-      req.flash('loginMessage', 'Your user account isn\'t approved. Contact your system administrator to get it enabled.');
+      // req.flash('loginMessage', 'Your user account isn\'t approved. Contact your system administrator to get it enabled.');
       return res.redirect('/profile');
     }
     next();
 });
 app.use('/documents/*', isLoggedIn, function(req, res, next){
     if(req.user.role !== 'admin' && req.user.role !== 'member'){
-      req.flash('loginMessage', 'Your user account isn\'t approved. Contact your system administrator to get it enabled.');
+      // req.flash('loginMessage', 'Your user account isn\'t approved. Contact your system administrator to get it enabled.');
       return res.redirect('/profile');
     }
     next();

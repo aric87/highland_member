@@ -58,19 +58,13 @@ app.use(session({
     secret: process.env.OPENSHIFT_SESSION_SECRET,
     // create new redis store.
     store: new redisStore({ host: redisHost, port: redisPort, client: redisClient, ttl :  7200}),
-    saveUninitialized: false,
+    saveUninitialized: true,
     resave: true,
     cookie: { maxAge:360000 },
     name:"HLPB_awesome_cookie"
   })
 );
-app.use(function (req, res, next) {
-  logger.warn('session ' +req.session)
-  if (!req.session) {
-    return next(new Error('oh no')) // handle error
-  }
-  next() // otherwise continue
-})
+
 // limit requests per hour
 const limiter = require('express-limiter')(app, redisClient);
 limiter({

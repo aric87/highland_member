@@ -64,6 +64,13 @@ app.use(session({
     name:"HLPB_awesome_cookie"
   })
 );
+app.use(function (req, res, next) {
+  logger.warn('session ' +req.session)
+  if (!req.session) {
+    return next(new Error('oh no')) // handle error
+  }
+  next() // otherwise continue
+})
 // limit requests per hour
 const limiter = require('express-limiter')(app, redisClient);
 limiter({

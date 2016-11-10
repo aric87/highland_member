@@ -16,6 +16,9 @@ a {
 }
 .spaceBelow{margin-bottom:35px;}
 .spaceBelow h5{border-bottom:1px solid rgba(0,0,0,.3);}
+.mainContent li{
+  margin-bottom:5px;
+}
 .memberAdminFunctions a{margin-right:5px;}
 nav{
   width:100%;

@@ -66,9 +66,9 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
               res.redirect('/tunes/'+newSong.name);
             });
           } else {
-            for(let key in values){
-              if(!key){return;}
-              newSong[values[key].field] = 'tunes/'+values[key].filename;
+            for(let i = 0, j=values.length;i<j;i++){
+              if(i===0){continue;}
+              newSong[values[i].field] = 'tunes/'+values[i].filename;
             }
             Song.create(newSong, function (err, song) {
                 if (err) {

@@ -16,7 +16,7 @@ var userSchema = mongoose.Schema({
         role:{type:String, default:'member'},
         inDirectory: {type: Boolean, default: false},
         profileImage:{type:String, default:'/images/default.jpg'},
-        freelance:Boolean,
+        freelance:{type:Boolean,default:false},
         resetPasswordToken: String,
         resetPasswordExpires: Date
 

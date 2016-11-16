@@ -1,5 +1,7 @@
 - events
-- set audio section
+- sets
+ - finish detail
+ - edit
 - uniform description checklist
 - photo gallery
 

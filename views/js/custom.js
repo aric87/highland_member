@@ -37,4 +37,9 @@ $(document).ready(function(){
         $('#formProfileImage').attr('src','/images/default.jpg');
      });
    });
+   var addTuneContents = $('#tuneSelectorContainer').html();
+   $('#addAnotherTune').click(function(e){
+     e.preventDefault();
+     $('#tuneSelectorContainer').append(addTuneContents);
+   });
 });

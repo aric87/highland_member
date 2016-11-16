@@ -11,7 +11,8 @@ var SongSchema = new mongoose.Schema({
     fullAudio:String,
     drumAudio:String,
     pipeAudio:String,
-    practiceAudio:String
+    practiceAudio:String,
+    tuneset:{ type: Number, ref: 'Tuneset' }
 });
 
 var Song = mongoose.model('Song', SongSchema);

@@ -39,7 +39,6 @@ var async = require('async');
 var fs = require('fs');
 var path = require('path');
 var sender = require('superagent');
-var sysInfo = require('./utils/sys-info');
 var multipart = require('connect-multiparty');
 var multipartyMiddleware = multipart();
 

@@ -15,7 +15,8 @@ app.use(csp({
   }
 }));
 app.use(helmet.referrerPolicy({ policy: 'same-origin' }));
-var port     = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+// var port     = process.env.OPENSHIFT_NODEJS_PORT || 8081;
+var port     = 8081;
 var app_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var mongoose = require('mongoose');
 var passport = require('passport');
@@ -74,6 +75,10 @@ limiter({
   lookup: ['connection.remoteAddress'],
   total: 20,
   expire: 1000 * 120
+});
+app.use('/*', function(req, res, next){
+    console.log(req.headers);
+    next();
 });
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions

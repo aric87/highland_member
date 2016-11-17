@@ -15,9 +15,9 @@ app.use(csp({
   }
 }));
 app.use(helmet.referrerPolicy({ policy: 'same-origin' }));
-var port     = process.env.OPENSHIFT_NODEJS_PORT || 8081;
+var port  = 8081;
 // var port     = 8081;
-var app_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+var app_ip_address = '127.0.0.1';
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
@@ -27,8 +27,8 @@ var bodyParser  = require('body-parser');
 var redis   = require("redis");
 var session   = require('express-session');
 var redisStore = require('connect-redis')(session);
-var redisHost = process.env.OPENSHIFT_REDIS_HOST || 'localhost';
-var redisPort = process.env.OPENSHIFT_REDIS_PORT || 6379;
+var redisHost = 'localhost';
+var redisPort = 6379;
 var redisClient  = redis.createClient({host: redisHost, port: redisPort});
 if(process.env.REDIS_PASSWORD){
   redisClient.auth(process.env.REDIS_PASSWORD)
@@ -44,7 +44,7 @@ var multipart = require('connect-multiparty');
 var multipartyMiddleware = multipart();
 
 var isLoggedIn = require('./app/services').isLoggedIn;
-var logDir = process.env.OPENSHIFT_LOG_DIR ? process.env.OPENSHIFT_LOG_DIR : __dirname;
+var logDir =  process.env.LOGDIR ?  process.env.LOGDIR : __dirname;
 var accessLogStream = fs.createWriteStream(path.join(logDir, 'access.log'), {flags: 'a'});
 var logger = require('./config/logger');
 
@@ -59,7 +59,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // get information from html
 // required for passport
 var rStore = new redisStore({ host: redisHost, port: redisPort, client: redisClient, ttl :  72000,logErrors:true});
 app.use(session({
-    secret: process.env.OPENSHIFT_SESSION_SECRET,
+    secret: process.env.SESSION_SECRET,
     // create new redis store.
     store: rStore,
     saveUninitialized: false,
@@ -88,22 +88,22 @@ app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 app.use('/tunes/*', isLoggedIn, function(req, res, next){
     if(req.user.role !== 'admin' && req.user.role !== 'member'){
-      // req.flash('loginMessage', 'Your user account isn\'t approved. Contact your system administrator to get it enabled.');
+      req.flash('loginMessage', 'Your user account isn\'t approved. Contact your system administrator to get it enabled.');
       return res.redirect('/profile');
     }
     next();
 });
 app.use('/documents/*', isLoggedIn, function(req, res, next){
     if(req.user.role !== 'admin' && req.user.role !== 'member'){
-      // req.flash('loginMessage', 'Your user account isn\'t approved. Contact your system administrator to get it enabled.');
+      req.flash('loginMessage', 'Your user account isn\'t approved. Contact your system administrator to get it enabled.');
       return res.redirect('/profile');
     }
     next();
 });
 app.use(express.static('views'));
-if(process.env.OPENSHIFT_DATA_DIR){
-  app.use(express.static(process.env.OPENSHIFT_DATA_DIR));
-  app.use(process.env.OPENSHIFT_DATA_DIR, isLoggedIn, function(req, res, next){next();});
+if(process.env.DATADIR){
+  app.use(express.static(process.env.DATADIR));
+  app.use(process.env.DATADIR, isLoggedIn, function(req, res, next){next();});
 }
 // routes ======================================================================
 require('./app/routes/login.js')(app, passport, async, crypto, sender, multipartyMiddleware, logger); // load our routes and pass in our app and fully configured passport
@@ -111,18 +111,6 @@ require('./app/routes/user.js')(app, multipartyMiddleware, fs, logger, sender);
 require('./app/routes/admin.js')(app, logger); // load our routes and pass in our app and fully configured passport
 require('./app/routes/files.js')(app, multipartyMiddleware, logger);
 require('./app/routes/tunes.js')(app, multipartyMiddleware, fs, logger);
-app.get('/health',function(req,res){
-  res.sendStatus(200);
-});
-app.get('/info/:token',(req,res,next) => {
-  if(req.params.token == 'gen'|| req.params.token == 'poll'){
-  res.setHeader('Content-Type', 'application/json');
-  res.setHeader('Cache-Control', 'no-cache, no-store');
-  res.json(JSON.stringify(sysInfo[req.params.token]()));
-  } else {
-    next();
-  }
-});
 app.post('/report-violation', function (req, res) {
   if (req.body) {
     console.log('CSP Violation: ', req.body);

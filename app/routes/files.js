@@ -5,7 +5,7 @@ var Document = require('../models/document'),
     var {emailAdmins, emailuser} = require('../controllers/user');
     var {isLoggedIn} = require('../services');
     var path = require('path');
-    var docsUploadDir = process.env.OPENSHIFT_DATA_DIR ? path.join(process.env.OPENSHIFT_DATA_DIR, '/docs/') : path.resolve(__dirname, '../../views/docs/');
+    var docsUploadDir = process.env.DATADIR ? path.join(process.env.DATADIR, '/docs/') : path.resolve(__dirname, '../../views/docs/');
 
 module.exports = function (app, multipartyMiddleware, logger) {
     app.get('/documents', function (req, res, next) {

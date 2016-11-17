@@ -4,7 +4,7 @@ var User       = require('../app/models/user'),
 path = require('path'),
 fs = require('fs'),
 {uploadFile} = require('../app/controllers/files'),
-profileImageDir  = process.env.OPENSHIFT_DATA_DIR ? path.join(process.env.OPENSHIFT_DATA_DIR, '/profileImages/') : path.resolve(__dirname, '../views/profileImages/');
+profileImageDir  = process.env.DATADIR ? path.join(process.env.DATADIR, '/profileImages/') : path.resolve(__dirname, '../views/profileImages/');
 
 
 module.exports = function(passport, logger) {

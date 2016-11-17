@@ -1,6 +1,6 @@
 var winston = require('winston');
 var path = require('path');
-var logDir = process.env.OPENSHIFT_LOG_DIR ? process.env.OPENSHIFT_LOG_DIR : path.resolve(__dirname,'../') ;
+var logDir = process.env.LOGDIR ?  process.env.LOGDIR : path.resolve(__dirname,'../') ;
 
 var logger = new (winston.Logger)({
     transports: [

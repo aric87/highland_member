@@ -4,7 +4,7 @@ var {getAnnouncements} = require('../controllers/announcement');
 var {emailAdmins, emailuser} = require('../controllers/user');
 var {uploadFile} = require('../controllers/files');
 var path = require('path');
-var profileImageDir  = process.env.OPENSHIFT_DATA_DIR ? path.join(process.env.OPENSHIFT_DATA_DIR, '/profileImages/') : path.resolve(__dirname, '../../views/profileImages/');
+var profileImageDir  = process.env.DATADIR ? path.join(process.env.DATADIR, '/profileImages/') : path.resolve(__dirname, '../../views/profileImages/');
 
 module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
     app.get('/profile', isLoggedIn, function (req, res, next) {

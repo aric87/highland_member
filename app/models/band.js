@@ -1,4 +1,4 @@
-var mongoose = require('mongoose')Schema = mongoose.Schema;
+var mongoose = require('mongoose'),Schema = mongoose.Schema;
 
 var BandSchema = new mongoose.Schema({
     name:String,

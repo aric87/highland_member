@@ -1,11 +1,11 @@
-var Song = require('../app/models/song');
+var Band = require('../app/models/band');
 var User = require('../app/models/user');
 var Announcement = require('../app/models/announcement');
 
 exports.run = function(callback, errback) {
-  Announcement.create({
-    title:'Test',
-    content:"Lorem iassdlk ka l ;gna galgj",
+  Band.create({
+    name:'Highland Light',
+    bandCode:"hlpb",
     active:true
   }, function(err){
     if (err){

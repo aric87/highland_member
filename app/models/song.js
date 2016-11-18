@@ -12,7 +12,7 @@ var SongSchema = new mongoose.Schema({
     drumAudio:String,
     pipeAudio:String,
     practiceAudio:String,
-    band:{ type: Number, ref: 'Tuneset'},
+    band:{ type: Number, ref: 'Band'},
     tuneset:{ type: Number, ref: 'Tuneset' }
 });
 

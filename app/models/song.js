@@ -1,4 +1,5 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+Schema = mongoose.Schema;
 
 var SongSchema = new mongoose.Schema({
     name:String,
@@ -12,8 +13,8 @@ var SongSchema = new mongoose.Schema({
     drumAudio:String,
     pipeAudio:String,
     practiceAudio:String,
-    band:{ type: String, ref: 'Band'},
-    tuneset:{ type: String, ref: 'Tuneset' }
+    band:{ type: Schema.Types.ObjectId, ref: 'Band'},
+    tuneset:{ type: Schema.Types.ObjectId, ref: 'Tuneset' }
 });
 
 var Song = mongoose.model('Song', SongSchema);

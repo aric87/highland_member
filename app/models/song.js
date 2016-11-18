@@ -1,5 +1,7 @@
 var mongoose = require('mongoose'),
-Schema = mongoose.Schema;
+Schema = mongoose.Schema,
+Band = require('./band'),
+Tuneset = require('./tuneset');
 
 var SongSchema = new mongoose.Schema({
     name:String,

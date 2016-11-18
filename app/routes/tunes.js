@@ -184,16 +184,16 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
     });
     app.get('/tunes/:name', isLoggedIn, function (req, res, next) {
       getAnnouncements().catch((e)=>{logger.error(e);}).then((announcements) => {
-        Song.find({
-            name: req.params.name
-        }, function (err, tune) {
+        Song.findOne({name: req.params.name})
+        .populate('band')
+        .exec(function (err, tune) {
             if (err) {
               logger.error(`tune get err: ${err}, name: ${req.params.name}`);
                 return next(err);
             }
             res.render('tuneDetail', {
                 user: req.user,
-                tune: tune[0],
+                tune: tune,
                 announcements:announcements
             });
         });

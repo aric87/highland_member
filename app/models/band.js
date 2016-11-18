@@ -8,4 +8,4 @@ var BandSchema = new mongoose.Schema({
 
 var Band = mongoose.model('Band', BandSchema);
 
-module.exports = Song;
+module.exports = Band;

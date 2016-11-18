@@ -102,7 +102,7 @@ app.use('/documents/*', isLoggedIn, function(req, res, next){
 app.use(express.static('views'));
 if(process.env.DATADIR){
   app.use(express.static(process.env.DATADIR));
-  app.use(process.env.DATADIR, isLoggedIn, function(req, res, next){ req.path = req.headers.band + req.path; next();});
+  app.use(process.env.DATADIR, isLoggedIn, function(req, res, next){next();});
 }
 // routes ======================================================================
 require('./app/routes/login.js')(app, passport, async, crypto, sender, multipartyMiddleware, logger); // load our routes and pass in our app and fully configured passport

@@ -6,6 +6,9 @@
 <div class="col-sm-6 col-sm-offset-3">
     <div class="well">
         <form method="POST" action="/tunes" enctype="multipart/form-data">
+        {% if tune %}
+        <input type="hidden" value="{{tune.id}}" name="songId"/>
+        {% endif %}
         <label for="name">Tune <input type="text" name="name" {% if tune.name %} value="{{tune.name}}" {% endif %} ></label><br/>
         <label for="file">Melody: {% if tune.melody %}<span class="sub">(<a target="_Blank" href="/{{tune.melody}}">View Current</a>)</span> {% endif %}<input type="file" name="melody" /></label><br/>
 

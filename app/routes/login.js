@@ -10,8 +10,8 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
       res.redirect('/login');
     });
     app.get('/login', function (req, res) {
-        getAnnouncements('public').then(function(announcements){
-          res.render('login', { message:req.flash('loginMessage'),announcements:announcements });
+        getAnnouncements(req.band.id,'public').then(function(announcements){
+          res.render('login', {band:req.band, message:req.flash('loginMessage'),announcements:announcements });
         });
     });
     // process the login form
@@ -24,7 +24,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
     // show the signup form
 
     app.get('/signup', function (req, res) {
-        res.render('signup', { message: '' });
+        res.render('signup', {band:req.band,message: '' });
     });
     // process the signup form
     app.post('/signup', multipartyMiddleware, function (req, res, next) {
@@ -77,6 +77,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
     });
     app.get('/forgot', function (req, res) {
         res.render('forgot', {
+            band:req.band,
             user: req.user
         });
     });
@@ -148,6 +149,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
             }
            logger.info(`${user.email} visited the password reset page with a good token`);
             res.render('reset', {
+              band:req.band,
                 user: user
             });
         });

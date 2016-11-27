@@ -1,10 +1,11 @@
 // load all the things we need
 var LocalStrategy    = require('passport-local').Strategy;
 var User       = require('../app/models/user'),
+Band = require('../app/models/band'),
 path = require('path'),
 fs = require('fs'),
 {uploadFile} = require('../app/controllers/files'),
-profileImageDir  = process.env.DATADIR ? path.join(process.env.DATADIR, '/profileImages/') : path.resolve(__dirname, '../views/profileImages/');
+profileImageDir  = process.env.DATADIR ? process.env.DATADIR : path.resolve(__dirname, '../views/');
 
 
 module.exports = function(passport, logger) {
@@ -30,20 +31,24 @@ module.exports = function(passport, logger) {
             passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
         },
         function(req, email, password, done) {
-                User.findOne({ 'email' :  email }, function(err, user) {
-                    // if there are any errors, return the error
+                Band.populate(req.band,{path:'users',match:{ 'email' :  email},options:{limit:1}},function(err,band){
+                    var user = band.users[0];
                     if (err){
                       logger.error(`Login error: ${err}, \n email: ${email}`);
                       return done(err);
                     }
                     // if no user is found, return the message
-                    if (!user || !user.validPassword(password)){
+                    if (!user || !user.validPassword(password) ){
                         logger.warn(`Invalid login attempt. \n email: ${email}, \n pass: ${password}`);
                         return done(null, false, req.flash('loginMessage', 'Username or Password are incorrect'));
                     }
                     if (!user.active){
                         logger.warn(`Inactive login attempt. \n email: ${email}`);
                         return done(null, false, req.flash('loginMessage','Your user account is inactive. Contact your system administrator to get it reactivated'));
+                    }
+                    if(user.role !== 'admin' || user.role !== 'member'){
+                      logger.warn(`Inactive login attempt. \n email: ${email}`);
+                      return done(null, false, req.flash('loginMessage','Your user account hasn\'t been enabled by an admin. Contact your system administrator.'));
                     }
                     else{
                       logger.info(`${user.email} has logged in`);
@@ -93,33 +98,34 @@ module.exports = function(passport, logger) {
                         newUser.inDirectory = req.body.inDirectory === 'true'? true : false;
                         var p;
                         if(req.files.profileimage.size){
-                          p = uploadFile(req.files.profileimage, profileImageDir).then((fileData) => {
-                            newUser.profileImage = '/profileImages/' +fileData.filename;
+                          p = uploadFile(req.files.profileimage, profileImageDir + "/" + req.band.bandCode + '/profileImages/').then((fileData) => {
+                            newUser.profileImage = '/'+req.band.bandCode +'/profileImages/' +fileData.filename;
                           });
                         }
                         if(p){
                           //  if there's a file, wait for it to upload
-                          p.then(function(){
-                            newUser.save(function(err) {
-                                if (err){
-                                    logger.error(`user create erro on signup: ${err}, \n email: ${email},`);
-                                    throw err;
+                          p.then(saveUser);
+                        } else{
+                          saveUser();
+                        }
+                        function saveUser(){
+                          newUser.save(function(err) {
+                              if (err){
+                                  logger.error(`user create erro on signup: ${err}, \n email: ${email},`);
+                                  throw err;
+                              }
+                              req.band.users.push(newUser.id);
+                              req.band.save(function(err){
+                                if(err){
+                                  logger.error(`error putting the user in the band ${req.band}, ${newUser.name}`);
+                                  next(err);
                                 }
                                 logger.info(`new user created: ${newUser.name}, \n email: ${newUser.email},`);
                                 return done(null, newUser);
-                            });
-                          });
-                        } else{
-                          newUser.save(function(err) {
-                            if (err){
-                                logger.error(`user create erro on signup: ${err}, \n email: ${email},`);
-                                throw err;
-                            }
-                            logger.info(`new user created: ${newUser.name}, \n email: ${newUser.email},`);
-                              return done(null, newUser);
+                              });
+
                           });
                         }
-
                     }
 
                 });

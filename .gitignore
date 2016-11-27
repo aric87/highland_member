@@ -3,10 +3,6 @@ mongo_data
 .idea
 mongodb.log
 access.log
-views/documents
-views/docs
-views/tunes
-views/profileImages
-views/drum-scores
+views/hlpb
 winston.log
 dump.rdb

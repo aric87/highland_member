@@ -4,19 +4,19 @@
 
 {% block content %}
 <div class="col-sm-6 col-sm-offset-3">
-    <h2>{{tune.bandCode}}    {% if user.role == 'admin' %} <a href="/tunes/edit/{{tune.bandCode}}" class="pull-right"><button class="btn btn-warning">Edit Tune Details</button></a>{% endif %}</h2>
+    <h2>{{tune.name}}    {% if user.role == 'admin' %} <a href="/tunes/edit/{{tune.id}}" class="pull-right"><button class="btn btn-warning">Edit Tune Details</button></a>{% endif %}</h2>
 
     <ul class="list-unstyled">
-        {% if tune.melody %}<li class="col-xs-12">Melody: <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.melody}}">Open in Browser</a> <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.melody}}" download >Download</a></li>{% endif %}
-        {% if tune.seconds %}<li class="col-xs-12">Seconds: <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.seconds}}">Open in browser</a> <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.seconds}}" download >Download</a></li>{% endif %}
-        {% if tune.thirds %}<li class="col-xs-12">Thirds: <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.thirds}}">Open in browser</a> <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.thirds}}" download >Download</a></li>{% endif %}
-        {% if tune.snare %}<li class="col-xs-12">Snare: <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.snare}}">Open in browser</a> <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.snare}}" download >Download</a></li>{% endif %}
-        {% if tune.tenors %}<li class="col-xs-12">Tenors: <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.tenors}}">Open in browser</a> <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.tenors}}" download >Download</a></li>{% endif %}
-        {% if tune.bass %}<li class="col-xs-12">Bass: <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.bass}}">Open in browser</a> <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.bass}}" download >Download</a></li>{% endif %}
-        {% if tune.fullAudio %}<li class="col-xs-12">Full Audio: <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.fullAudio}}">Open in browser</a> <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.fullAudio}}" download>Download</a></li>{% endif %}
-        {% if tune.drumAudio %}<li class="col-xs-12">Drum Audio: <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.drumAudio}}">Open in browser</a> <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.drumAudio}}" download>Download</a></li>{% endif %}
-        {% if tune.pipeAudio %}<li class="col-xs-12">Pipe Audio: <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.pipeAudio}}">Open in browser</a> <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.pipeAudio}}" download>Download</a></li>{% endif %}
-        {% if tune.practiceAudio %}<li class="col-xs-12">Practice Chanter Audio: <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.practiceAudio}}">Open in browser</a> <a target="_Blank" href="/{{tune.band.bandCode}}/{{tune.practiceAudio}}" download>Download</a></li>{% endif %}
+        {% if tune.melody %}<li class="col-xs-12">Melody: <a target="_Blank" href="{{tune.melody}}">Open in Browser</a> <a target="_Blank" href="{{tune.melody}}" download >Download</a></li>{% endif %}
+        {% if tune.seconds %}<li class="col-xs-12">Seconds: <a target="_Blank" href="{{tune.seconds}}">Open in browser</a> <a target="_Blank" href="{{tune.seconds}}" download >Download</a></li>{% endif %}
+        {% if tune.thirds %}<li class="col-xs-12">Thirds: <a target="_Blank" href="{{tune.thirds}}">Open in browser</a> <a target="_Blank" href="{{tune.thirds}}" download >Download</a></li>{% endif %}
+        {% if tune.snare %}<li class="col-xs-12">Snare: <a target="_Blank" href="{{tune.snare}}">Open in browser</a> <a target="_Blank" href="{{tune.snare}}" download >Download</a></li>{% endif %}
+        {% if tune.tenors %}<li class="col-xs-12">Tenors: <a target="_Blank" href="{{tune.tenors}}">Open in browser</a> <a target="_Blank" href="{{tune.tenors}}" download >Download</a></li>{% endif %}
+        {% if tune.bass %}<li class="col-xs-12">Bass: <a target="_Blank" href="{{tune.bass}}">Open in browser</a> <a target="_Blank" href="{{tune.bass}}" download >Download</a></li>{% endif %}
+        {% if tune.fullAudio %}<li class="col-xs-12">Full Audio: <a target="_Blank" href="{{tune.fullAudio}}">Open in browser</a> <a target="_Blank" href="{{tune.fullAudio}}" download>Download</a></li>{% endif %}
+        {% if tune.drumAudio %}<li class="col-xs-12">Drum Audio: <a target="_Blank" href="{{tune.drumAudio}}">Open in browser</a> <a target="_Blank" href="{{tune.drumAudio}}" download>Download</a></li>{% endif %}
+        {% if tune.pipeAudio %}<li class="col-xs-12">Pipe Audio: <a target="_Blank" href="{{tune.pipeAudio}}">Open in browser</a> <a target="_Blank" href="{{tune.pipeAudio}}" download>Download</a></li>{% endif %}
+        {% if tune.practiceAudio %}<li class="col-xs-12">Practice Chanter Audio: <a target="_Blank" href="{{tune.practiceAudio}}">Open in browser</a> <a target="_Blank" href="{{tune.practiceAudio}}" download>Download</a></li>{% endif %}
     </ul>
 
 </div>

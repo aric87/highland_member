@@ -1,7 +1,9 @@
 // app/models/user.js
 // load the things we need
 var mongoose = require('mongoose');
-var bcrypt   = require('bcrypt-nodejs');
+var bcrypt   = require('bcrypt-nodejs'),
+Band = require('./band'),
+Schema = mongoose.Schema;
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
@@ -17,6 +19,7 @@ var userSchema = mongoose.Schema({
         inDirectory: {type: Boolean, default: false},
         profileImage:{type:String, default:'/images/default.jpg'},
         freelance:{type:Boolean,default:false},
+        band:{ type: Schema.Types.ObjectId, ref: 'Band'},
         resetPasswordToken: String,
         resetPasswordExpires: Date
 
@@ -33,8 +36,8 @@ userSchema.methods.generateHash = function(password) {
 userSchema.statics.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 };
-userSchema.statics.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.password);
+userSchema.statics.validPassword = function(password, user) {
+    return bcrypt.compareSync(password, user.password);
 };
 // checking if password is valid
 userSchema.methods.validPassword = function(password) {

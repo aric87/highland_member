@@ -4,11 +4,18 @@ var express  = require('express');
 var helmet = require('helmet');
 var csp = require('helmet-csp');
 var app      = express();
+var uuid = require('node-uuid');
 app.use(helmet());
+app.use(function (req, res, next) {
+  res.locals.nonce = uuid.v4();
+  next();
+});
 app.use(csp({
   directives: {
     defaultSrc: ["'self'"],
-    styleSrc: ["'self'", 'maxcdn.bootstrapcdn.com'],
+    styleSrc: ["'self'", 'maxcdn.bootstrapcdn.com',function (req, res) {
+        return "'nonce-" + res.locals.nonce + "'";
+      }],
     scriptSrc:["'self'",'cdnjs.cloudflare.com'],
     fontSrc:["'self'", 'maxcdn.bootstrapcdn.com'],
     reportUri: '/report-violation'
@@ -31,7 +38,7 @@ var redisHost = 'localhost';
 var redisPort = 6379;
 var redisClient  = redis.createClient({host: redisHost, port: redisPort});
 if(process.env.REDIS_PASSWORD){
-  redisClient.auth(process.env.REDIS_PASSWORD)
+  redisClient.auth(process.env.REDIS_PASSWORD);
 }
 var swig = require('swig');
 var crypto = require('crypto');
@@ -40,13 +47,14 @@ var fs = require('fs');
 var path = require('path');
 var sender = require('superagent');
 var multipart = require('connect-multiparty');
-var multipartyMiddleware = multipart();
+var os = require('os');
+var multipartyMiddleware = multipart({uploadDir:os.tmpdir()});
 
 var isLoggedIn = require('./app/services').isLoggedIn;
 var logDir =  process.env.LOGDIR ?  process.env.LOGDIR : __dirname;
 var accessLogStream = fs.createWriteStream(path.join(logDir, 'access.log'), {flags: 'a'});
 var logger = require('./config/logger');
-
+var BandModel = require('./app/models/band');
 require('./config/passport')(passport, logger); // pass passport for configuration
 
 // set up our express application
@@ -68,6 +76,7 @@ app.use(session({
   })
 );
 
+
 // limit requests per hour
 const limiter = require('express-limiter')(app, redisClient);
 limiter({
@@ -75,33 +84,29 @@ limiter({
   total: 20,
   expire: 1000 * 120
 });
-app.use('/*', function(req, res, next){
-    console.log(req.headers);
-    next();
-});
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
-app.use('/tunes/*', isLoggedIn, function(req, res, next){
-    if(req.user.role !== 'admin' && req.user.role !== 'member'){
-      req.flash('loginMessage', 'Your user account isn\'t approved. Contact your system administrator to get it enabled.');
-      return res.redirect('/profile');
+app.use('*', function(req, res, next){
+  if(!req.headers.band){
+    return next(new Error('No band in header'));
+  }
+  BandModel.findOne({bandCode:req.headers.band}, function(err, band){
+    if(err || !band){
+      err = err || "no band";
+      return next(new Error(err));
     }
+    req.band = band;
+    req.band.nonce = res.locals.nonce;
     next();
-});
-app.use('/documents/*', isLoggedIn, function(req, res, next){
-    if(req.user.role !== 'admin' && req.user.role !== 'member'){
-      req.flash('loginMessage', 'Your user account isn\'t approved. Contact your system administrator to get it enabled.');
-      return res.redirect('/profile');
-    }
-    next();
+  });
 });
 app.use(express.static('views'));
 if(process.env.DATADIR){
-  app.use(express.static(process.env.DATADIR));
+  app.use(express.static(path.join(process.env.DATADIR,req.band.bandCode)));
   app.use(process.env.DATADIR, isLoggedIn, function(req, res, next){next();});
 }
 // routes ======================================================================

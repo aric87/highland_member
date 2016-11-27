@@ -5,5 +5,5 @@
 - uniform description checklist
 - photo gallery
 
--- get db backup
-rhc scp members --namespace hlpb download ./ app-root/data/DUMP/members.zip
+- delete documents
+- add meta tag data to band model

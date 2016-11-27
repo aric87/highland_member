@@ -629,7 +629,7 @@
     },
     "multiparty": {
       "version": "4.1.2",
-      "from": "multiparty@latest",
+      "from": "https://registry.npmjs.org/multiparty/-/multiparty-4.1.2.tgz",
       "resolved": "https://registry.npmjs.org/multiparty/-/multiparty-4.1.2.tgz"
     },
     "muri": {
@@ -647,6 +647,11 @@
       "from": "nocache@2.0.0",
       "resolved": "https://registry.npmjs.org/nocache/-/nocache-2.0.0.tgz"
     },
+    "node-uuid": {
+      "version": "1.4.7",
+      "from": "node-uuid@latest",
+      "resolved": "https://registry.npmjs.org/node-uuid/-/node-uuid-1.4.7.tgz"
+    },
     "nodemailer": {
       "version": "0.7.1",
       "from": "nodemailer@0.7.1",
@@ -655,7 +660,8 @@
         "readable-stream": {
           "version": "1.1.14",
           "from": "readable-stream@>=1.1.9 <1.2.0",
-          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-1.1.14.tgz"
+          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-1.1.14.tgz",
+          "optional": true
         }
       }
     },

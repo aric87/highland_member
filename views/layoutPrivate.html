@@ -21,15 +21,19 @@
   <meta name="twitter:url" content="http://www.highlandlight.com">
   <meta name="twitter:description" content="Homepage of the Highland Light Scottish Pipe Band. We practice and play on and off Cape Cod. If you're interested in booking us for a gig, or joining the band, take a look through the site, and get in touch!">
   <!-- end twitter -->
-  <link rel="shortcut icon" href="/images/logo.jpg" type="image/jpeg" />
+  <link rel="shortcut icon" href="/{{band.bandCode}}/static/logo.jpg" type="image/jpeg" />
 
-    <title>{% block title %}Highland light Member Home{% endblock %}</title>
+    <title>{% block title %}{{band.name}}{% endblock %}</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> <!-- load bootstrap css -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- load fontawesome -->
-    <link rel="stylesheet" href="/css/member.css">
+    <link rel="stylesheet" href="/{{band.bandCode}}/static/member.css">
 </head>
 <body>
-
+<style nonce="{{band.nonce}}">
+header{
+  background-image:url(/{{band.bandCode}}/static/header.jpeg);
+}
+</style>
 <header>
   {% if user %}
       <nav>
@@ -56,6 +60,6 @@
   </div>
 </div>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script src="/js/custom.js"></script>
+<script src="/{{band.bandCode}}/static/custom.js"></script>
 </body>
 </html>

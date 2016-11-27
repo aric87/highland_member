@@ -13,10 +13,14 @@ const messageData = (sendTo, subject, text) => {
 exports.messageData = messageData;
 
 var isLoggedIn = (req, res, next) => {
-    if (req.isAuthenticated()){
+    if (req.isAuthenticated() && String(req.user.band) == String(req.band._id)){
         return next();
     }
-    logger.warn(`req.auth failed. user: ${req.user}, \n path: ${req.path}`);
+    if(req.user){
+      logger.warn(`req.auth failed. user: ${req.user}, \n path: ${req.path} band: ${req.band._id} user band:  ${req.user.band}`);
+    } else {
+      logger.warn(`req.auth failed. no user, \n path: ${req.path} band: ${req.band._id}`);
+    }
     res.redirect('/');
   };
 

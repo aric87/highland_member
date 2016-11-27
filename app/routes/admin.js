@@ -10,21 +10,13 @@ module.exports = function(app, logger) {
         logger.warn(`${req.user.email} tried accessing admin endpoint`);
         return res.redirect('/profile');
       }
-      var anp = getAnnouncements('',true);
-      var userp = new Promise((resolve,reject) => {
-        User.find({},(err,data) => {
-          if(err){
-            logger.error(`admin user get err: ${err} `);
-            reject(err);
-          }
-          resolve(data);
-        });
-      });
-      Promise.all([anp,userp]).then(promData => {
-        res.render('adminHome',{user:req.user,announcements: promData[0],members:promData[1]});
-      }).catch(reason => {
+      Band.populate(req.band,[{path:'announcements'},{path:'users'}],function(err,band){
+        if(err){
           logger.error(`admin promise err: ${reason} `);
-          res.render('adminHome',{user:req.user,message: `There was an error ${reason}`, announcements:'',members:''});
+          res.render('adminHome',{band:req.band,user:req.user,message: `There was an error ${reason}`, announcements:'',members:''});
+        }
+        res.render('adminHome',{band:req.band,user:req.user,announcements: band.announcements,members:band.users});
+
       });
     });
 
@@ -46,7 +38,7 @@ module.exports = function(app, logger) {
         res.render('announcementEdit',{user:req.user, announcement: promData[0]});
       }).catch(reason => {
           logger.error(`admin promise err: ${reason} `);
-          res.render('announcementEdit',{user:req.user, message: `There was an error ${reason}`,announcement: ''});
+          res.render('announcementEdit',{band:req.band,user:req.user, message: `There was an error ${reason}`,announcement: ''});
 
       });
     });
@@ -60,9 +52,19 @@ module.exports = function(app, logger) {
         Announcement.findByIdAndRemove(req.query.id, (err, data) => {
           if(err){
              logger.error(`Ann. delete error: ${err}, id: ${req.query.id} `);
-             res.sendStatus(500);
+             return res.sendStatus(500);
           }
-          res.sendStatus(200);
+          req.band.announcements = req.band.announcements.filter(function(anid){
+            return String(anid) !== req.query.id;
+          });
+          req.band.save(function(err){
+            if(err){
+              logger.error(`Error removing announcement frmo Band `);
+              return res.sendStatus(500);
+            }
+            return res.sendStatus(200);
+          });
+
         });
         return ;
       }
@@ -132,15 +134,23 @@ module.exports = function(app, logger) {
         content:req.body.content,
         active:req.body.active,
         showPublic:req.body.showPublic,
-        showPrivate:req.body.showPrivate
+        showPrivate:req.body.showPrivate,
+        band:req.band._id
       };
       var anp = new Promise((resolve, reject) => {
         Announcement.create(newobj,(err,data) => {
           if(err){
             logger.error(`Ann. create error: ${err} `);
-            reject(err);
+            return reject(err);
           }
-          resolve(data);
+          req.band.announcements.push(data._id);
+          req.band.save(function(err){
+            if(err){
+              logger.error(`push announ to band error `);
+              return reject(err);
+            }
+            resolve(data);
+          });
         });
       });
       Promise.all([anp]).then(function(promData){

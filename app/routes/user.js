@@ -1,10 +1,11 @@
 var User = require('../models/user');
+var Band = require('../models/band');
 var {isLoggedIn} = require('../services');
 var {getAnnouncements} = require('../controllers/announcement');
 var {emailAdmins, emailuser} = require('../controllers/user');
 var {uploadFile} = require('../controllers/files');
 var path = require('path');
-var profileImageDir  = process.env.DATADIR ? path.join(process.env.DATADIR, '/profileImages/') : path.resolve(__dirname, '../../views/profileImages/');
+var profileImageDir  = process.env.DATADIR ? process.env.DATADIR : path.resolve(__dirname, '../../views/');
 
 module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
     app.get('/profile', isLoggedIn, function (req, res, next) {
@@ -16,7 +17,8 @@ module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
         req.query.id = req.user._id;
         message = "Your account is waiting for an admin approval. Please hold, your call is important to us.";
       }
-      getAnnouncements().catch((e)=>{logger.error(e);}).then((announcements) => {
+      Band.populate(req.band,{path:'announcements',match:{'showPrivate':true,active:true}},function(err,band){
+
         if(req.query.id && req.query.id !== req.user._id){
           User.findOne({_id:req.query.id},
           function(err, foundUser){
@@ -28,20 +30,20 @@ module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
             mine = false;
             active = 'directory';
             res.render('profile', {
+              band:req.band,
                 user: user,
                 mine: mine,
                 active: active,
-                announcements:announcements,
-                message:message
+                announcements:band.announcements
             });
           });
         } else {
           res.render('profile', {
+            band:req.band,
               user: user,
               mine: mine,
               active: active,
-              announcements:announcements,
-              message:message
+              announcements:band.announcements
           });
         }
       });
@@ -57,8 +59,8 @@ module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
             if(!params.phone){params.phone = user.phone || '';}
             var p;
             if(req.files.profileimage.size){
-              p = uploadFile(req.files.profileimage, profileImageDir).then((fileData) => {
-                params.profileImage = '/profileImages/' +fileData.filename;
+              p = uploadFile(req.files.profileimage, profileImageDir+'/'+req.band.bandCode +'/profileImages' ).then((fileData) => {
+                params.profileImage = '/'+req.band.bandCode +'/profileImages/' +fileData.filename;
               });
             } else {
               params.profileImage = user.profileImage;
@@ -83,6 +85,7 @@ module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
                     return next(err);
                   }
                   res.render('profile', {
+                    band:req.band,
                       mine:true,
                       user: newUser,
                       active: 'profile'
@@ -94,7 +97,7 @@ module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
     });
 
     app.get('/profile/edit', isLoggedIn, function (req,res){
-      res.render('signup',{user:req.user, active:'profile'});
+      res.render('signup',{band:req.band,user:req.user, active:'profile'});
 
     });
     app.post('/toggleUser/:id', isLoggedIn, function(req, res, next){
@@ -144,19 +147,18 @@ module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
       if(req.user.role !== 'admin' && req.user.role !== 'member'){
         return res.redirect('/profile');
       }
-      getAnnouncements().catch((e)=>{logger.error(e);}).then((announcements) => {
-       User.find({},function(err, members){
+      Band.populate(req.band,[{path:'announcements',match:{'showPrivate':true,active:true}},{path:'users'}], function(err,band){
            if (err) {
                logger.error(`geet directory err: ${err}, user: ${req.user.email}`);
                return;
            }
            res.render('memberDir', {
-               members: members,
+               band:req.band,
+               members: band.users,
                active: 'directory',
-               announcements:announcements,
+               announcements:band.announcements,
                user:req.user
            });
        });
-     });
     });
 };

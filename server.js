@@ -106,7 +106,7 @@ app.use('*', function(req, res, next){
 });
 app.use(express.static('views'));
 if(process.env.DATADIR){
-  app.use(express.static(path.join(process.env.DATADIR,req.band.bandCode)));
+  app.use(express.static(process.env.DATADIR));
   app.use(process.env.DATADIR, isLoggedIn, function(req, res, next){next();});
 }
 // routes ======================================================================

@@ -7,3 +7,4 @@
 
 - delete documents
 - add meta tag data to band model
+- write migration for server data

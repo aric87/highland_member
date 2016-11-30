@@ -10,9 +10,9 @@
         <input type="hidden" value="{{tune.id}}" name="songId"/>
         {% endif %}
         <label for="name">Tune <input type="text" name="name" {% if tune.name %} value="{{tune.name}}" {% endif %} ></label><br/>
-        <label for="file">Melody: {% if tune.melody %}<span class="sub">(<a target="_Blank" href="/{{tune.melody}}">View Current</a>)</span> {% endif %}<input type="file" name="melody" /></label><br/>
+        <label for="file">Melody: {% if tune.melody %}<span class="sub">(<a target="_Blank" href="{{tune.melody}}">View Current</a>)</span> {% endif %}<input type="file" name="melody" /></label><br/>
 
-        <label for="file">Seconds: {% if tune.seconds %}<span class="sub">(<a target="_Blank" href="/{{tune.seconds}}">View Current</a>)</span> {% endif %}<input type="file" name="seconds" /></label><br/>
+        <label for="file">Seconds: {% if tune.seconds %}<span class="sub">(<a target="_Blank" href="{{tune.seconds}}">View Current</a>)</span> {% endif %}<input type="file" name="seconds" /></label><br/>
         <label for="file">Thirds: {% if tune.thirds %}<span class="sub">(<a target="_Blank" href="{{tune.thirds}}">View Current</a>)</span> {% endif %}<input type="file" name="thirds" /></label><br/>
         <label for="file">Snare: {% if tune.snare %}<span class="sub">(<a target="_Blank" href="{{tune.snare}}">View Current</a>)</span> {% endif %}<input type="file" name="snare" /></label><br/>
         <label for="file">Tenors: {% if tune.tenors %}<span class="sub">(<a target="_Blank" href="{{tune.tenors}}">View Current</a>)</span> {% endif %}<input type="file" name="tenors" /></label><br/>

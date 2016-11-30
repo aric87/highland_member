@@ -46,8 +46,8 @@ module.exports = function(passport, logger) {
                         logger.warn(`Inactive login attempt. \n email: ${email}`);
                         return done(null, false, req.flash('loginMessage','Your user account is inactive. Contact your system administrator to get it reactivated'));
                     }
-                    if(user.role !== 'admin' || user.role !== 'member'){
-                      logger.warn(`Inactive login attempt. \n email: ${email}`);
+                    if(user.role !== 'admin' && user.role !== 'member'){
+                      logger.warn(`Invalid role attempt. \n email: ${email} role: ${user.role}`);
                       return done(null, false, req.flash('loginMessage','Your user account hasn\'t been enabled by an admin. Contact your system administrator.'));
                     }
                     else{

@@ -13,7 +13,7 @@ const messageData = (sendTo, subject, text) => {
 exports.messageData = messageData;
 
 var isLoggedIn = (req, res, next) => {
-    if (req.isAuthenticated() && String(req.user.band) == String(req.band._id)){
+    if (req.isAuthenticated()){
         return next();
     }
     if(req.user){

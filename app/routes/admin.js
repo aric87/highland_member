@@ -122,7 +122,7 @@ module.exports = function(app, logger) {
         logger.error(`Ann. new accessed by non admin:  ${req.user.email} `);
         return res.redirect('/profile');
       }
-        res.render('announcementEdit',{user:req.user});
+        res.render('announcementEdit',{band:req.banduser:req.user});
       });
     app.post('/announcement/new', isLoggedIn, function (req, res) {
       if(req.user.role !== 'admin'){

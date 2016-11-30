@@ -35,7 +35,7 @@ module.exports = function(app, logger) {
         });
       });
       Promise.all([anp]).then(function(promData){
-        res.render('announcementEdit',{user:req.user, announcement: promData[0]});
+        res.render('announcementEdit',{band:req.band,user:req.user, announcement: promData[0]});
       }).catch(reason => {
           logger.error(`admin promise err: ${reason} `);
           res.render('announcementEdit',{band:req.band,user:req.user, message: `There was an error ${reason}`,announcement: ''});

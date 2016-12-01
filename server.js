@@ -115,6 +115,7 @@ require('./app/routes/user.js')(app, multipartyMiddleware, fs, logger, sender);
 require('./app/routes/admin.js')(app, logger); // load our routes and pass in our app and fully configured passport
 require('./app/routes/files.js')(app, multipartyMiddleware, logger);
 require('./app/routes/tunes.js')(app, multipartyMiddleware, fs, logger);
+require('./app/routes/tunesets.js')(app, multipartyMiddleware, fs, logger);
 app.post('/report-violation', function (req, res) {
   if (req.body) {
     console.log('CSP Violation: ', req.body);

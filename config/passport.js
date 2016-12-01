@@ -97,6 +97,7 @@ module.exports = function(passport, logger) {
                         newUser.address = req.body.address || '';
                         newUser.inDirectory = req.body.inDirectory === 'true'? true : false;
                         newUser.band = req.band._id;
+                        newUser.role = req.band.defaultStartRole;
                         var p;
                         if(req.files.profileimage.size){
                           p = uploadFile(req.files.profileimage, profileImageDir + "/" + req.band.bandCode + '/profileImages/').then((fileData) => {

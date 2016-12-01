@@ -1,14 +1,26 @@
 var User = require('../models/user'),
     Song = require('../models/song'),
     Band = require('../models/band'),
-    Tuneset = require('../models/tuneset'),
-    {getAnnouncements} = require('../controllers/announcement'),
     {uploadFile} = require('../controllers/files'),
     {isLoggedIn} = require('../services'),
     path = require('path'),
     tunesUploadDir = process.env.DATADIR ? process.env.DATADIR : path.resolve(__dirname, '../../views/');
 
 module.exports = function (app, multipartyMiddleware, fs, logger) {
+    app.get('/music',isLoggedIn,(req, res, next)=>{
+      Band.populate(req.band,[{path:'announcements',match:{'showPrivate':true,active:true}}], function (err, band) {
+          if (err) {
+            logger.error(` /music song find err: ${err}`);
+            return next(err);
+          }
+          res.render('music', {
+              band:band,
+              active: 'tunes',
+              announcements:band.announcements,
+              user:req.user
+          });
+      });
+    });
     app.get('/tunes', isLoggedIn, function (req, res, next) {
         Band.populate(req.band,[{path:'songs'}, {path:'announcements',match:{'showPrivate':true,active:true}}],
           function (err, band) {
@@ -23,35 +35,6 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
                 announcements:band.announcements,
                 user:req.user
             });
-        });
-    });
-    app.get('/tunesets', isLoggedIn, function (req, res, next) {
-        Band.populate(req.band,[{path:'tunesets'},{path:'announcements',match:{'showPrivate':true,active:true}}], function (err, band) {
-            if (err) {
-              logger.error(` /tunes song find err: ${err}`);
-              return next(err);
-            }
-            res.render('tuneset', {
-              band:req.band,
-                tuneset: band.tunesets,
-                active: 'tunes',
-                announcements:band.announcements,
-                user:req.user
-            });
-        });
-    });
-    app.get('/tuneset/new', isLoggedIn, function (req, res) {
-      Band.populate(req.band,{path:'tunes'}, function (err, band) {
-          if (err) {
-            logger.error(` /tuneset song find err: ${err}`);
-            return next(err);
-          }
-          res.render('addTuneset', {
-            band:req.band,
-              active: 'tunes',
-              tunes:band.tunes,
-              user:req.user
-          });
         });
     });
     app.get('/tunes/new', isLoggedIn, function (req, res) {
@@ -138,7 +121,6 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
               logger.error(`tune get err: ${err}, name: ${req.params.name}`);
                 return next(err);
             }
-            console.log(band)
             res.render('tuneDetail', {
               band:req.band,
                 user: req.user,
@@ -158,74 +140,10 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
                 return next(err);
             }
             res.render('addTune', {
-              band:req.band,
+                band:req.band,
                 tune: tune,
                 user:req.user
             });
         });
-    });
-    app.post('/tunesets', isLoggedIn, multipartyMiddleware, function (req, res, next) {
-      var newSet = {
-        name:req.body.name,
-        tunes:[]
-      };
-      console.log(newSet);
-      console.log(req.body);
-      var getSet = new Promise((resolve,reject) => {
-        Tuneset.findOne({name:req.body.name},function(err,data){
-            if(err){
-              logger.error(`post tuneset find err: ${err}, name: ${req.body.name}`);
-              reject(err);
-            }
-            resolve(data);
-        });
-      });
-
-      var fileUploads = [getSet];
-      if(req.files.fullAudio){
-        let p = uploadFile(req.files.fullAudio, tunesUploadDir);
-        logger.warn('file ' + req.files.fullAudio.name);
-        fileUploads.push(p);
-      }
-      Promise.all(fileUploads).then((values) => {
-          if(values[0]){
-            var set = values[0];
-            if(values[1]){
-              set.audio = 'tunes/'+values[1].filename;
-            }
-            for(let key in req.body.tune){
-              set.tunes.push(req.body.tune[key]);
-            }
-            console.log(set, set.tunes, req.body.tunes);
-            set.save(function(err){
-              if(err){
-                logger.error(`tune update save err: ${err}, name: ${req.body.name}`);
-                return next(err);
-              }
-              res.redirect('/tuneset/'+newSet.name);
-            });
-          } else {
-            if(values[1]){
-              newSet.audio = 'tunes/'+values[1].filename;
-            }
-            for(let key in req.body.tune){
-              newSet.tunes.push(req.body.tune[key]);
-            }
-            console.log(newSet.tunes, req.body.tune);
-            Tuneset.create(newSet, function (err, song) {
-                if (err) {
-                  logger.error(`tune create err: ${err}, name: ${req.body.name}`);
-                  return next(err);
-                }
-                // res.redirect('/tuneset/'+song.name);
-                res.redirect('/profile');
-            });
-          }
-        })
-        .catch(function(e){
-          logger.error(`tune create err: ${err}, name: ${req.body.name}`);
-          res.status(400).send(e);
-        });
-
     });
 };

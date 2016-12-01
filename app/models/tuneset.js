@@ -5,7 +5,7 @@ Schema = mongoose.Schema;
 
 var TunesetSchema = new mongoose.Schema({
     name:String,
-    tunes:[{ type: Schema.Types.ObjectId, ref: 'Song' }],
+    songs:[{ type: Schema.Types.ObjectId, ref: 'Song' }],
     band:{ type: Schema.Types.ObjectId, ref: 'Band'},
     audio:String
 });

@@ -13,7 +13,8 @@ var BandSchema = new mongoose.Schema({
     users:[{ type: Schema.Types.ObjectId, ref: 'User' }],
     announcements:[{ type: Schema.Types.ObjectId, ref: 'Announcement' }],
     documents:[{ type: Schema.Types.ObjectId, ref: 'Document' }],
-    tunesets:[{ type: Schema.Types.ObjectId, ref: 'Tuneset' }]
+    tunesets:[{ type: Schema.Types.ObjectId, ref: 'Tuneset' }],
+    defaultStartRole:{type:String, default:'noob'}
 
 
 });

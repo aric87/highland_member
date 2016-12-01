@@ -4,12 +4,12 @@
 
 {% block content %}
 <div class="col-sm-6 col-sm-offset-3">
-    <h2>{{tuneset.name}}    {% if user.role == 'admin' %} <a href="/tuneset/edit/{{tuneset.name}}" class="pull-right"><button class="btn btn-warning">Edit Tune Details</button></a>{% endif %}</h2>
+    <h2>{{tuneset.name}}    {% if user.role == 'admin' %} <a href="/tunesets/edit/{{tuneset.id}}" class="pull-right"><button class="btn btn-warning">Edit Tuneset Details</button></a>{% endif %}</h2>
 
     <ul class="list-unstyled">
-        {% if tuneset.audio %}<li class="col-xs-12">Audio: <a target="_Blank" href="/{{tuneset.audio}}">Open in Browser</a> <a target="_Blank" href="/{{tuneset.audio}}" download >Download</a></li>{% endif %}
-        {% for tune in tunes%}
-        <li class="col-xs-12"><a href="/{{tune.name}}">{{tune.name}}</a></li>
+        {% if tuneset.audio %}<li class="col-xs-12">Audio: <a target="_Blank" href="/{{band.bandCode}}/tunes/{{tuneset.audio}}">Open in Browser</a> <a target="_Blank" href="/{{band.bandCode}}/tunes/{{tuneset.audio}}" download >Download</a></li>{% endif %}
+        {% for item in tuneset.songs %}
+        <li class="col-xs-12"><a href="/tunes/{{item.name}}">{{item.name}}</a></li>
         {% endfor %}
 
     </ul>

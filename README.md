@@ -7,4 +7,7 @@
 
 - delete documents
 - add meta tag data to band model
-- write migration for server data
+
+- add bug report form
+- add flash message on signup about waiting for admin
+- build "TCCN" to create new Band, change vars 

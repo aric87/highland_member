@@ -33,11 +33,12 @@
 header{
   background-image:url(/{{band.bandCode}}/static/header.jpeg);
 }
+  {% block custom_css %}{% endblock %}
 </style>
 <header>
   {% if user %}
       <nav>
-        <a {% if active == 'profile' %} class="active" {% endif %} href="/profile">My Profile</a><a {% if active == 'tunes' %} class="active" {% endif %} href="/tunes">Sheet Music</a><a {% if active == 'documents' %} class="active" {% endif %} href="/documents">Band Documents</a><a {% if active == 'directory' %} class="active" {% endif %} href="/directory">Member Directory</a>{% if user.role == 'admin' %}<a {% if active == 'admin' %} class="active" {% endif %} href="/admin">Admin</a>{% endif %}<a  href="/logout">Logout</a></nav>
+        <a {% if active == 'profile' %} class="active" {% endif %} href="/profile">My Profile</a><a {% if active == 'tunes' %} class="active" {% endif %} href="/music">Sheet Music</a><a {% if active == 'documents' %} class="active" {% endif %} href="/documents">Band Documents</a><a {% if active == 'directory' %} class="active" {% endif %} href="/directory">Member Directory</a>{% if user.role == 'admin' %}<a {% if active == 'admin' %} class="active" {% endif %} href="/admin">Admin</a>{% endif %}<a  href="/logout">Logout</a></nav>
         {% endif %}
 
 </header>

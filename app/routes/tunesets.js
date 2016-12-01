@@ -105,7 +105,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
             }
             set.save(function(err){
               if(err){
-                logger.error(`tune update save err: ${err}, name: ${req.body.name}`);
+                logger.error(`tuneset update save err: ${err}, name: ${req.body.name}`);
                 return next(err);
               }
               res.redirect('/tunesets/'+set.name);
@@ -114,13 +114,14 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
             if(values[1]){
               newSet.audio = '/'+req.band.bandCode +'/tunes/'+values[1].filename;
             }
+            newSet.songs = [];
             for(let key in req.body.tune){
               newSet.songs.push(req.body.tune[key]);
             }
             newSet.band = req.band._id;
             Tuneset.create(newSet, function (err, set) {
                 if (err) {
-                  logger.error(`tune create err: ${err}, name: ${req.body.name}`);
+                  logger.error(`tuneset create err: ${err}, name: ${req.body.name}`);
                   return next(err);
                 }
                 req.band.tunesets.push(set);

@@ -32,16 +32,18 @@ exports.run = function(callback, errback) {
               this[key] = "/hlpb/"+ this[key];
             }
           }
-          this.save(()=>{});
         })
+        songs.save(()=>{});
+
       });
       Document.find({},(err,docs) =>{
         docs.forEach(()=>{
           band.documents.push(this._id);
           this.file = "/hlpb/"+this.file;
           this.band = band._id;
-          this.save(()=>{});
+
         })
+        docs.save(()=>{});
       });
         band.save(function(err){
           if(err){

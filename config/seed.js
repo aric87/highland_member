@@ -28,7 +28,7 @@ exports.run = function(callback, errback) {
           band.songs.push(this._id);
           this.band = band._id;
           for(let key in this){
-            if(this[key].substring(0, 4) === "tun"){
+            if(typeof this[key] == "string" && this[key].substring(0, 4) === "tune"){
               this[key] = "/hlpb/"+ this[key];
             }
           }

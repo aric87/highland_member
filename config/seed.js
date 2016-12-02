@@ -15,45 +15,7 @@ exports.run = function(callback, errback) {
     tunesets:[]
   };
   Band.create(newBand, function (err, band) {
-      if (err) {
-        return errback(err);
-      }
-      User.find({}, (err, users) => {
-        users.forEach(()=>{
-        band.users.push(this._id);
-
-        });
-      Song.find({},(err,songs) =>{
-        console.log(songs)
-        songs.forEach((song)=>{
-          band.songs.push(song._id);
-          song.band = band._id;
-          for(let key in song){
-            if(typeof song[key] == "string" && song[key].substring(0, 4) === "tune"){
-              song[key] = "/hlpb/"+ song[key];
-            }
-          }
-          song.save(()=>{});
-
-        })
-
-      });
-      Document.find({},(err,docs) =>{
-        docs.forEach((doc)=>{
-          band.documents.push(doc._id);
-          doc.file = "/hlpb/"+doc.file;
-          doc.band = band._id;
-          doc.save(()=>{});
-        })
-
-      });
-        band.save(function(err){
-          if(err){
-            return errback(err);
-          }
-        callback();
-      });
-    });
+    callback();
   });
 
 

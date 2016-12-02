@@ -24,16 +24,18 @@ exports.run = function(callback, errback) {
 
         });
       Song.find({},(err,songs) =>{
-        songs.forEach(()=>{
+        console.log(songs)
+        songs.forEach((song)=>{
           band.songs.push(this._id);
-          this.band = band._id;
-          for(let key in this){
-            if(typeof this[key] == "string" && this[key].substring(0, 4) === "tune"){
-              this[key] = "/hlpb/"+ this[key];
+          song.band = band._id;
+          for(let key in song){
+            if(typeof song[key] == "string" && song[key].substring(0, 4) === "tune"){
+              song[key] = "/hlpb/"+ song[key];
             }
           }
+          song.save(()=>{});
+
         })
-        songs.save(()=>{});
 
       });
       Document.find({},(err,docs) =>{

@@ -1,7 +1,5 @@
 - events
-- sets
- - finish detail
- - edit
+
 - uniform description checklist
 - photo gallery
 
@@ -10,4 +8,4 @@
 
 - add bug report form
 - add flash message on signup about waiting for admin
-- build "TCCN" to create new Band, change vars 
+- build "TCCN" to create new Band, change vars

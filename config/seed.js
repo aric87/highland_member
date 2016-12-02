@@ -5,37 +5,56 @@ var Document = require('../app/models/document');
 var Announcement = require('../app/models/announcement');
 
 exports.run = function(callback, errback) {
-  var band = new Promise((resolve, reject)=>{
-    Band.findOne({bandCode:'hlpb'}, function(err,band){
-      if(err){
-        reject(err);
+  var newBand = {
+    name:"Highland Light Scottish Pipe Band",
+    bandCode:"hlpb",
+    songs:[],
+    users:[],
+    announcements:[],
+    documents:[],
+    tunesets:[],
+    defaultStartRole:{type:String, default:'noob'}
+  };
+  Band.create(newBand, function (err, band) {
+      if (err) {
+        logger.error(`tune create err: ${err}, name: ${req.body.name}`);
+        return errback(err);
       }
-      resolve(band);
-    });
-  });
-  band.then((band) =>{
-    Document.find({}, function(err, documents){
-        if(err){
-          reject(err);
-        }
-        var documentsIds = documents.map(function(document){
-          document.band = band._id;
-          document.save(function(err){
-            if(err){
-              console.log(err);
-            }
-          });
-          return document._id;
+      User.find({}, (err, users) => {
+        users.forEach(()=>{
+        band.users.push(this._id);
+
         });
-        band.documents = documentsIds;
+      Song.find({},(err,songs) =>{
+        songs.forEach(()=>{
+          band.songs.push(this._id);
+          this.band = band._id;
+          for(let key in this){
+            if(this[key].substring(0, 4) === "tun"){
+              this[key] = "/hlpb/"+ this[key];
+            }
+          }
+          this.save(()=>{});
+        })
+      });
+      Document.find({},(err,docs) =>{
+        docs.forEach(()=>{
+          band.documents.push(this._id);
+          this.file = "/hlpb/"+this.file;
+          this.band = band._id;
+          this.save(()=>{});
+        })
+      });
         band.save(function(err){
           if(err){
-            return err;
+            return errback(err);
           }
-          callback();
-      });
+        callback();
       });
     });
+  });
+
+
 };
 
 if (require.main === module) {

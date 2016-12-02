@@ -12,12 +12,10 @@ exports.run = function(callback, errback) {
     users:[],
     announcements:[],
     documents:[],
-    tunesets:[],
-    defaultStartRole:{type:String, default:'noob'}
+    tunesets:[]
   };
   Band.create(newBand, function (err, band) {
       if (err) {
-        logger.error(`tune create err: ${err}, name: ${req.body.name}`);
         return errback(err);
       }
       User.find({}, (err, users) => {

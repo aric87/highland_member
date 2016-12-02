@@ -26,7 +26,7 @@ exports.run = function(callback, errback) {
       Song.find({},(err,songs) =>{
         console.log(songs)
         songs.forEach((song)=>{
-          band.songs.push(this._id);
+          band.songs.push(song._id);
           song.band = band._id;
           for(let key in song){
             if(typeof song[key] == "string" && song[key].substring(0, 4) === "tune"){
@@ -39,13 +39,13 @@ exports.run = function(callback, errback) {
 
       });
       Document.find({},(err,docs) =>{
-        docs.forEach(()=>{
-          band.documents.push(this._id);
-          this.file = "/hlpb/"+this.file;
-          this.band = band._id;
-
+        docs.forEach((doc)=>{
+          band.documents.push(doc._id);
+          doc.file = "/hlpb/"+doc.file;
+          doc.band = band._id;
+          doc.save(()=>{});
         })
-        docs.save(()=>{});
+
       });
         band.save(function(err){
           if(err){

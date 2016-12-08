@@ -78,7 +78,7 @@ module.exports = function(passport, logger) {
                     // check to see if there's already a user with that email
                     if (existingUser){
                         logger.warn(`Signup with existing email: \n email: ${email}`);
-                        return done(null, false, req.flash('signupMessage','That email is already taken.'));
+                        return done(null, false, req.flash('loginMessage','That email already has an account. Contact your system administrator if you think that\'s an error, or reset your password.'));
                       }
                     //  If we're logged in, we're connecting a new local account.
                     if(req.user) {

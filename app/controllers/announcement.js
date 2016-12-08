@@ -4,7 +4,7 @@ var logger = require('../../config/logger');
 
 var getAnnouncements = function getAnnouncements(band, isPublic, getAll){
   return new Promise((resolve, reject) => {
-    if(!band){reject('There\'s not band');}
+    if(!band){reject('There\'s no band');}
     var query = {};
     if(!getAll){
       if(isPublic){

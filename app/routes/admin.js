@@ -19,7 +19,37 @@ module.exports = function(app, logger) {
 
       });
     });
+    app.get('/admin/edit', isLoggedIn, function (req, res) {
+      if(req.user.role !== 'admin'){
+        logger.warn(`${req.user.email} tried accessing admin endpoint`);
+        return res.redirect('/profile');
+      }
 
+        res.render('adminEdit',{band:req.band,user:req.user});
+
+    });
+    app.post('/admin/edit', isLoggedIn, function (req, res) {
+      if(req.user.role !== 'admin'){
+        logger.warn(`${req.user.email} tried accessing admin endpoint`);
+        return res.redirect('/profile');
+      }
+      let {name, description, url, defaultStartRole, keywords, emailAdmins, email} = req.body;
+
+      req.band.name = name;
+      req.band.description = description;
+      req.band.url = url;
+      req.band.defaultStartRole = defaultStartRole;
+      req.band.email = email;
+      req.band.emailAdmins = emailAdmins;
+
+      req.band.save(function(err,band){
+        if(err){
+          console.log(err)
+        }
+        console.log(band);
+        res.redirect('/admin');
+      })
+    });
     app.get('/announcement/edit', isLoggedIn, function (req, res) {
       if(req.user.role !== 'admin'){
         logger.warn(`${req.user.email} tried accessing ann. edit endpoint`);

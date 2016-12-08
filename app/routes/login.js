@@ -7,7 +7,10 @@ var {isLoggedIn} = require('../services');
 
 module.exports = function (app, passport, async, crypto, sender, multipartyMiddleware, logger) {
     app.get('/',function(req, res, next){
-      res.redirect('/login');
+      if(req.band.privateOnly){
+        res.redirect('/login');
+      }
+      res.render(`templates/${req.band.bandCode}/public_content`,{band:req.band})
     });
     app.get('/login', function (req, res) {
         getAnnouncements(req.band.id,'public').then(function(announcements){
@@ -45,16 +48,21 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
 
                 let adminMessage = `A new user has signed up for the site with the email ${user.email}. If you recognize the email, you should login and set their account type to member, so they can access the site. Otherwise, let Aric know so he can take care of tracking down the perp trying to steal our secrets`;
 
-                emailAdmins('New user Signup', adminMessage).catch((err) => {
+                emailAdmins('New user Signup', adminMessage, req.band).catch((err) => {
                   logger.error(`Admin email error caught: ${err}`);
                 }).then(() =>{
-                  req.logIn(user, function (err) {
-                      if (err) {
-                        logger.error(` signup post login user error: ${err}`);
-                        return res.redirect('/');
-                      }
-                      return res.redirect('/profile/');
-                  });
+                  if(req.band.defaultStartRole == 'member' || req.band.defaultStartRole == 'admin' ){
+                    req.logIn(user, function (err) {
+                        if (err) {
+                          logger.error(` signup post login user error: ${err}`);
+                          return res.redirect('/');
+                        }
+                        return res.redirect('/profile/');
+                    });
+                  } else {
+                    req.flash('loginMessage','Your account has successfully been created. For security reasons, the band needs to enabled your account before you\'ll be able to access any of the member content.')
+                    return res.redirect('/');
+                  }
                 });
               }).catch((err)=>{
                 logger.error(` email new user err: ${err}`);

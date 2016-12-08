@@ -1,0 +1,56 @@
+{% extends 'layoutPrivate.html' %}
+{% block announcement %}
+{% endblock %}
+{% block content %}
+    <div class="col-sm-8 col-sm-offset-2">
+
+        <h1>Edit Band Details</h1>
+
+        <form action="/admin/edit" method="post">
+          <div class="form-group col-xs-12">
+            <label for="name" class="col-xs-12 col-sm-4">Name</label>
+            <input class="col-xs-12 col-sm-8 form-control" required name="name" value="{{band.name}}" />
+          </div>
+          <div class="form-group col-xs-12">
+            <label for="email" class="col-xs-12 col-sm-4">Email</label>
+            <input class="col-xs-12 col-sm-8 form-control" type="email" required name="email" value="{{band.email}}" />
+          </div>
+          <div class="form-group col-xs-12">
+            <label for="privateOnly" class="col-xs-12 col-sm-4"><input type="checkbox" class="col-xs-12 col-sm-8 form-control" type="privateOnly" required name="privateOnly" {% if band.privateOnly %}checked{% endif %} disabled/> Private Only</label>
+
+          </div>
+          <div class="form-group col-xs-12">
+            <label for="emailAdmins" class="">Send emails to all Admins or only band email</label>
+            <div class="radio">
+              <label for="allAdmins"> <input class="" type="radio" {% if band.emailAdmins == "bandOnly" %}checked{% endif %} name="emailAdmins" value="bandOnly" /> Email only the band email</label>
+            </div>
+            <div class="radio">
+              <label for="allAdmins"> <input class="" type="radio" {% if band.emailAdmins == "allAdmins" %}checked{% endif %} name="emailAdmins" value="allAdmins" /> Email all Admin accounts</label>
+            </div>
+          </div>
+          <div class="form-group col-xs-12">
+            <label for="defaultStartRole" class="col-xs-12 col-sm-4">Start Role</label>
+            <input class="col-xs-12 col-sm-8 form-control" name="defaultStartRole" value="{{band.defaultStartRole}}" />
+          </div>
+        <div class="form-group col-xs-12">
+          <label for="bandCode" class="col-xs-12 col-sm-4">Band Code</label>
+          <input class="col-xs-12 col-sm-8 form-control" disabled name="bandCode" value="{{band.bandCode}}" />
+        </div>
+        <div class="form-group col-xs-12">
+          <label for="keywords" class="col-xs-12 col-sm-4">Keywords</label>
+          <input class="col-xs-12 col-sm-8 form-control"  name="keywords" value="{{band.keywords}}" />
+        </div>
+        <div class="form-group col-xs-12">
+          <label for="url" class="col-xs-12 col-sm-4">Url</label>
+          <input class="col-xs-12 col-sm-8 form-control" name="url" value="{{band.url}}"/>
+        </div>
+        <div class="form-group col-xs-12">
+          <label for="description" class="col-xs-12 col-sm-4">Description</label>
+          <input class="col-xs-12 col-sm-8 form-control" name="description" value="{{band.description}}"/>
+        </div>
+        <div class="col-xs-12">
+          <button class="btn btn-info">Submit</button>
+        </div>
+        </form>
+        </div>
+{% endblock %}

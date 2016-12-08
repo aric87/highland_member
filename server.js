@@ -125,7 +125,7 @@ app.post('/report-violation', function (req, res) {
   res.status(204).end();
 });
 app.get('*',function(req,res){
-  res.status(404).render('404');
+  res.status(404).render('404',{band:req.band,user:req.user});
 });
 app.use((err, req, res, next) => {
   logger.error(`uncaught error: ${err} , \n req.path: ${req.path}`);

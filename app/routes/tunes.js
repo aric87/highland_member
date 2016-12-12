@@ -13,7 +13,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
             logger.error(` /music song find err: ${err}`);
             return next(err);
           }
-          res.render('music', {
+          res.render('common/music', {
               band:band,
               active: 'tunes',
               announcements:band.announcements,
@@ -28,7 +28,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
               logger.error(` /tunes song find err: ${err}`);
               return next(err);
             }
-            res.render('tunes', {
+            res.render('common/tunes', {
               band:req.band,
                 tunes: band.songs,
                 active: 'tunes',
@@ -38,7 +38,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
         });
     });
     app.get('/tunes/new', isLoggedIn, function (req, res) {
-        res.render('addTune', {
+        res.render('common/addTune', {
           band:req.band,
             active: 'tunes',
             user:req.user
@@ -121,7 +121,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
               logger.error(`tune get err: ${err}, name: ${req.params.name}`);
                 return next(err);
             }
-            res.render('tuneDetail', {
+            res.render('common/tuneDetail', {
               band:req.band,
                 user: req.user,
                 tune: band.songs[0],
@@ -139,7 +139,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
                 logger.error(`tune edit, get err: ${err}, name: ${req.params.name}`);
                 return next(err);
             }
-            res.render('addTune', {
+            res.render('common/addTune', {
                 band:req.band,
                 tune: tune,
                 user:req.user

@@ -13,9 +13,9 @@ module.exports = function(app, logger) {
       Band.populate(req.band,[{path:'announcements'},{path:'users'}],function(err,band){
         if(err){
           logger.error(`admin promise err: ${reason} `);
-          res.render('adminHome',{band:req.band,user:req.user,message: `There was an error ${reason}`, announcements:'',members:''});
+          res.render('common/adminHome',{band:req.band,user:req.user,message: `There was an error ${reason}`, announcements:'',members:''});
         }
-        res.render('adminHome',{band:req.band,user:req.user,announcements: band.announcements,members:band.users});
+        res.render('common/adminHome',{band:req.band,user:req.user,announcements: band.announcements,members:band.users});
 
       });
     });
@@ -25,7 +25,7 @@ module.exports = function(app, logger) {
         return res.redirect('/profile');
       }
 
-        res.render('adminEdit',{band:req.band,user:req.user});
+        res.render('common/adminEdit',{band:req.band,user:req.user});
 
     });
     app.post('/admin/edit', isLoggedIn, function (req, res) {
@@ -65,10 +65,10 @@ module.exports = function(app, logger) {
         });
       });
       Promise.all([anp]).then(function(promData){
-        res.render('announcementEdit',{band:req.band,user:req.user, announcement: promData[0]});
+        res.render('common/announcementEdit',{band:req.band,user:req.user, announcement: promData[0]});
       }).catch(reason => {
           logger.error(`admin promise err: ${reason} `);
-          res.render('announcementEdit',{band:req.band,user:req.user, message: `There was an error ${reason}`,announcement: ''});
+          res.render('common/announcementEdit',{band:req.band,user:req.user, message: `There was an error ${reason}`,announcement: ''});
 
       });
     });
@@ -152,7 +152,7 @@ module.exports = function(app, logger) {
         logger.error(`Ann. new accessed by non admin:  ${req.user.email} `);
         return res.redirect('/profile');
       }
-        res.render('announcementEdit',{band:req.band,user:req.user});
+        res.render('common/announcementEdit',{band:req.band,user:req.user});
       });
     app.post('/announcement/new', isLoggedIn, function (req, res) {
       if(req.user.role !== 'admin'){

@@ -15,3 +15,10 @@
 - public content:
   - insert based templates
   - dynamic nav based on turned on pages
+  - give docs permissions and create doc view template
+  - create tune list view
+  - public member directory
+  - contact form
+
+trying to get new event/venue creation
+add datepicker

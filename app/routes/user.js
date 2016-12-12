@@ -29,7 +29,7 @@ module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
             user = foundUser;
             mine = false;
             active = 'directory';
-            res.render('profile', {
+            res.render('common/profile', {
               band:req.band,
                 user: user,
                 mine: mine,
@@ -38,7 +38,7 @@ module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
             });
           });
         } else {
-          res.render('profile', {
+          res.render('common/profile', {
             band:req.band,
               user: user,
               mine: mine,
@@ -84,7 +84,7 @@ module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
                     res.flash('Some Error Occurred');
                     return next(err);
                   }
-                  res.render('profile', {
+                  res.render('common/profile', {
                     band:req.band,
                       mine:true,
                       user: newUser,
@@ -97,7 +97,7 @@ module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
     });
 
     app.get('/profile/edit', isLoggedIn, function (req,res){
-      res.render('signup',{band:req.band,user:req.user, active:'profile'});
+      res.render('common/signup',{band:req.band,user:req.user, active:'profile'});
 
     });
     app.post('/toggleUser/:id', isLoggedIn, function(req, res, next){
@@ -152,7 +152,7 @@ module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
                logger.error(`geet directory err: ${err}, user: ${req.user.email}`);
                return;
            }
-           res.render('memberDir', {
+           res.render('common/memberDir', {
                band:req.band,
                members: band.users,
                active: 'directory',

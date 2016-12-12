@@ -8,13 +8,13 @@ var {isLoggedIn} = require('../services');
 module.exports = function (app, passport, async, crypto, sender, multipartyMiddleware, logger) {
     app.get('/',function(req, res, next){
       if(req.band.privateOnly){
-        res.redirect('/login');
+        return res.redirect('/login');
       }
       res.render(`templates/${req.band.bandCode}/public_content`,{band:req.band})
     });
     app.get('/login', function (req, res) {
         getAnnouncements(req.band.id,'public').then(function(announcements){
-          res.render('login', {band:req.band, message:req.flash('loginMessage'),announcements:announcements });
+          res.render('common/login', {band:req.band, message:req.flash('loginMessage'),announcements:announcements });
         });
     });
     // process the login form
@@ -27,7 +27,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
     // show the signup form
 
     app.get('/signup', function (req, res) {
-        res.render('signup', {band:req.band,message: '' });
+        res.render('common/signup', {band:req.band,message: '' });
     });
     // process the signup form
     app.post('/signup', multipartyMiddleware, function (req, res, next) {
@@ -84,7 +84,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
         res.redirect('http://www.highlandlight.com/');
     });
     app.get('/forgot', function (req, res) {
-        res.render('forgot', {
+        res.render('common/forgot', {
             band:req.band,
             user: req.user
         });
@@ -156,7 +156,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
                 return res.redirect('/forgot');
             }
            logger.info(`${user.email} visited the password reset page with a good token`);
-            res.render('reset', {
+            res.render('common/reset', {
               band:req.band,
                 user: user
             });

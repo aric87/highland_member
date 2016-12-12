@@ -13,7 +13,7 @@ app.use(function (req, res, next) {
 app.use(csp({
   directives: {
     defaultSrc: ["'self'"],
-    styleSrc: ["'self'", 'maxcdn.bootstrapcdn.com',function (req, res) {
+    styleSrc: ["'self'", 'maxcdn.bootstrapcdn.com','cdnjs.cloudflare.com',function (req, res) {
         return "'nonce-" + res.locals.nonce + "'";
       }],
     scriptSrc:["'self'",'cdnjs.cloudflare.com'],
@@ -89,7 +89,7 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/views/templates');
 app.use('*', function(req, res, next){
   if(!req.headers.band){
     return next(new Error('No band in header'));
@@ -116,6 +116,7 @@ require('./app/routes/admin.js')(app, logger); // load our routes and pass in ou
 require('./app/routes/files.js')(app, multipartyMiddleware, logger);
 require('./app/routes/tunes.js')(app, multipartyMiddleware, fs, logger);
 require('./app/routes/tunesets.js')(app, multipartyMiddleware, fs, logger);
+require('./app/routes/events.js')(app, multipartyMiddleware, fs, logger);
 app.post('/report-violation', function (req, res) {
   if (req.body) {
     console.log('CSP Violation: ', req.body);
@@ -125,7 +126,7 @@ app.post('/report-violation', function (req, res) {
   res.status(204).end();
 });
 app.get('*',function(req,res){
-  res.status(404).render('404',{band:req.band,user:req.user});
+  res.status(404).render('common/404',{band:req.band,user:req.user});
 });
 app.use((err, req, res, next) => {
   logger.error(`uncaught error: ${err} , \n req.path: ${req.path}`);

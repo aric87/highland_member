@@ -1,0 +1,74 @@
+{% extends 'layoutPrivate.html' %}
+
+{% block title %}{{tune.name}}{% endblock %}
+
+{% block content %}
+<div class="col-sm-6 col-sm-offset-3">
+    <div class="well">
+        <form method="POST" action="/events/new" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="venue">Choose a venue</label>
+            <select name="venue" required id="chooseVenue">
+              <option value="" checked></option>
+              <option value="new">New Venue</option>
+              {% for venue in band.venues %}
+                <option value="{{venue.id}}">{{venue.name}}</option>
+              {% endfor%}
+            </select>
+          </div>
+          {% for venue in band.venues %}
+          <div class="venueDetail-{{venue.id}} ">
+            <h4>Venue Details</h4>
+            <p id="venueName">{{venue.name}}</p>
+            <p id="venueAddress">{{venue.address}}</p>
+            <p id="venueLocation">{{venue.location}}</p>
+            <p id="venueDescription">{{venue.description}}</p>
+          </div>
+          {% endfor %}
+          <div id="newVenue">
+            <h4>New Venue</h4>
+            <div class="form-group">
+              <label for="venueName">Venue Name</label>
+              <input type="text" name="venueName" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="venueAddress">Venue Address</label>
+              <input type="text" class="form-control" name="venueAddress" placeholder="Physical address for driving directions">
+            </div>
+            <div class="form-group">
+              <label for="venueLocation">Landmarks/location</label>
+              <input type="text" class="form-control" name="venueLocation" placeholder="Place to park, tune, or form up">
+            </div>
+            <div class="form-group">
+              <label for="venueDescription">Venue Description</label>
+              <input type="text" class="form-control" name="venueDescription" placeholder="Details that are consistent for every performance here">
+            </div>
+          </div>
+<h4>Event Details</h4>
+          <div class="form-group">
+            <label for="eventDate">Event Date</label>
+            <div class="input-group datetime" data-format="dd/MM/yyyy hh:mm:ss ZZ" data-sideBySide="true">
+
+                <input type="text" name="eventDate" class="form-control">
+                <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-th"></span>
+                </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="eventDescription">Event Description</label>
+            <input type="text" class="form-control" placeholder="Details that are specific to this performance" name="eventDescription">
+          </div>
+          <div class="form-group">
+            <label for="eventUniform">Uniform</label>
+            <input type="text" class="form-control" required name="eventUniform">
+          </div>
+            <br/>
+        <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

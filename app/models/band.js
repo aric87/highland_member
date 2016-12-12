@@ -4,6 +4,7 @@ User = require('./user'),
 Tuneset = require('./tuneset'),
 Document = require('./document'),
 Announcement = require('./announcement'),
+Venue = require('./venue'),
 Schema = mongoose.Schema;
 
 var BandSchema = new mongoose.Schema({
@@ -20,7 +21,8 @@ var BandSchema = new mongoose.Schema({
     users:[{ type: Schema.Types.ObjectId, ref: 'User' }],
     announcements:[{ type: Schema.Types.ObjectId, ref: 'Announcement' }],
     documents:[{ type: Schema.Types.ObjectId, ref: 'Document' }],
-    tunesets:[{ type: Schema.Types.ObjectId, ref: 'Tuneset' }]
+    tunesets:[{ type: Schema.Types.ObjectId, ref: 'Tuneset' }],
+    venues:[{ type: Schema.Types.ObjectId, ref: 'Venue' }]
 
 
 

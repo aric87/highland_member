@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="copyright" content="Copyright ©, {{band.name}}, All Rights Reserved"/>
+  <meta name="rating" content="General"/>
+  <meta name="robots" content="index,follow"/>
+  <meta name="distribution" content="global"/>
+  <meta http-equiv="Content-Style-Type" content="text/css"/>
+  <meta http-equiv="Content-Language" content="en-us"/>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+  <meta name="description" content="{{band.description}}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- for facebook -->
+  <meta property="og:title" content="Highland Light Sottish Pipe Band"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:description" content="{{band.description}}"/>
+  <!--end facebook -->
+  <!-- for twitter -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:url" content="{{band.url}}">
+  <meta name="twitter:description" content="{{band.description}}">
+  <!-- end twitter -->
+  <link rel="shortcut icon" href="/{{band.bandCode}}/static/logo.jpg" type="image/jpeg" />
+
+    <title>{% block title %}{{band.name}}{% endblock %}</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <link rel="stylesheet" href="/{{band.bandCode}}/static/member.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/css/bootstrap-datetimepicker.min.css">
+</head>
+<body>
+
+{% set bandContent = '../'+band.bandCode+'/private_header.html' %}
+{% include bandContent %}
+<div class="container-fluid">
+  <div class="col-xs-12 clearfix announcement">
+    {% block announcement %}
+    {% if announcements.length %}
+      {% for item in announcements %}
+        <div class="col-xs-12 col-md-8 col-md-offset-2 alert alert-info">
+          <h3 class="text-bold">{{ item.title }}</h3>
+          <p>{{ item.content }}</p>
+        </div>
+      {% endfor %}
+
+    {% endif %}
+    {% endblock %}
+  </div>
+  <div class="col-xs-12 mainContent">
+    {% block content %}{% endblock %}
+  </div>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment-with-locales.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/{{band.bandCode}}/static/custom.js"></script>
+<script src="/js/sitewide.js"></script>
+</body>
+</html>

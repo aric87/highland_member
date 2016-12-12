@@ -15,7 +15,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
               logger.error(` /tunes song find err: ${err}`);
               return next(err);
             }
-            res.render('tuneset', {
+            res.render('common/tuneset', {
                 band:req.band,
                 tunesets: band.tunesets,
                 active: 'tunes',
@@ -30,7 +30,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
             logger.error(` /tuneset song find err: ${err}`);
             return next(err);
           }
-          res.render('addTuneset', {
+          res.render('common/addTuneset', {
               band:req.band,
               active: 'tunes',
               tunes:band.songs,
@@ -45,7 +45,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
               logger.error(`tune get err: ${err}, name: ${req.params.name}`);
                 return next(err);
             }
-            res.render('tunesetDetail', {
+            res.render('common/tunesetDetail', {
                 band:req.band,
                 user: req.user,
                 active:'tunes',
@@ -62,7 +62,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
             logger.error(`tune get err: ${err}, name: ${req.params.name}`);
               return next(err);
           }
-          res.render('addTuneset', {
+          res.render('common/addTuneset', {
               band:req.band,
               tunes:band.songs,
               user: req.user,

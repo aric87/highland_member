@@ -1,0 +1,19 @@
+{% extends 'layoutPrivate.html' %}
+
+{% block title %}Events{% endblock %}
+
+{% block content %}
+<div class="col-sm-6 col-sm-offset-3">
+
+    <h2>{{venue.name}} {% if user.role == 'admin' %} <a href="/event/venue/edit?{{venue.id}}" class="pull-right"><button class="btn btn-warning">Edit Venue</button></a> {% endif %}</h2>
+    <p>{{venue.location}}</p>
+    <p>{{venue.address}}</p>
+    <p>{{venue.description}}</p>
+    <ul class="list-unstyled">
+{% for event in venue.events %}
+    <a href="/event/{{venue.id}}/{{event.id}}">{{ event.date | date('D m/d/y h:m', event.date.getTimezoneOffset())}}</a></li>
+
+{% endfor %}
+    </ul>
+</div>
+{% endblock %}

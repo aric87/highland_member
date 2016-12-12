@@ -15,7 +15,7 @@ module.exports = function (app, multipartyMiddleware, logger) {
                 logger.error(` get all documents error: ${err}`);
                 return next(err);
             }
-            res.render('documents', {
+            res.render('common/documents', {
                 band:req.band,
                 documents: band.documents,
                 active: 'documents',
@@ -26,7 +26,7 @@ module.exports = function (app, multipartyMiddleware, logger) {
       });
 
     app.get('/documents/new', isLoggedIn,function (req, res) {
-        res.render('addDocument', {
+        res.render('common/addDocument', {
             band:req.band,
             active: 'documents',
             user:req.user

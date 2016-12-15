@@ -1,0 +1,36 @@
+{% extends 'layoutPrivate.html' %}
+
+{% block title %}Events{% endblock %}
+
+{% block content %}
+<div class="col-sm-6 col-sm-offset-3">
+
+    <h2>{{venue.name}} </h2>
+    <form action="/event/edit" method="post">
+      <input type="hidden" value="{{venue.id}}" name="venueId">
+      <input type="hidden" value="{{event.id}}" name="eventId">
+      <div class="form-group">
+        <label for="eventDate">Event Date</label>
+        <div class="input-group datetime" data-format="dd/MM/yyyy hh:mm:ss ZZ" data-initial="" data-sideBySide="true">
+
+            <input type="text" name="eventDate" class="form-control" value="{{ event.date | date('D m/d/y h:m', event.date.getTimezoneOffset())}}" >
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-th"></span>
+            </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="eventDescription">Event Details</label>
+        <input type="text" class="form-control" placeholder="Details that are specific to this performance" value="{{event.description}}" name="eventDescription">
+      </div>
+      <div class="form-group">
+        <label for="eventUniform">Uniform</label>
+        <input type="text" class="form-control" value="{{event.uniform}}" required name="eventUniform">
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary" type="submit">Submit</button>
+      </div>
+    </form>
+</div>
+{% endblock %}

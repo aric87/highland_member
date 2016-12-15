@@ -1,0 +1,40 @@
+{% extends 'layoutPrivate.html' %}
+
+{% block title %}Events{% endblock %}
+
+{% block content %}
+<div class="col-sm-6 col-sm-offset-3">
+
+    <h2>{{venue.name}} </h2>
+    <form action="/event/venue/edit" method="post">
+      <input type="hidden" value="{{venue.id}}" name="venueId">
+      <div class="form-group">
+        <label for="venueName">Venue Name</label>
+        <input type="text" name="venueName" class="form-control" value="{{venue.name}}">
+      </div>
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input type="text" name="location" class="form-control" value="{{venue.location}}">
+      </div>
+      <div class="form-group">
+        <label for="address">Address</label>
+        <input type="text" name="address" class="form-control" value="{{venue.address}}">
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" name="description" class="form-control" value="{{venue.description}}">
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary" type="submit">Submit</button>
+      </div>
+    </form>
+    <p>Upcoming events:
+    <ul class="list-unstyled">
+{% for event in venue.events %}
+    <li><a href="/event/eventDetail?id={{event.id}}">{{ event.date | date('D m/d/y h:m', event.date.getTimezoneOffset())}}</a></li>
+
+{% endfor %}
+    </ul>
+    </p>
+</div>
+{% endblock %}

@@ -1,12 +1,11 @@
-- events
+- event registrations
 
 - uniform description checklist
 - photo gallery
 
-- delete documents
+- delete documents, venues, events, users
 
 - add bug report form
-- add flash message on signup about waiting for admin
 
 - build "TCCN" to create new Band, change vars
 
@@ -19,6 +18,3 @@
   - create tune list view
   - public member directory
   - contact form
-
-trying to get new event/venue creation
-add datepicker

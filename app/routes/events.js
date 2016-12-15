@@ -145,7 +145,6 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
 
       //TODO: finish Here on
       app.get('/event/venue/edit',isLoggedIn,(req, res, next)=>{
-        console.log(req.query);
         Band.populate(req.band,[{path:'announcements',match:{'showPrivate':true,active:true}},{path:'venues',match:{_id:req.query.id},populate:{path:'events'}}], function (err, band) {
             if (err) {
               logger.error(` /music song find err: ${err}`);
@@ -163,19 +162,80 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
             });
         });
       });
-      app.get('/event/eventDetail',isLoggedIn,(req, res, next)=>{
-        Band.populate(req.band,[{path:'announcements',match:{'showPrivate':true,active:true}},{path:'venues'}], function (err, band) {
+      app.post('/event/venue/edit',isLoggedIn,(req, res, next)=>{
+        Band.populate(req.band,[{path:'announcements',match:{'showPrivate':true,active:true}},{path:'venues',match:{_id:req.body.id},populate:{path:'events'}}], function (err, band) {
             if (err) {
               logger.error(` /music song find err: ${err}`);
               return next(err);
             }
-            res.render('common/addEvent', {
+            if(!band.venues.length){
+              return next(500);
+            }
+
+              band.venues[0].name=req.body.venueName;
+              band.venues[0].location=req.body.location;
+              band.venues[0].description=req.body.description;
+              band.venues[0].address=req.body.address;
+
+              band.venues[0].save((err)=>{
+                if(err){
+                  return next(err)
+                }
+                  res.redirect(`/event/venue?id=${band.venues[0].id}`);
+              })
+
+        });
+      });
+      app.get('/event/eventDetail',isLoggedIn,(req, res, next)=>{
+        Band.populate(req.band,[{path:'announcements',match:{'showPrivate':true,active:true}},{path:'venues', match:{_id:req.query.id},populate:{path:'events',match:{_id:req.query.event}}}], function (err, band) {
+            if (err) {
+              logger.error(` /music song find err: ${err}`);
+              return next(err);
+            }
+            res.render('common/eventDetail', {
                 band:band,
                 active: 'events',
                 announcements:band.announcements,
                 user:req.user,
-                venues:band.venues
+                venue:band.venues[0],
+                event:band.venues[0].events[0]
             });
+        });
+      });
+      app.get('/event/edit',isLoggedIn,(req, res, next)=>{
+        Band.populate(req.band,[{path:'announcements',match:{'showPrivate':true,active:true}},{path:'venues', match:{_id:req.query.id},populate:{path:'events',match:{_id:req.query.event}}}], function (err, band) {
+            if (err) {
+              logger.error(` /music song find err: ${err}`);
+              return next(err);
+            }
+            res.render('common/eventEdit', {
+                band:band,
+                active: 'events',
+                announcements:band.announcements,
+                user:req.user,
+                venue:band.venues[0],
+                event:band.venues[0].events[0]
+            });
+        });
+      });
+      app.post('/event/edit',isLoggedIn,(req, res, next)=>{
+        Band.populate(req.band,[{path:'announcements',match:{'showPrivate':true,active:true}},{path:'venues', match:{_id:req.params.venueId},populate:{path:'events',match:{_id:req.params.eventId}}}], function (err, band) {
+            if (err) {
+              logger.error(` /music song find err: ${err}`);
+              return next(err);
+            }
+            var event = band.venues[0].events[0];
+            event.date = req.body.eventDate;
+            event.uniform = req.body.eventUniform;
+            event.description = req.body.eventDescription;
+
+            event.save((err)=>{
+              if(err){
+                return next(err)
+              }
+            res.redirect(`/event/eventDetail?id=${band.venues[0].id}&event=${band.venues[0].events[0].id}`);
+            })
+
         });
       });
 };

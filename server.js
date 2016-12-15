@@ -23,7 +23,6 @@ app.use(csp({
 }));
 app.use(helmet.referrerPolicy({ policy: 'same-origin' }));
 var port  = 8081;
-// var port     = 8081;
 var app_ip_address = '127.0.0.1';
 var mongoose = require('mongoose');
 var passport = require('passport');

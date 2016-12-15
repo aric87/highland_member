@@ -33,9 +33,10 @@ module.exports = function(app, logger) {
         logger.warn(`${req.user.email} tried accessing admin endpoint`);
         return res.redirect('/profile');
       }
-      let {name, description, url, defaultStartRole, keywords, emailAdmins, email} = req.body;
+      let {name, description, url, privateOnly, defaultStartRole, keywords, emailAdmins, email} = req.body;
 
       req.band.name = name;
+      req.band.privateOnly = privateOnly;
       req.band.description = description;
       req.band.url = url;
       req.band.defaultStartRole = defaultStartRole;

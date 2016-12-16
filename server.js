@@ -69,7 +69,7 @@ app.use(session({
     // create new redis store.
     store: rStore,
     saveUninitialized: false,
-    resave: true,
+    resave: false,
     cookie: { maxAge:360000 },
     name:"HLPB_awesome_cookie"
   })

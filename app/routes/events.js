@@ -64,7 +64,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
           });
       });
     });
-    app.post('/events/new',isLoggedIn,multipartyMiddleware,(req, res, next)=>{
+    app.post('/events/new',isLoggedIn, multipartyMiddleware,(req, res, next)=>{
         var ven = new Promise((resolve, reject)=>{
           if(req.body.venue == 'new'){
             var newVenue = {

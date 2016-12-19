@@ -5,6 +5,7 @@ var helmet = require('helmet');
 var csp = require('helmet-csp');
 var app      = express();
 var uuid = require('node-uuid');
+app.set('trust proxy',true);
 app.use(helmet());
 app.use(function (req, res, next) {
   res.locals.nonce = uuid.v4();
@@ -63,14 +64,14 @@ app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // get information from html forms
 // required for passport
-var rStore = new redisStore({ host: redisHost, port: redisPort, client: redisClient, ttl :  720000,logErrors:true});
+var rStore = new redisStore({ host: redisHost, port: redisPort, client: redisClient,logErrors:true});
 app.use(session({
     secret: process.env.SESSION_SECRET,
     // create new redis store.
     store: rStore,
     saveUninitialized: false,
     resave: false,
-    cookie: { maxAge:360000 },
+    cookie: { maxAge:1800000 },
     name:"HLPB_awesome_cookie"
   })
 );

@@ -9,8 +9,8 @@
     <p>Location: {{venue.location}}</p>
     <p>Address: {{venue.address}}</p>
     <p>Venue description: {{venue.description}}</p>
-    <p>Date: {{ event.date | date('D m/d/y h:i', event.date.getTimezoneOffset())}}</p>
-    <p>Event details: {{event.details}}</p>
+    <p>Date: {{ event.date | date('D m/d/y H:i', band.timezoneOffset)}}</p>
+    <p>Event details: {{event.description}}</p>
     <p>Uniform: {{event.uniform}}</p>
 </div>
 {% endblock %}

@@ -226,7 +226,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
               logger.error(` /music song find err: ${err}`);
               return next(err);
             }
-            console.log(req.body.eventDate)
+
             var event = band.venues[0].events[0];
             event.date = new Date(req.body.eventDate);
             event.uniform = req.body.eventUniform;

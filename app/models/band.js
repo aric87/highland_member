@@ -16,6 +16,7 @@ var BandSchema = new mongoose.Schema({
     keywords:String,
     email:String,
     privateOnly:Boolean,
+    timezoneOffset:Number,
     emailAdmins:{type:String, default:'allAdmins'},
     songs:[{ type: Schema.Types.ObjectId, ref: 'Song' }],
     users:[{ type: Schema.Types.ObjectId, ref: 'User' }],

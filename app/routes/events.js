@@ -29,7 +29,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
             venue.events.forEach((event)=>{
               newVenue = {
                 venueName:venue.name,
-                eventDate:new Date(event.date),
+                eventDate:new Date(event.date).toString(),
                 venueId:venue.id,
                 eventId:event.id
 
@@ -145,7 +145,6 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
         });
       });
 
-      //TODO: finish Here on
       app.get('/event/venue/edit',isLoggedIn,(req, res, next)=>{
         Band.populate(req.band,[{path:'announcements',match:{'showPrivate':true,active:true}},{path:'venues',match:{_id:req.query.id},populate:{path:'events'}}], function (err, band) {
             if (err) {
@@ -226,6 +225,9 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
               logger.error(` /music song find err: ${err}`);
               return next(err);
             }
+console.log(req.body.eventDate)
+console.log(new Date(req.body.eventDate))
+
 
             var event = band.venues[0].events[0];
             event.date = new Date(req.body.eventDate);

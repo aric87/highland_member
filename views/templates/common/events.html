@@ -8,7 +8,7 @@
     <ul class="list-unstyled">
 {% for venue in venues %}
     <li><h4><a href="/event/venue?id={{venue.venueId}}">{{venue.venueName}}</a></h4>
-    <a href="/event/eventDetail?id={{venue.venueId}}&event={{venue.eventId}}">{{ venue.eventDate | date('D m/d/y h:i', band.timezoneOffset)}}</a></li>
+    <a href="/event/eventDetail?id={{venue.venueId}}&event={{venue.eventId}}">{{ venue.eventDate | date('D m/d/y h:i')}}</a></li>
 
 {% endfor %}
     </ul>

@@ -11,9 +11,9 @@
       <input type="hidden" value="{{event.id}}" name="eventId">
       <div class="form-group">
         <label for="eventDate">Event Date</label>
-        <div class="input-group datetime" data-format="dd/MM/yyyy hh:mm:ss ZZ" data-initial="" data-sideBySide="true">
+        <div class="input-group datetime" data-sideBySide="true">
 
-            <input type="text" name="eventDate" class="form-control" value="{{ event.date | date('D m/d/y H:i', band.timezoneOffset)}}" >
+            <input type="text" name="eventDate" class="form-control" value="{{ event.date | date('D m/d/y H:i')}}" >
             <div class="input-group-addon">
                 <span class="glyphicon glyphicon-th"></span>
             </div>

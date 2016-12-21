@@ -31,7 +31,7 @@
     <p>Upcoming events:
     <ul class="list-unstyled">
 {% for event in venue.events %}
-    <li><a href="/event/eventDetail?id={{event.id}}">{{ event.date | date('D m/d/y h:i', band.timezoneOffset)}}</a></li>
+    <li><a href="/event/eventDetail?id={{event.id}}">{{ event.date | date('D m/d/y h:i')}}</a></li>
 
 {% endfor %}
     </ul>

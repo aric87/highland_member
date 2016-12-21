@@ -59,6 +59,6 @@ $(document).ready(function(){
    });
     $('.datetime').datetimepicker({
       sideBySide:true,
-      format:'dddd MM/DD/YYYY hh:mm:ss ZZ'
+      format:'dddd MM/DD/YYYY hh:mm:ss'
     });
 });

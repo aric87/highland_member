@@ -12,7 +12,7 @@
     <p>Upcoming events:
     <ul class="list-unstyled">
 {% for event in venue.events %}
-    <li><a href="/event/eventDetail?id={{venue.id}}&event={{event.id}}">{{ event.date | date('D m/d/y h:m', event.date.getTimezoneOffset())}}</a></li>
+    <li><a href="/event/eventDetail?id={{venue.id}}&event={{event.id}}">{{ event.date | date('D m/d/y h:i', event.date.getTimezoneOffset())}}</a></li>
 
 {% endfor %}
     </ul>

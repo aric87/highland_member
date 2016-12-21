@@ -99,8 +99,10 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
         });
 
         ven.then((venue)=>{
+          console.log(req.body.eventDate);
+          console.log(new Date(req.body.eventDate))
           var newEvent = {
-            date:req.body.eventDate,
+            date:new Date(req.body.eventDate),
             description:req.body.eventDescription,
             uniform:req.body.eventUniform,
             venue:venue._id,
@@ -224,8 +226,9 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
               logger.error(` /music song find err: ${err}`);
               return next(err);
             }
+            console.log(req.body.eventDate)
             var event = band.venues[0].events[0];
-            event.date = req.body.eventDate;
+            event.date = new Date(req.body.eventDate);
             event.uniform = req.body.eventUniform;
             event.description = req.body.eventDescription;
 

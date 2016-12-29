@@ -28,20 +28,26 @@ If you're going to launch it and charge someone (like, your rival band?), please
 
 ### Changelog
 - 1.0.1  [release notes](https://github.com/aric87/highland_member/releases/tag/v1.0.1)
+- 1.0.2
+    - make the things more responsive like
+    - add call, email, text to directory/ admin interface
+    - add preferred contact method field
+    - add "can text" field
+
 
 #### To-do List
 V1.1
-  * admin contact user interface (email, text etc.)
-  * public content:
+  [X] admin contact user interface (email, text etc.)
+  [ ] public content:
     - static pages
     - contact form
 
 V1.2
-  * photo gallery
-  * event registrations
+  [ ] photo gallery
+  [ ] event registrations
 
 V1.3
-  * public content:
+  [ ] public content:
     - insert based templates
     - dynamic nav based on turned on pages
     - give docs permissions and create doc view template

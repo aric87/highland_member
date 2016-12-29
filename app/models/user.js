@@ -16,6 +16,8 @@ var userSchema = mongoose.Schema({
         phone: String,
         active:{type:Boolean, default:true},
         role:{type:String},
+        primaryContactMethod:String,
+        acceptTexts:{type:Boolean, default:false},
         inDirectory: {type: Boolean, default: false},
         profileImage:{type:String, default:'/images/default.jpg'},
         freelance:{type:Boolean,default:false},

@@ -57,6 +57,9 @@ module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
             if(!params.bio){params.bio = user.bio || '';}
             if(!params.address){params.address = user.address || '';}
             if(!params.phone){params.phone = user.phone || '';}
+            if(!params.primaryContactMethod){params.primaryContactMethod = user.primaryContactMethod || '';}
+            if(!params.acceptTexts){params.acceptTexts = user.acceptTexts || '';}
+
             var p;
             if(req.files.profileimage.size){
               p = uploadFile(req.files.profileimage, profileImageDir+'/'+req.band.bandCode +'/profileImages' ).then((fileData) => {

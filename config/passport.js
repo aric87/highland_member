@@ -95,9 +95,12 @@ module.exports = function(passport, logger) {
                         newUser.bio = req.body.about || '';
                         newUser.phone = req.body.phone || '';
                         newUser.address = req.body.address || '';
+                        newUser.primaryContactMethod = req.body.primaryContactMethod || '';
                         newUser.inDirectory = req.body.inDirectory === 'true'? true : false;
                         newUser.band = req.band._id;
                         newUser.role = req.band.defaultStartRole;
+                        newUser.acceptTexts = req.body.acceptTexts || false;
+
                         var p;
                         if(req.files.profileimage.size){
                           p = uploadFile(req.files.profileimage, profileImageDir + "/" + req.band.bandCode + '/profileImages/').then((fileData) => {

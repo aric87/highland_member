@@ -26,6 +26,14 @@
                 <input type="text" class="form-control" name="address" placeholder="<optional>" {% if user.address %} value="{{user.address}}" {% endif %}>
             </div>
             <div class="form-group">
+                <label for="primaryContactMethod">Preferred Primary Contact Method</label>
+                <input type="text" class="form-control" name="primaryContactMethod" placeholder="Email or phone. Text or Call" {% if user.primaryContactMethod %} value="{{user.primaryContactMethod}}" {% endif %}>
+            </div>
+            <div class="form-group">
+                <label for="acceptTexts">Can members text you?</label>
+                <input type="checkbox" class="form-control" name="acceptTexts" {% if user.acceptTexts %} checked {% endif %}>
+            </div>
+            <div class="form-group">
                 <label for="phone">Phone</label>
                 <input type="text" class="form-control" name="phone" placeholder="<optional>" {% if user.phone %} value="{{user.phone}}" {% endif %}>
             </div>

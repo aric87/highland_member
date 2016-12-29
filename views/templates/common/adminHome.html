@@ -25,7 +25,11 @@
           {% for member in members %}
           <div class="col-xs-12 spaceBelow memberAdminFunctions">
             <h5><a href="/profile?id={{member.id}}" >{{member.name}}</a></h5>
-            <p class="col-xs-12 clearfix"><a href="mailto:member.email">{{member.email}}</a></p>
+            <p class="col-xs-12 clearfix"><a href="mailto:{{member.email}}">Email {{member.name}}</a></p>
+            {% if member.phone %}
+              <p class="col-xs-12 clearfix"><a href="tel:{{member.phone}}">Call {{member.name}} <small>(must be on a phone)</small></a></p>
+              <p class="col-xs-12 clearfix"><a href="sms:{{member.phone}}">Text {{member.name}} <small>(must be on a phone, not supported on all devices)</small></a></p>
+            {% endif %}
             <p class="col-xs-12 clearfix">Active Member: {{member.active}}</span> <a href="/toggleUser/{{member.id}}?action=active" class="pull-right asyncAction"><button class="btn btn-warning">Toggle Active Status</button></a></p>
             <p class="col-xs-12 clearfix">Website role: <span class="bool">{{member.role}}</span> <a href="/toggleUser/{{member.id}}?action=role&role=admin" class="pull-right asyncAction"><button class="btn btn-warning">Make Admin</button></a> &nbsp; <a href="/toggleUser/{{member.id}}?action=role&role=member" class="pull-right asyncAction"><button class="btn btn-warning">Make Member</button></a> &nbsp; <a href="/toggleUser/{{member.id}}?action=role&role=temp" class="pull-right asyncAction"><button class="btn btn-warning">Revoke Access</button></a></p>
           </div>

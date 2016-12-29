@@ -27,7 +27,7 @@ If you'd like to pull it down, and run it for your own band, I'd love that and y
 If you're going to launch it and charge someone (like, your rival band?), please be considerate. It was built with the intention of helping out small bands/ non-profits with admin tasks they may struggle with. As such, I'd appreciate that you only charge enough to cover your server space, and a small amount there after (meaning, you shouldn't make more than $20/ month).
 
 ### Changelog
-None at the moment
+- 1.0.1  [release notes](https://github.com/aric87/highland_member/releases/tag/v1.0.1)
 
 #### To-do List
 V1.1
@@ -35,7 +35,7 @@ V1.1
   * public content:
     - static pages
     - contact form
-    
+
 V1.2
   * photo gallery
   * event registrations

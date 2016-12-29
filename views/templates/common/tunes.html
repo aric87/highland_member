@@ -4,11 +4,11 @@
 
 {% block content %}
 <div class="col-sm-6 col-sm-offset-3">
-    <h2>Tune list {% if user.role == 'admin' %} <a href="/tunes/new" class="pull-right"><button class="btn btn-warning">Add Tune</button></a> {% endif %}</h2>
+    <h2>Tune list {% if user.role == 'admin' %} <a href="/members/tunes/new" class="pull-right"><button class="btn btn-warning">Add Tune</button></a> {% endif %}</h2>
     <p>Choose a tune to get the list of sheet music.</p>
     <ul class="list-unstyled">
 {% for item in tunes %}
-    <li><a href="/tunes/{{item.name}}">{{ item.name | title }}</a></li>
+    <li><a href="/members/tunes/{{item.name}}">{{ item.name | title }}</a></li>
 {% endfor %}
     </ul>
 </div>

@@ -9,7 +9,7 @@ var User = require('../models/user'),
     tunesUploadDir = process.env.DATADIR ? process.env.DATADIR : path.resolve(__dirname, '../../views/');
 
 module.exports = function (app, multipartyMiddleware, fs, logger) {
-    app.get('/events',isLoggedIn,(req, res, next)=>{
+    app.get('/members/events',isLoggedIn,(req, res, next)=>{
       var popEvents;
       if(!req.query.filter ||req.query.filter == 'future' ){
         var date = new Date(Date.now());
@@ -49,7 +49,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
           });
       });
     });
-    app.get('/events/new',isLoggedIn,(req, res, next)=>{
+    app.get('/members/events/new',isLoggedIn,(req, res, next)=>{
       Band.populate(req.band,[{path:'announcements',match:{'showPrivate':true,active:true}},{path:'venues'}], function (err, band) {
           if (err) {
             logger.error(` /music song find err: ${err}`);
@@ -64,7 +64,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
           });
       });
     });
-    app.post('/events/new',isLoggedIn, multipartyMiddleware,(req, res, next)=>{
+    app.post('/members/events/new',isLoggedIn, multipartyMiddleware,(req, res, next)=>{
         var ven = new Promise((resolve, reject)=>{
           if(req.body.venue == 'new'){
             var newVenue = {
@@ -119,14 +119,14 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
               if(err){
                 return next(err);
               }
-              res.redirect('/events');
+              res.redirect('/members/events');
             });
           });
         }).catch((err)=>{
           next(err);
         });
       });
-      app.get('/event/venue',isLoggedIn,(req, res, next)=>{
+      app.get('/members/event/venue',isLoggedIn,(req, res, next)=>{
         Band.populate(req.band,[{path:'announcements',match:{'showPrivate':true,active:true}},{path:'venues',match:{_id:req.query.id},populate:{path:'events'}}], function (err, band) {
             if (err) {
               logger.error(` /music song find err: ${err}`);
@@ -145,7 +145,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
         });
       });
 
-      app.get('/event/venue/edit',isLoggedIn,(req, res, next)=>{
+      app.get('/members/event/venue/edit',isLoggedIn,(req, res, next)=>{
         Band.populate(req.band,[{path:'announcements',match:{'showPrivate':true,active:true}},{path:'venues',match:{_id:req.query.id},populate:{path:'events'}}], function (err, band) {
             if (err) {
               logger.error(` /music song find err: ${err}`);
@@ -163,7 +163,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
             });
         });
       });
-      app.post('/event/venue/edit',isLoggedIn,(req, res, next)=>{
+      app.post('/members/event/venue/edit',isLoggedIn,(req, res, next)=>{
         Band.populate(req.band,[{path:'announcements',match:{'showPrivate':true,active:true}},{path:'venues',match:{_id:req.body.id},populate:{path:'events'}}], function (err, band) {
             if (err) {
               logger.error(` /music song find err: ${err}`);
@@ -182,12 +182,12 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
                 if(err){
                   return next(err)
                 }
-                  res.redirect(`/event/venue?id=${band.venues[0].id}`);
+                  res.redirect(`/members/event/venue?id=${band.venues[0].id}`);
               })
 
         });
       });
-      app.get('/event/eventDetail',isLoggedIn,(req, res, next)=>{
+      app.get('/members/event/eventDetail',isLoggedIn,(req, res, next)=>{
         Band.populate(req.band,[{path:'announcements',match:{'showPrivate':true,active:true}},{path:'venues', match:{_id:req.query.id},populate:{path:'events',match:{_id:req.query.event}}}], function (err, band) {
             if (err) {
               logger.error(` /music song find err: ${err}`);
@@ -203,7 +203,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
             });
         });
       });
-      app.get('/event/edit',isLoggedIn,(req, res, next)=>{
+      app.get('/members/event/edit',isLoggedIn,(req, res, next)=>{
         Band.populate(req.band,[{path:'announcements',match:{'showPrivate':true,active:true}},{path:'venues', match:{_id:req.query.id},populate:{path:'events',match:{_id:req.query.event}}}], function (err, band) {
             if (err) {
               logger.error(` /music song find err: ${err}`);
@@ -219,16 +219,12 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
             });
         });
       });
-      app.post('/event/edit',isLoggedIn,(req, res, next)=>{
+      app.post('/members/event/edit',isLoggedIn,(req, res, next)=>{
         Band.populate(req.band,[{path:'announcements',match:{'showPrivate':true,active:true}},{path:'venues', match:{_id:req.params.venueId},populate:{path:'events',match:{_id:req.params.eventId}}}], function (err, band) {
             if (err) {
               logger.error(` /music song find err: ${err}`);
               return next(err);
             }
-console.log(req.body.eventDate)
-console.log(new Date(req.body.eventDate))
-
-
             var event = band.venues[0].events[0];
             event.date = new Date(req.body.eventDate);
             event.uniform = req.body.eventUniform;
@@ -238,7 +234,7 @@ console.log(new Date(req.body.eventDate))
               if(err){
                 return next(err)
               }
-            res.redirect(`/event/eventDetail?id=${band.venues[0].id}&event=${band.venues[0].events[0].id}`);
+            res.redirect(`/members/event/eventDetail?id=${band.venues[0].id}&event=${band.venues[0].events[0].id}`);
             })
 
         });

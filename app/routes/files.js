@@ -9,7 +9,7 @@ var Document = require('../models/document'),
     var docsUploadDir = process.env.DATADIR ? process.env.DATADIR : path.resolve(__dirname, '../../views/');
 
 module.exports = function (app, multipartyMiddleware, logger) {
-    app.get('/documents', isLoggedIn, function (req, res, next) {
+    app.get('/members/documents', isLoggedIn, function (req, res, next) {
         Band.populate(req.band,[{path:'documents'},{path:'announcements',match:{'showPrivate':true,active:true}}],function (err, band) {
             if (err) {
                 logger.error(` get all documents error: ${err}`);
@@ -25,14 +25,14 @@ module.exports = function (app, multipartyMiddleware, logger) {
         });
       });
 
-    app.get('/documents/new', isLoggedIn,function (req, res) {
+    app.get('/members/documents/new', isLoggedIn,function (req, res) {
         res.render('common/addDocument', {
             band:req.band,
             active: 'documents',
             user:req.user
         });
     });
-    app.post('/documents/new', multipartyMiddleware, function (req, res, next) {
+    app.post('/members/documents/new', multipartyMiddleware, function (req, res, next) {
         let p = uploadFile(req.files.file, docsUploadDir+ '/'+ req.band.bandCode +'/docs/')
           .then((fileData)=>{
             Document.create({
@@ -49,7 +49,7 @@ module.exports = function (app, multipartyMiddleware, logger) {
                       logger.error(` new docs add to band error: ${err}`);
                       return next(err);
                   }
-                  res.redirect('/documents');
+                  res.redirect('/members/documents');
                 });
 
             });

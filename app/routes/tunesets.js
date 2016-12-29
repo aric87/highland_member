@@ -9,7 +9,7 @@ var User = require('../models/user'),
     tunesUploadDir = process.env.DATADIR ? process.env.DATADIR : path.resolve(__dirname, '../../views/');
 
 module.exports = function (app, multipartyMiddleware, fs, logger) {
-    app.get('/tunesets', isLoggedIn, function (req, res, next) {
+    app.get('/members/tunesets', isLoggedIn, function (req, res, next) {
         Band.populate(req.band,[{path:'tunesets'},{path:'announcements',match:{'showPrivate':true,active:true}}], function (err, band) {
             if (err) {
               logger.error(` /tunes song find err: ${err}`);
@@ -24,7 +24,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
             });
         });
     });
-    app.get('/tunesets/new', isLoggedIn, function (req, res) {
+    app.get('/members/tunesets/new', isLoggedIn, function (req, res) {
       Band.populate(req.band,{path:'songs'}, function (err, band) {
           if (err) {
             logger.error(` /tuneset song find err: ${err}`);
@@ -38,7 +38,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
           });
         });
     });
-    app.get('/tunesets/:name', isLoggedIn, function (req, res, next) {
+    app.get('/members/tunesets/:name', isLoggedIn, function (req, res, next) {
 
         Band.populate(req.band,[{path:'announcements',match:{showPrivate:true, active:true}}, {path:'tunesets',options: { limit: 1 },populate:{path:'songs'}}],function (err, band) {
             if (err) {
@@ -56,7 +56,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
 
     });
 
-    app.get('/tunesets/edit/:id', isLoggedIn, function (req, res, next) {
+    app.get('/members/tunesets/edit/:id', isLoggedIn, function (req, res, next) {
       Band.populate(req.band,[{path:'announcements',match:{showPrivate:true, active:true}},{path:'songs'}, {path:'tunesets',options: { limit: 1 },populate:{path:'songs'}}],function (err, band) {
           if (err) {
             logger.error(`tune get err: ${err}, name: ${req.params.name}`);
@@ -70,7 +70,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
           });
       });
     });
-    app.post('/tunesets', isLoggedIn, multipartyMiddleware, function (req, res, next) {
+    app.post('/members/tunesets', isLoggedIn, multipartyMiddleware, function (req, res, next) {
       var newSet = {
         name:req.body.name,
         tunes:[]
@@ -108,7 +108,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
                 logger.error(`tuneset update save err: ${err}, name: ${req.body.name}`);
                 return next(err);
               }
-              res.redirect('/tunesets/'+set.name);
+              res.redirect('/members/tunesets/'+set.name);
             });
           } else {
             if(values[1]){
@@ -129,7 +129,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
                   if(err){
                     logger.error(`add set save error ${err}`);
                   }
-                  res.redirect('/tunesets/'+set.name);
+                  res.redirect('/members/tunesets/'+set.name);
                 });
 
 

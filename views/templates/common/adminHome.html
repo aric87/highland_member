@@ -11,20 +11,20 @@
         <div class="alert alert-danger">{{ message }}</div>
         {% endif %}
 
-        <div class="col-xs-12"><h3 class="row spaceBelow"> Announcements <a href="/announcement/new" class="pull-right"><button class="btn btn-warning">New Announcement</button></a></h3>
+        <div class="col-xs-12"><h3 class="row spaceBelow"> Announcements <a href="/members/announcement/new" class="pull-right"><button class="btn btn-warning">New Announcement</button></a></h3>
         {% for an in announcements %}
         <div class="col-xs-12 spaceBelow">
-          <h5 class="clearfix"><a href="/announcement/edit?id={{an.id}}" >{{an.title}}</a><a href="/announcement/edit?id={{an.id}}&action=delete" class="pull-right asyncAction confirm"><button class="btn btn-warning">Delete</button></a></h5>
-          <p class="clearfix">Actively being shown: <span class="bool">{{an.active}}</span> <a href="/announcement/edit?id={{an.id}}&action=toggle&field=active" class="pull-right asyncAction"><button class="btn btn-warning">Toggle Active Status</button></a></p>
-          <p class="clearfix">Shown on public pages: <span class="bool">{{an.showPublic}}</span> <a href="/announcement/edit?id={{an.id}}&action=toggle&field=showpublic" class="pull-right asyncAction"><button class="btn btn-warning">Toggle Active Status</button></a></p>
-          <p class="clearfix">Shown on private pages: <span class="bool">{{an.showPrivate}}</span> <a href="/announcement/edit?id={{an.id}}&action=toggle&field=showprivate" class="pull-right asyncAction"><button class="btn btn-warning">Toggle Active Status</button></a></p>
+          <h5 class="clearfix"><a href="/members/announcement/edit?id={{an.id}}" >{{an.title}}</a><a href="/members/announcement/edit?id={{an.id}}&action=delete" class="pull-right asyncAction confirm"><button class="btn btn-warning">Delete</button></a></h5>
+          <p class="clearfix">Actively being shown: <span class="bool">{{an.active}}</span> <a href="/members/announcement/edit?id={{an.id}}&action=toggle&field=active" class="pull-right asyncAction"><button class="btn btn-warning">Toggle Active Status</button></a></p>
+          <p class="clearfix">Shown on public pages: <span class="bool">{{an.showPublic}}</span> <a href="/members/announcement/edit?id={{an.id}}&action=toggle&field=showpublic" class="pull-right asyncAction"><button class="btn btn-warning">Toggle Active Status</button></a></p>
+          <p class="clearfix">Shown on private pages: <span class="bool">{{an.showPrivate}}</span> <a href="/members/announcement/edit?id={{an.id}}&action=toggle&field=showprivate" class="pull-right asyncAction"><button class="btn btn-warning">Toggle Active Status</button></a></p>
         </div>
         {% endfor %}
         </div>
         <div class="col-xs-12"><h3 class="row spaceBelow"> Members </h3>
           {% for member in members %}
           <div class="col-xs-12 spaceBelow memberAdminFunctions">
-            <h5><a href="/profile?id={{member.id}}" >{{member.name}}</a></h5>
+            <h5><a href="/members/profile?id={{member.id}}" >{{member.name}}</a></h5>
             <p class="col-xs-12 clearfix">Preferred contact method: {{member.primaryContactMethod}}</p>
             <p class="col-xs-12 clearfix"><a href="mailto:{{member.email}}">Email {{member.name}}</a></p>
             {% if member.phone %}
@@ -33,8 +33,8 @@
                 <p class="col-xs-12 clearfix"><a href="sms:{{member.phone}}">Text {{member.name}} <small>(must be on a phone, not supported on all devices)</small></a></p>
               {% endif %}
             {% endif %}
-            <p class="col-xs-12 clearfix">Active Member: {{member.active}}</span> <a href="/toggleUser/{{member.id}}?action=active" class="pull-right asyncAction"><button class="btn btn-warning">Toggle Active Status</button></a></p>
-            <p class="col-xs-12 clearfix">Website role: <span class="bool">{{member.role}}</span> <a href="/toggleUser/{{member.id}}?action=role&role=admin" class="pull-right asyncAction"><button class="btn btn-warning">Make Admin</button></a> &nbsp; <a href="/toggleUser/{{member.id}}?action=role&role=member" class="pull-right asyncAction"><button class="btn btn-warning">Make Member</button></a> &nbsp; <a href="/toggleUser/{{member.id}}?action=role&role=temp" class="pull-right asyncAction"><button class="btn btn-warning">Revoke Access</button></a></p>
+            <p class="col-xs-12 clearfix">Active Member: <span class="bool">{{member.active}}</span> <a href="/members/toggleUser/{{member.id}}?action=active" class="pull-right asyncAction"><button class="btn btn-warning">Toggle Active Status</button></a></p>
+            <p class="col-xs-12 clearfix">Website role: <span class="bool">{{member.role}}</span> <a href="/members/toggleUser/{{member.id}}?action=role&role=admin" class="pull-right asyncAction"><button class="btn btn-warning">Make Admin</button></a> &nbsp; <a href="/members/toggleUser/{{member.id}}?action=role&role=member" class="pull-right asyncAction"><button class="btn btn-warning">Make Member</button></a> &nbsp; <a href="/members/toggleUser/{{member.id}}?action=role&role=temp" class="pull-right asyncAction"><button class="btn btn-warning">Revoke Access</button></a></p>
           </div>
           {% endfor %}
         </div>

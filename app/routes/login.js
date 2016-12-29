@@ -19,7 +19,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
     });
     // process the login form
     app.post('/login', passport.authenticate('local-login', {
-        successRedirect : '/profile', // redirect to the secure profile section
+        successRedirect : '/members/profile', // redirect to the secure profile section
         failureRedirect : '/', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
@@ -57,7 +57,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
                           logger.error(` signup post login user error: ${err}`);
                           return res.redirect('/');
                         }
-                        return res.redirect('/profile/');
+                        return res.redirect('/members/profile/');
                     });
                   } else {
                     req.flash('loginMessage','Your account has successfully been created. For security reasons, the band needs to enabled your account before you\'ll be able to access any of the member content.')
@@ -81,7 +81,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
     // LOGOUT ==============================
     app.get('/logout', function (req, res) {
         req.logout();
-        res.redirect('http://www.highlandlight.com/');
+        res.redirect('/');
     });
     app.get('/forgot', function (req, res) {
         res.render('common/forgot', {

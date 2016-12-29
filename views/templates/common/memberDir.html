@@ -13,7 +13,7 @@
             <ul class="list-unstyled">
                 {% for item in members %}
                   {% if item.inDirectory || user.role == 'admin' %}
-                  <li class="row"><a href="/profile?id={{item.id}}" class="col-sm-3 col-xs-12">{{item.name}}</a> <a href="mailto:{{item.email}}" class="col-sm-3 col-xs-11 col-xs-offset-1 col-sm-offset-0">Email</a> {% if item.phone %} <a href="tel:{{item.phone}}" class="col-sm-3 col-xs-11 col-xs-offset-1 col-sm-offset-0">Call</a> {% if item.acceptTexts %}<a href="sms:{{item.phone}}" class="col-sm-3 col-xs-11 col-xs-offset-1 col-sm-offset-0">Text</a> {% endif %}{% endif %}</li>
+                  <li class="row"><a href="/members/profile?id={{item.id}}" class="col-sm-3 col-xs-12">{{item.name}}</a> <a href="mailto:{{item.email}}" class="col-sm-3 col-xs-11 col-xs-offset-1 col-sm-offset-0">Email</a> {% if item.phone %} <a href="tel:{{item.phone}}" class="col-sm-3 col-xs-11 col-xs-offset-1 col-sm-offset-0">Call</a> {% if item.acceptTexts %}<a href="sms:{{item.phone}}" class="col-sm-3 col-xs-11 col-xs-offset-1 col-sm-offset-0">Text</a> {% endif %}{% endif %}</li>
                   {% else %}
                   <li>{{item.name}}</li>
                   {% endif %}

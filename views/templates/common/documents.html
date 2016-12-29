@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="col-sm-6 col-sm-offset-3">
-    <h2>Band Documents <a href="/documents/new" class="pull-right"><button class="btn btn-warning">Add Document</button></a></h2>
+    <h2>Band Documents <a href="/members/documents/new" class="pull-right"><button class="btn btn-warning">Add Document</button></a></h2>
     <ul class="list-unstyled">
         {% for item in documents %}
         <li>{{ item.name|title }} <a href="{{ item.file}}" target="_Blank">View in Browser</a> <a href="{{ item.file}}" download>Download</a></li>

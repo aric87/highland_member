@@ -7,7 +7,7 @@ var User = require('../models/user'),
     tunesUploadDir = process.env.DATADIR ? process.env.DATADIR : path.resolve(__dirname, '../../views/');
 
 module.exports = function (app, multipartyMiddleware, fs, logger) {
-    app.get('/music',isLoggedIn,(req, res, next)=>{
+    app.get('/members/music',isLoggedIn,(req, res, next)=>{
       Band.populate(req.band,[{path:'announcements',match:{'showPrivate':true,active:true}}], function (err, band) {
           if (err) {
             logger.error(` /music song find err: ${err}`);
@@ -21,7 +21,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
           });
       });
     });
-    app.get('/tunes', isLoggedIn, function (req, res, next) {
+    app.get('/members/tunes', isLoggedIn, function (req, res, next) {
         Band.populate(req.band,[{path:'songs'}, {path:'announcements',match:{'showPrivate':true,active:true}}],
           function (err, band) {
             if (err) {
@@ -37,14 +37,14 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
             });
         });
     });
-    app.get('/tunes/new', isLoggedIn, function (req, res) {
+    app.get('/members/tunes/new', isLoggedIn, function (req, res) {
         res.render('common/addTune', {
           band:req.band,
             active: 'tunes',
             user:req.user
         });
     });
-    app.post('/tunes', isLoggedIn, multipartyMiddleware, function (req, res, next) {
+    app.post('/members/tunes', isLoggedIn, multipartyMiddleware, function (req, res, next) {
       var newSong = {
         name:req.body.name
       };
@@ -83,7 +83,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
                 logger.error(`tune update save err: ${err}, name: ${req.body.name}`);
                 return next(err);
               }
-              res.redirect('/tunes/'+newSong.name);
+              res.redirect('/members/tunes/'+newSong.name);
             });
           } else {
             for(let i = 0, j=values.length;i<j;i++){
@@ -102,7 +102,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
                   if(err){
                     return next(err);
                   }
-                  res.redirect('/tunes/'+song.name);
+                  res.redirect('/members/tunes/'+song.name);
                 });
             });
           }
@@ -114,7 +114,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
 
     });
 
-    app.get('/tunes/:name', isLoggedIn, function (req, res, next) {
+    app.get('/members/tunes/:name', isLoggedIn, function (req, res, next) {
 
         Band.populate(req.band,[{path:'announcements',match:{showPrivate:true, active:true}}, {path:'songs',match:{name:req.params.name},options: { limit: 1 }}],function (err, band) {
             if (err) {
@@ -131,7 +131,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
 
     });
 
-    app.get('/tunes/edit/:id', isLoggedIn, function (req, res, next) {
+    app.get('/members/tunes/edit/:id', isLoggedIn, function (req, res, next) {
         Song.findOne({
             _id: req.params.id
         }, function (err, tune) {

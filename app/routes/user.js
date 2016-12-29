@@ -8,7 +8,7 @@ var path = require('path');
 var profileImageDir  = process.env.DATADIR ? process.env.DATADIR : path.resolve(__dirname, '../../views/');
 
 module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
-    app.get('/profile', isLoggedIn, function (req, res, next) {
+    app.get('/members/profile', isLoggedIn, function (req, res, next) {
       var message = "",
       user = req.user,
       mine = true,
@@ -48,7 +48,7 @@ module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
         }
       });
     });
-    app.post('/profile/edit', isLoggedIn, multipartyMiddleware, function(req, res, next){
+    app.post('/members/profile/edit', isLoggedIn, multipartyMiddleware, function(req, res, next){
             var user = req.user;
             var params = req.body;
             if(!params.email){params.email = user.email;}
@@ -99,11 +99,11 @@ module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
             }
     });
 
-    app.get('/profile/edit', isLoggedIn, function (req,res){
+    app.get('/members/profile/edit', isLoggedIn, function (req,res){
       res.render('common/signup',{band:req.band,user:req.user, active:'profile'});
 
     });
-    app.post('/toggleUser/:id', isLoggedIn, function(req, res, next){
+    app.post('/members/toggleUser/:id', isLoggedIn, function(req, res, next){
       User.findOne({_id:req.params.id},function(err, data){
         if(err){
           logger.error(`toggleUser user find err: ${err}, user: ${req.user.email}`);
@@ -135,7 +135,7 @@ module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
         });
       });
     });
-    app.post('/profile/imageClear', isLoggedIn, function(req, res){
+    app.post('/members/profile/imageClear', isLoggedIn, function(req, res){
         req.user.profileImage = '/images/default.jpg';
         req.user.save(function(err) {
             if (err){
@@ -146,7 +146,7 @@ module.exports = function(app, multipartyMiddleware, fs, logger, sender) {
         });
     });
 
-    app.get('/directory', isLoggedIn, function (req, res) {
+    app.get('/members/directory', isLoggedIn, function (req, res) {
       if(req.user.role !== 'admin' && req.user.role !== 'member'){
         return res.redirect('/profile');
       }

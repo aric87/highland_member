@@ -5,10 +5,10 @@ var {getAnnouncements} = require('../controllers/announcement');
 var {isLoggedIn} = require('../services');
 
 module.exports = function(app, logger) {
-    app.get('/admin', isLoggedIn, function (req, res) {
+    app.get('/members/admin', isLoggedIn, function (req, res) {
       if(req.user.role !== 'admin'){
         logger.warn(`${req.user.email} tried accessing admin endpoint`);
-        return res.redirect('/profile');
+        return res.redirect('/members/profile');
       }
       Band.populate(req.band,[{path:'announcements'},{path:'users'}],function(err,band){
         if(err){
@@ -19,19 +19,19 @@ module.exports = function(app, logger) {
 
       });
     });
-    app.get('/admin/edit', isLoggedIn, function (req, res) {
+    app.get('/members/admin/edit', isLoggedIn, function (req, res) {
       if(req.user.role !== 'admin'){
         logger.warn(`${req.user.email} tried accessing admin endpoint`);
-        return res.redirect('/profile');
+        return res.redirect('/members/profile');
       }
 
         res.render('common/adminEdit',{band:req.band,user:req.user});
 
     });
-    app.post('/admin/edit', isLoggedIn, function (req, res) {
+    app.post('/members/admin/edit', isLoggedIn, function (req, res) {
       if(req.user.role !== 'admin'){
         logger.warn(`${req.user.email} tried accessing admin endpoint`);
-        return res.redirect('/profile');
+        return res.redirect('/members/profile');
       }
       let {name, description, url, privateOnly, timezoneOffset, defaultStartRole, keywords, emailAdmins, email} = req.body;
 
@@ -49,13 +49,13 @@ module.exports = function(app, logger) {
           console.log(err)
         }
         console.log(band);
-        res.redirect('/admin');
+        res.redirect('/members/admin');
       })
     });
-    app.get('/announcement/edit', isLoggedIn, function (req, res) {
+    app.get('/members/announcement/edit', isLoggedIn, function (req, res) {
       if(req.user.role !== 'admin'){
         logger.warn(`${req.user.email} tried accessing ann. edit endpoint`);
-        return res.redirect('/profile');
+        return res.redirect('/members/profile');
       }
       var anp = new Promise((resolve, reject) => {
         Announcement.findOne({_id:req.query.id},(err,data) => {
@@ -74,10 +74,10 @@ module.exports = function(app, logger) {
 
       });
     });
-    app.post('/announcement/edit', isLoggedIn, function (req, res) {
+    app.post('/members/announcement/edit', isLoggedIn, function (req, res) {
       if(req.user.role !== 'admin'){
         logger.warn(`${req.user.email} tried accessing ann. edit endpoint`);
-        return res.redirect('/profile');
+        return res.redirect('/members/profile');
       }
       if(req.query.action === 'delete'){
 
@@ -143,23 +143,23 @@ module.exports = function(app, logger) {
         });
       });
       Promise.all([anp]).then(function(promData){
-        res.redirect('/admin');
+        res.redirect('/members/admin');
       }).catch(reason => {
         logger.error(`Ann. update promise err: ${reason} `);
-        res.redirect('/admin');
+        res.redirect('/members/admin');
       });
     });
-    app.get('/announcement/new', isLoggedIn, function (req, res) {
+    app.get('/members/announcement/new', isLoggedIn, function (req, res) {
       if(req.user.role !== 'admin'){
         logger.error(`Ann. new accessed by non admin:  ${req.user.email} `);
-        return res.redirect('/profile');
+        return res.redirect('/members/profile');
       }
         res.render('common/announcementEdit',{band:req.band,user:req.user});
       });
-    app.post('/announcement/new', isLoggedIn, function (req, res) {
+    app.post('/members/announcement/new', isLoggedIn, function (req, res) {
       if(req.user.role !== 'admin'){
         logger.error(`Ann. new post accessed by non admin:  ${req.user.email} `);
-        return res.redirect('/profile');
+        return res.redirect('/members/profile');
       }
       var newobj = {
         title:req.body.title,
@@ -189,7 +189,7 @@ module.exports = function(app, logger) {
         res.redirect('/admin');
       }).catch(reason => {
         logger.error(`Ann. create promise err: ${reason} `);
-        res.redirect('/admin');
+        res.redirect('/members/admin');
       });
     });
 };

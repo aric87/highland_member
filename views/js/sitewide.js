@@ -33,7 +33,7 @@ $(document).ready(function(){
    });
    $('.clearImage').click(function(e){
      e.preventDefault();
-     $.post('/profile/imageClear').then(function(data){
+     $.post('/members/profile/imageClear').then(function(data){
         $('#formProfileImage').attr('src','/images/default.jpg');
      });
    });

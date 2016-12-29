@@ -5,7 +5,7 @@
 {% block content %}
 <div class="col-sm-6 col-sm-offset-3">
 
-    <h2>{{venue.name}} {% if user.role == 'admin' %} <a href="/event/edit?id={{venue.id}}&event={{event.id}}" class="pull-right"><button class="btn btn-warning">Edit Event</button></a> {% endif %}</h2>
+    <h2>{{venue.name}} {% if user.role == 'admin' %} <a href="/members/event/edit?id={{venue.id}}&event={{event.id}}" class="pull-right"><button class="btn btn-warning">Edit Event</button></a> {% endif %}</h2>
     <p>Location: {{venue.location}}</p>
     <p>Address: {{venue.address}}</p>
     <p>Venue description: {{venue.description}}</p>

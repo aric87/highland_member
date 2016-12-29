@@ -5,7 +5,7 @@
 {% block content %}
 <div class="col-sm-6 col-sm-offset-3">
     <div class="well">
-        <form method="POST" action="/tunes" enctype="multipart/form-data">
+        <form method="POST" action="/members/tunes" enctype="multipart/form-data">
         {% if tune %}
         <input type="hidden" value="{{tune.id}}" name="songId"/>
         {% endif %}
@@ -20,7 +20,7 @@
         <label for="file">Full Audio: {% if tune.fullAudio %}<span class="sub">(<a target="_Blank" href="{{tune.fullAudio}}">View Current</a>)</span> {% endif %}<input type="file" name="fullAudio" /></label><br/>
         <label for="file">Pipe only Audio: {% if tune.pipeAudio %}<span class="sub">(<a target="_Blank" href="{{tune.pipeAudio}}">View Current</a>)</span> {% endif %}<input type="file" name="pipeAudio" /></label><br/>
         <label for="file">Drum Audio: {% if tune.drumAudio %}<span class="sub">(<a target="_Blank" href="{{tune.drumAudio}}">View Current</a>)</span> {% endif %}<input type="file" name="drumAudio" /></label><br/>
-        <label for="file">ractice Chanter Audio: {% if tune.practiceAudio %}<span class="sub">(<a target="_Blank" href="{{tune.practiceAudio}}">View Current</a>)</span> {% endif %}<input type="file" name="practiceAudio" /></label><br/>
+        <label for="file">Practice Chanter Audio: {% if tune.practiceAudio %}<span class="sub">(<a target="_Blank" href="{{tune.practiceAudio}}">View Current</a>)</span> {% endif %}<input type="file" name="practiceAudio" /></label><br/>
             <br/>
         <button type="submit" class="btn btn-primary">Update</button>
         </form>

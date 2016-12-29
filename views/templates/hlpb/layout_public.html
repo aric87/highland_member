@@ -1,67 +1,115 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="copyright" content="Copyright ©, {{band.name}}, All Rights Reserved"/>
-  <meta name="rating" content="General"/>
-  <meta name="robots" content="index,follow"/>
-  <meta name="distribution" content="global"/>
-  <meta http-equiv="Content-Style-Type" content="text/css"/>
-  <meta http-equiv="Content-Language" content="en-us"/>
-  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
-  <meta name="description" content="{{band.description}}">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- for facebook -->
-  <meta property="og:title" content="Highland Light Sottish Pipe Band"/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:description" content="{{band.description}}"/>
-  <!--end facebook -->
-  <!-- for twitter -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:url" content="{{band.url}}">
-  <meta name="twitter:description" content="{{band.description}}">
-  <!-- end twitter -->
-  <link rel="shortcut icon" href="/{{band.bandCode}}/static/logo.jpg" type="image/jpeg" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="copyright" content="Copyright ©, {{band.name}}, All Rights Reserved"/>
+<meta name="rating" content="General"/>
+<meta name="robots" content="index,follow"/>
+<meta name="distribution" content="global"/>
+<meta http-equiv="Content-Style-Type" content="text/css"/>
+<meta http-equiv="Content-Language" content="en-us"/>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+<meta name="description" content="{{band.description}}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- for facebook -->
+<meta property="og:title" content="{{band.name}}"/>
+<meta property="og:type" content="website"/>
+<meta property="og:description" content="{{band.description}}"/>
+<!--end facebook -->
+<!-- for twitter -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:url" content="{{band.url}}">
+<meta name="twitter:description" content="{{band.description}}">
+<!-- end twitter -->
+<meta property="og:title" content="{{band.name}}">
+<meta property="company_name" content="{{band.name}}">
+<meta property="company_url" content="{{band.url}}">
+<link rel="shortcut icon" href="/{{band.bandCode}}/static/logo.jpg" type="image/jpeg" />
 
-    <title>{% block title %}{{band.name}}{% endblock %}</title>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> <!-- load bootstrap css -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- load fontawesome -->
-    <link rel="stylesheet" href="/{{band.bandCode}}/static/member.css">
+  <title>{% block title %}{{band.name}}{% endblock %}</title>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> <!-- load bootstrap css -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- load fontawesome -->
+  <link rel="stylesheet" href="/{{band.bandCode}}/static/new.css">
 </head>
-<body>
-<style nonce="{{band.nonce}}">
-header{
-  background-image:url(/{{band.bandCode}}/static/header.jpeg);
-}
-  {% block custom_css %}{% endblock %}
-</style>
-<header>
-  {% if user %}
-      <nav>
-        <a {% if active == 'profile' %} class="active" {% endif %} href="/profile">My Profile</a><a {% if active == 'tunes' %} class="active" {% endif %} href="/music">Sheet Music</a><a {% if active == 'documents' %} class="active" {% endif %} href="/documents">Band Documents</a><a {% if active == 'directory' %} class="active" {% endif %} href="/directory">Member Directory</a>{% if user.role == 'admin' %}<a {% if active == 'admin' %} class="active" {% endif %} href="/admin">Admin</a>{% endif %}<a  href="/logout">Logout</a></nav>
+<body class="container-fluid">
+  <nav id="responsiveMainNav" class="navbar navbar-default navbar-fixed-top">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="home.html" >Home <span class="sr-only">(current)</span></a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="join.html" >Lessons/ Join</a></li>
+        <li><a href="events.html" >Events</a></li>
+        <li><a href="roster.html" >Roster</a></li>
+        <li><a href="hire.html" >Hire Us</a></li>
+        <li><a href="sponsor.html" >Sponsor Us</a></li>
+        <li><a href="repertoire.html" >Repetoire</a></li>
+        <li><a href="photo_gallery.html" >Photo Gallery</a></li>
+        <li><a href="contact.html" >Contact Us</a></li>
+        <li><a href="directions.html" >Practice Schedule & Location</a></li>
+        <li><a href="links.html">Links</a></li>
+
+      </ul>
+    </div>
+  </nav>
+  <header class="row">
+    <div class="wrap">
+      <a href="default.html">
+          <div id="headerArea" ><img src="bg-1-136852.jpeg?u=4105346730" height="228" alt="Highland Light Scottish Pipe Band - Cape Cod, Massachusetts" class="img-responsive"></div>
+      </a>
+    </div>
+  </header>
+  <main class="row">
+    <div class="wrap clearfix">
+      <nav class="col-xs-0 col-sm-3 ">
+        <ul id="desktop_nav" class="list-unstyled">
+          <li class="active"><a href="/" >Home <span class="sr-only">(current)</span></a></li>
+          <li><a href="/about.html">About Us</a></li>
+          <li><a href="/join.html" >Lessons/ Join</a></li>
+          <li><a href="/events.html" >Events</a></li>
+          <li><a href="/roster.html" >Roster</a></li>
+          <li><a href="/hire.html" >Hire Us</a></li>
+          <li><a href="/sponsor.html" >Sponsor Us</a></li>
+          <li><a href="/repertoire.html" >Repetoire</a></li>
+          <li><a href="/photo_gallery.html" >Photo Gallery</a></li>
+          <li><a href="/contact.html" >Contact Us</a></li>
+          <li><a href="/directions.html" >Practice Schedule & Location</a></li>
+          <li><a href="/links.html">Links</a></li>
+
+        </ul>
+      </nav>
+      <section class="col-xs-12 col-sm-9">
+        {% block announcement %}
+        {% if announcements.length %}
+          {% for item in announcements %}
+            <div class="col-xs-12 col-md-8 col-md-offset-2 alert alert-info">
+              <h3 class="text-bold">{{ item.title }}</h3>
+              <p>{{ item.content }}</p>
+            </div>
+          {% endfor %}
+
         {% endif %}
+        {% endblock %}
 
-</header>
-<div class="container-fluid">
-  <div class="col-xs-12 clearfix announcement">
-    {% block announcement %}
-    {% if announcements.length %}
-      {% for item in announcements %}
-        <div class="col-xs-12 col-md-8 col-md-offset-2 alert alert-info">
-          <h3 class="text-bold">{{ item.title }}</h3>
-          <p>{{ item.content }}</p>
-        </div>
-      {% endfor %}
-
-    {% endif %}
-    {% endblock %}
-  </div>
-  <div class="col-xs-12 mainContent">
-    {% block content %}{% endblock %}
-  </div>
-</div>
+        {% block content %}{% endblock %}
+      </section>
+    </div>
+  </main>
+  <footer>
+    <div class="wrap">
+      <p>&copy; Highland Light Scottish Pipe Band 2017</p>
+    </div>
+  </footer>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="/{{band.bandCode}}/static/custom.js"></script>
+<script src="/{{band.bandCode}}/static/public.js"></script>
 </body>
+
 </html>

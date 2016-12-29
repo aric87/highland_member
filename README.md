@@ -31,26 +31,25 @@ None at the moment
 
 #### To-do List
 V1.1
-* add bug report form
-* write cron for DB backups
-
+  * admin contact user interface (email, text etc.)
+  * public content:
+    - static pages
+    - contact form
+    
 V1.2
-* delete documents, venues, events, users
+  * photo gallery
+  * event registrations
 
 V1.3
-* public content:
-  - insert based templates
-  - dynamic nav based on turned on pages
-  - give docs permissions and create doc view template
-  - create tune list view
-  - public member directory
-  - contact form
+  * public content:
+    - insert based templates
+    - dynamic nav based on turned on pages
+    - give docs permissions and create doc view template
+    - create tune list view
+    - public member directory
 
-V1.4
-* uniform description checklist
 
-V1.5
-* photo gallery
-
-V1.5
-* event registrations
+Beyond
+  * delete documents, venues, events, users
+  * write cron for DB backups
+  * add bug report form

@@ -134,7 +134,8 @@ module.exports = function(app, logger) {
         showPrivate:req.body.showPrivate
       };
       var anp = new Promise((resolve, reject) => {
-        Announcement.findOneAndUpdate({id:req.params.id},newobj,(err,data) => {
+        console.log(req.body.annId);
+        Announcement.findOneAndUpdate({_id:req.body.annId},newobj,(err,data) => {
           if(err){
             logger.error(`Ann. update eget error: ${err}, id: ${req.query.id}, field: ${req.query.field} `);
             reject(err);

@@ -26,12 +26,13 @@
                 <input type="text" class="form-control" name="address" placeholder="<optional>" {% if user.address %} value="{{user.address}}" {% endif %}>
             </div>
             <div class="form-group">
-                <label for="primaryContactMethod">Preferred Primary Contact Method</label>
-                <input type="text" class="form-control" name="primaryContactMethod" placeholder="Email or phone. Text or Call" {% if user.primaryContactMethod %} value="{{user.primaryContactMethod}}" {% endif %}>
+                <label for="primaryContactMethod">Preferred Primary Contact Method:  &nbsp;</label>
+                <label for="choicePhone"><input type="radio" id="choicePhone" class="" name="primaryContactMethod" value="phone" {% if user.primaryContactMethod == "phone" %} checked {% endif %} required> Phone</label> &nbsp;
+                <label for="choiceEmail"><input type="radio" id="choiceEmail" class="" name="primaryContactMethod" value="email" {% if user.primaryContactMethod == "email" %} checked {% endif %} required> Email </label>
             </div>
             <div class="form-group">
-                <label for="acceptTexts">Can members text you?</label>
-                <input type="checkbox" class="form-control" name="acceptTexts" {% if user.acceptTexts %} checked {% endif %}>
+                <label for="acceptTexts" class="form-control"><input type="checkbox"  name="acceptTexts" {% if user.acceptTexts %} checked {% endif %}> Can members text you?</label>
+
             </div>
             <div class="form-group">
                 <label for="phone">Phone</label>
@@ -42,8 +43,7 @@
                 <label> <input type="radio" class="" name="inDirectory" value="true" {% if user.inDirectory %} checked {% endif %} > Show details in directory (Your name will always show)</label><br/>
             </div>
             <div class="form-group">
-                <label for="freelance" class="form-control">Interested in solo/freelance gigs
-                <input type="checkbox"  name="freelance" {% if user.freelance %} checked {% endif %}> </label>
+                <label for="freelance" class="form-control"> <input type="checkbox"  name="freelance" {% if user.freelance %} checked {% endif %}> Interested in solo/freelance gigs</label>
             </div>
             {% if !user %}
             <div class="form-group">

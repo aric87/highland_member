@@ -61,9 +61,11 @@
   </nav>
   <header class="row">
     <div class="wrap">
-      <a href="default.html">
-          <div id="headerArea" ><img src="bg-1-136852.jpeg?u=4105346730" height="228" alt="Highland Light Scottish Pipe Band - Cape Cod, Massachusetts" class="img-responsive"></div>
-      </a>
+      <a href="/" class='hide-xs col-sm-4'><img class="img-responsive" src="/hlpb/static/band.jpg" /></a>
+      <div id="headerArea" class='col-xs-12 col-sm-8 text-center'>
+        <h1>Highland Light Scottish Pipe Band</h1>
+        <h3>Cape Cod, Massachusetts</h3>
+      </div>
     </div>
   </header>
   <main class="row">
@@ -88,25 +90,57 @@
       <section class="col-xs-12 col-sm-9">
         {% block announcement %}
         {% if announcements.length %}
+          <div class="col-xs-12 alert alert-info">
           {% for item in announcements %}
-            <div class="col-xs-12 col-md-8 col-md-offset-2 alert alert-info">
+            <div class="col-xs-12 col-sm-6">
               <h3 class="text-bold">{{ item.title }}</h3>
               <p>{{ item.content }}</p>
             </div>
           {% endfor %}
-
+          </div>
         {% endif %}
         {% endblock %}
 
         {% block content %}{% endblock %}
       </section>
     </div>
+
   </main>
-  <footer>
+  <footer class="row">
     <div class="wrap">
-      <p>&copy; Highland Light Scottish Pipe Band 2017</p>
+      <div class="tartan col-xs-12"></div>
+      <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 clearfix text-center">
+        <h3>Highland Light Scottish Pipe Band</h3>
+        <p>We're a family oriented, 501-(C) 3 non-profit organization that has been thrilling audiences with the
+        traditional music and spectacle of the Great Highland Bagpipes and Drums since 1978.</p>
+        <p>Check out our <a href="/events">upcoming events</a> or find out about <a href="/join">joining</a> the band!</p>
+      </div>
+      <div class="divider col-xs-12 text-center">
+        <img src="/{{band.bandCode}}/static/logo.jpg" width="50" alt="">
+      </div>
+      <form action="/contact_form" class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+        <h3 class="col-xs-12 text-center">Contact the Band!</h3>
+        <div class="form-group col-xs-12 col-sm-6">
+          <label for="contact_name">Name</label>
+          <input type="text" name="contact_name" id="contact_name" required class="form-control">
+        </div>
+        <div class="form-group col-xs-12 col-sm-6">
+          <label for="contact_email">Contact email</label>
+          <input type="email" required name="contact_email" id="contact_email" class="form-control">
+        </div>
+        <div class="form-group col-xs-12">
+          <label for="contact_text">What can we help you with?</label>
+          <textarea name="contact_text" id="contact_text" class="form-control"></textarea>
+        </div>
+        <div class="form-group col-xs-12 text-center"><button class="btn btn-primary">Send!</button></div>
+      </form>
+      <div class="col-xs-12 text-center">
+        <h6>Ceud Mile Failte</h6>
+        <p>&copy; Highland Light Scottish Pipe Band 2017</p>
+      </div>
     </div>
   </footer>
+  <div class="tartan row"></div>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="/{{band.bandCode}}/static/public.js"></script>

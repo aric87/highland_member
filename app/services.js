@@ -23,7 +23,7 @@ var isLoggedIn = (req, res, next) => {
     } else {
       logger.warn(`req.auth failed. no user, \n path: ${req.path} band: ${req.band._id}`);
     }
-    res.redirect('/');
+    res.redirect('/login');
   };
 
 exports.isLoggedIn = isLoggedIn;

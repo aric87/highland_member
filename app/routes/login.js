@@ -6,12 +6,6 @@ var {emailAdmins, emailuser} = require('../controllers/user');
 var {isLoggedIn} = require('../services');
 
 module.exports = function (app, passport, async, crypto, sender, multipartyMiddleware, logger) {
-    app.get('/',function(req, res, next){
-      if(req.band.privateOnly){
-        return res.redirect('/login');
-      }
-      res.render(`templates/${req.band.bandCode}/public_content`,{band:req.band})
-    });
     app.get('/login', function (req, res) {
         getAnnouncements(req.band.id,'public').then(function(announcements){
           res.render('common/login', {band:req.band, message:req.flash('loginMessage'),announcements:announcements });

@@ -39,6 +39,7 @@ module.exports = function publicRoutes(app, logger) {
 			res.render(`${req.band.bandCode}/${req.params.slug}`, {
 				band: req.band,
 				announcements: band.announcements,
+				page: req.params.slug.toLowerCase(),
 			})
 			);
 	});

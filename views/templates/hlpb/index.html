@@ -1,0 +1,39 @@
+{% extends 'layout_public.html' %} {% block title %}{{band.name}} Home{% endblock %}
+{% block content %}
+<article>
+	<h3 class="text-center">More than 38 years of great music!</h3>
+	<div class="text-center">
+	<img src="/{{band.bandCode}}/static/images/0_0_0_0_567_380_csupload_66124547.jpg?u=3849446330" alt="full band Image" class="image-responsive borderedImage"/></div>
+	<p>Founded in 1978, Highland&nbsp;Light is the oldest pipe band on Cape Cod. The band is available for hire as a Full Band Mini Band or can refer Individual Pipers and Drummers.</p>
+	<p>HLSPB welcomes new members, either experienced pipers and drummers or those looking to learn. Both bagpipe lessons and drum lessons are offered to prospective members over the age of 8.</p>
+</article>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<article class="clearfix">
+	<div class="col-xs-12 col-sm-6 col-md-4">
+	<img src="{{band.bandCode}}/static/images/0_0_0_0_204_363_csupload_68728651.jpg?u=23188109" alt="Best Pipe Band 2016 Cape Code St. Patty's day trophy" class="image-responsive" /></div>
+	<div class="col-xs-12 col-sm-6 col-md-8">
+		<h4>Best Pipe Band 2016</h4>
+		<h5>Cape Cod Saint Patrick's Day Parade</h5>
+	</div>
+</article>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<article class="text-center">
+	<h3>In Memoriam: </h3>
+	<h5>Highland Light Scottish Pipe Band Members</h5>
+	<ul class="list-unstyled">
+		<li>
+			<h4>William Hamilton</h4>
+			<p>- 2012</p>
+		</li>
+		<li>
+			<h4>Rev. Dr. William Pierson Barker</h4>
+			<p>February 14, 1927- July 8, 2012</p>
+		</li>
+		<li>
+			<h4>Walter McKenna</h4>
+			<p>- 2012</p>
+		</li>
+	</ul>
+</article>
+
+ {% endblock %}

@@ -27,11 +27,21 @@
 <link rel="shortcut icon" href="/{{band.bandCode}}/static/logo.jpg" type="image/jpeg" />
 
   <title>{% block title %}{{band.name}}{% endblock %}</title>
+	<link href="https://fonts.googleapis.com/css?family=Ledger" rel="stylesheet">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> <!-- load bootstrap css -->
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- load fontawesome -->
   <link rel="stylesheet" href="/{{band.bandCode}}/static/new.css">
 </head>
-<body class="container-fluid">
+<body class="container-fluid {{ page || 'home' }}">
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+
   <nav id="responsiveMainNav" class="navbar navbar-default navbar-fixed-top">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -43,25 +53,25 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="home.html" >Home <span class="sr-only">(current)</span></a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="join.html" >Lessons/ Join</a></li>
-        <li><a href="events.html" >Events</a></li>
-        <li><a href="roster.html" >Roster</a></li>
-        <li><a href="hire.html" >Hire Us</a></li>
-        <li><a href="sponsor.html" >Sponsor Us</a></li>
-        <li><a href="repertoire.html" >Repetoire</a></li>
-        <li><a href="photo_gallery.html" >Photo Gallery</a></li>
-        <li><a href="contact.html" >Contact Us</a></li>
-        <li><a href="directions.html" >Practice Schedule & Location</a></li>
-        <li><a href="links.html">Links</a></li>
+        <li class="active"><a href="home" >Home <span class="sr-only">(current)</span></a></li>
+        <li><a href="about">About Us</a></li>
+        <li><a href="join" >Lessons/ Join</a></li>
+        <li><a href="events" >Events</a></li>
+        <li><a href="roster" >Roster</a></li>
+        <li><a href="hire" >Hire Us</a></li>
+        <li><a href="sponsor" >Sponsor Us</a></li>
+        <li><a href="repetoire" >Repertoire</a></li>
+        <li><a href="photo_gallery" >Photo Gallery</a></li>
+        <li><a href="contact" >Contact Us</a></li>
+        <li><a href="directions" >Practice Schedule & Location</a></li>
+        <li><a href="links">Links</a></li>
 
       </ul>
     </div>
   </nav>
-  <header class="row">
+  <header class="row ">
     <div class="wrap">
-      <a href="/" class='hide-xs col-sm-4'><img class="img-responsive" src="/hlpb/static/band.jpg" /></a>
+      <a href="/" class='hidden-xs col-sm-4'><img class="img-responsive" src="/hlpb/static/band.jpg" /></a>
       <div id="headerArea" class='col-xs-12 col-sm-8 text-center'>
         <h1>Highland Light Scottish Pipe Band</h1>
         <h3>Cape Cod, Massachusetts</h3>
@@ -69,21 +79,21 @@
     </div>
   </header>
   <main class="row">
-    <div class="wrap clearfix">
+    <div class="wrap clearfix contentWrap">
       <nav class="col-xs-0 col-sm-3 ">
-        <ul id="desktop_nav" class="list-unstyled">
-          <li class="active"><a href="/" >Home <span class="sr-only">(current)</span></a></li>
-          <li><a href="/about.html">About Us</a></li>
-          <li><a href="/join.html" >Lessons/ Join</a></li>
-          <li><a href="/events.html" >Events</a></li>
-          <li><a href="/roster.html" >Roster</a></li>
-          <li><a href="/hire.html" >Hire Us</a></li>
-          <li><a href="/sponsor.html" >Sponsor Us</a></li>
-          <li><a href="/repertoire.html" >Repetoire</a></li>
-          <li><a href="/photo_gallery.html" >Photo Gallery</a></li>
-          <li><a href="/contact.html" >Contact Us</a></li>
-          <li><a href="/directions.html" >Practice Schedule & Location</a></li>
-          <li><a href="/links.html">Links</a></li>
+        <ul id="desktop_nav" class="list-unstyled row">
+          <li {% if page == 'home' || page == '' %}class="active" {% endif %}><a href="/" >Home <span class="sr-only">(current)</span></a></li>
+          <li {% if page == 'about' %}class="active" {% endif %} ><a href="/about">About Us</a></li>
+          <li {% if page == 'join' %}class="active" {% endif %} ><a href="/join" >Lessons/ Join</a></li>
+          <li {% if page == 'events' %}class="active" {% endif %} ><a href="/events" >Events</a></li>
+          <li {% if page == 'roster' %}class="active" {% endif %} ><a href="/roster" >Roster</a></li>
+          <li {% if page == 'hire' %}class="active" {% endif %} ><a href="/hire" >Hire Us</a></li>
+          <li {% if page == 'sponsor' %}class="active" {% endif %} ><a href="/sponsor" >Sponsor Us</a></li>
+          <li {% if page == 'repetoire' %}class="active" {% endif %} ><a href="/repetoire" >Repertoire</a></li>
+          <li {% if page == 'photo_gallery' %}class="active" {% endif %} ><a href="/photo_gallery" >Photo Gallery</a></li>
+          <li {% if page == 'contact' %}class="active" {% endif %} ><a href="/contact" >Contact Us</a></li>
+          <li {% if page == 'directions' %}class="active" {% endif %} ><a href="/directions" >Practice Schedule & Location</a></li>
+          <li {% if page == 'links' %}class="active" {% endif %} ><a href="/links">Links</a></li>
 
         </ul>
       </nav>
@@ -103,41 +113,48 @@
 
         {% block content %}{% endblock %}
       </section>
+			<div class="facebook_slider hidden-xs">
+					<a href="https://www.facebook.com/pages/Highland-Light-Scottish-Pipe-Band/" target="_blank">
+						<img src="/images/fb-tab.png">
+					</a>
+				<div class="fb-page" data-href="https://www.facebook.com/Highland-Light-Scottish-Pipe-Band-141947404537" data-tabs="timeline" data-small-header="false" data-width="500" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/Highland-Light-Scottish-Pipe-Band-141947404537" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/Highland-Light-Scottish-Pipe-Band-141947404537">Highland Light Scottish Pipe Band</a></blockquote></div>
+			</div>
     </div>
 
   </main>
-  <footer class="row">
-    <div class="wrap">
-      <div class="tartan col-xs-12"></div>
-      <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 clearfix text-center">
-        <h3>Highland Light Scottish Pipe Band</h3>
-        <p>We're a family oriented, 501-(C) 3 non-profit organization that has been thrilling audiences with the
-        traditional music and spectacle of the Great Highland Bagpipes and Drums since 1978.</p>
-        <p>Check out our <a href="/events">upcoming events</a> or find out about <a href="/join">joining</a> the band!</p>
+	<footer class="row">
+       <div class="tartan col-xs-12"></div>
+    <div class="foot col-xs-12">
+      <div class="col-xs-12 col-sm-5 leftHalf clearfix text-center">
+          <h3>Highland Light Scottish Pipe Band</h3>
+          <p>We're a family oriented, 501-(C) 3 non-profit organization that has been thrilling audiences with the
+          traditional music and spectacle of the Great Highland Bagpipes and Drums since 1978.</p>
+          <p>Check out our <a href="/events">upcoming events</a> or find out about <a href="/join">joining</a> the band!</p>
       </div>
-      <div class="divider col-xs-12 text-center">
-        <img src="/{{band.bandCode}}/static/logo.jpg" width="50" alt="">
-      </div>
-      <form action="/contact-form" id="contactForm" class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+      <div class="col-sm-2 col-xs-12 text-center"><img class="logo" src="/{{band.bandCode}}/static/logo.jpg" width="80" alt=""></div>
+      <div class="col-xs-12 col-sm-5 rightHalf">
         <h3 class="col-xs-12 text-center">Contact the Band!</h3>
-        <div class="form-group col-xs-12 col-sm-6">
-          <label for="contact_name">Name</label>
-          <input type="text" name="contact_name" id="contact_name" required class="form-control">
-        </div>
-        <div class="form-group col-xs-12 col-sm-6">
-          <label for="contact_email">Contact email</label>
-          <input type="email" required name="contact_email" id="contact_email" class="form-control">
-        </div>
-        <div class="form-group col-xs-12">
-          <label for="contact_text">What can we help you with?</label>
-          <textarea name="contact_text" id="contact_text" class="form-control"></textarea>
-        </div>
-        <div class="form-group col-xs-12 text-center"><button class="btn btn-primary">Send!</button></div>
-      </form>
-      <div class="col-xs-12 text-center">
-        <h6>Ceud Mile Failte</h6>
-        <p>&copy; Highland Light Scottish Pipe Band 2017</p>
+        <form action="/contact_form">
+          <div class="form-group col-xs-12 col-md-6">
+            <label for="contact_name">Name</label>
+            <input type="text" name="contact_name" id="contact_name" required class="form-control">
+          </div>
+          <div class="form-group col-xs-12 col-md-6">
+            <label for="contact_email">Email</label>
+            <input type="email" required name="contact_email" id="contact_email" class="form-control">
+          </div>
+          <div class="form-group col-xs-12">
+            <label for="contact_text">What can we help you with?</label>
+            <textarea name="contact_text" id="contact_text" class="form-control"></textarea>
+          </div>
+          <div class="form-group col-xs-12 text-center"><button class="btn btn-primary">Send!</button></div>
+        </form>
       </div>
+      <div class="col-sm-1 hidden-xs"></div>
+    </div>
+    <div class="col-xs-12 text-center">
+      <h4>Ceud Mile Failte</h4>
+      <p class="copyright">&copy; Highland Light Scottish Pipe Band 2017</p>
     </div>
   </footer>
   <div class="tartan row"></div>

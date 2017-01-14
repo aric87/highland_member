@@ -7,6 +7,7 @@ const messageData = (sendTo, subject, text) => {
     'sendTo':sendTo,
     'subject':subject,
     'text':text,
+		'highland':true,
     'slackOption':false
   };
 };

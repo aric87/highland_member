@@ -22,7 +22,7 @@ module.exports = function publicRoutes(app, logger) {
 	});
 
 	app.get('/:slug', (req, res, next) => {
-
+		logger.info(`req.band.publicPages: ${req.band.publicPages} slug ${req.params.slug}`)
 		if (req.band.publicPages.indexOf(req.params.slug.toLowerCase()) < 0) {
 			return next();
 		}

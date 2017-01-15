@@ -1,13 +1,18 @@
 <style nonce="{{band.nonce}}">
-header{
-  background-image:url(/{{band.bandCode}}/static/header.jpeg);
-}
+
   {% block custom_css %}{% endblock %}
 </style>
-<header>
-  {% if user %}
-      <nav>
-        <a {% if active == 'profile' %} class="active" {% endif %} href="/members/profile">My Profile</a><a {% if active == 'events' %} class="active" {% endif %} href="/members/events">Events</a><a {% if active == 'tunes' %} class="active" {% endif %} href="/members/music">Sheet Music</a><a {% if active == 'documents' %} class="active" {% endif %} href="/members/documents">Band Documents</a><a {% if active == 'directory' %} class="active" {% endif %} href="/members/directory">Member Directory</a>{% if user.role == 'admin' %}<a {% if active == 'admin' %} class="active" {% endif %} href="/members/admin">Admin</a>{% endif %}<a  href="/logout">Logout</a></nav>
-    {% endif %}
-
+  <link rel="stylesheet" href="/{{band.bandCode}}/static/new.css">
+<header class="row ">
+	<div class="wrap">
+		<a href="/" class='hidden-xs col-sm-4'><img class="img-responsive" src="/hlpb/static/band.jpg" /></a>
+		<div id="headerArea" class='col-xs-12 col-sm-8 text-center'>
+			<h1>Highland Light Scottish Pipe Band</h1>
+			<h3>Cape Cod, Massachusetts</h3>
+		</div>
+	</div>
+	{% if user %}
+			<nav>
+				<a {% if active == 'profile' %} class="active" {% endif %} href="/members/profile">My Profile</a><a {% if active == 'events' %} class="active" {% endif %} href="/members/events">Events</a><a {% if active == 'tunes' %} class="active" {% endif %} href="/members/music">Sheet Music</a><a {% if active == 'documents' %} class="active" {% endif %} href="/members/documents">Band Documents</a><a {% if active == 'directory' %} class="active" {% endif %} href="/members/directory">Member Directory</a>{% if user.role == 'admin' %}<a {% if active == 'admin' %} class="active" {% endif %} href="/members/admin">Admin</a>{% endif %}<a  href="/logout">Logout</a></nav>
+		{% endif %}
 </header>

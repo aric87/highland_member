@@ -43,7 +43,7 @@ module.exports = function(app, logger) {
       req.band.defaultStartRole = defaultStartRole;
       req.band.email = email;
       req.band.emailAdmins = emailAdmins;
-      req.band.publicPages = publicPages.split(', ');
+      req.band.publicPages = publicPages.split(',');
 
       req.band.save(function(err,band){
         if(err){

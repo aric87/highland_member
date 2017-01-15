@@ -1,24 +1,32 @@
-var User       = require('../models/user'),
-  Document = require('../models/document'),
-  Announcement = require('../models/announcement');
-var {getAnnouncements} = require('../controllers/announcement');
-var {isLoggedIn} = require('../services');
+const Announcement = require('../models/announcement');
+const Band = require('../models/band');
+const { isLoggedIn } = require('../services');
 
-module.exports = function(app, logger) {
-    app.get('/members/admin', isLoggedIn, function (req, res) {
-      if(req.user.role !== 'admin'){
-        logger.warn(`${req.user.email} tried accessing admin endpoint`);
-        return res.redirect('/members/profile');
-      }
-      Band.populate(req.band,[{path:'announcements'},{path:'users'}],function(err,band){
-        if(err){
-          logger.error(`admin promise err: ${reason} `);
-          res.render('common/adminHome',{band:req.band,user:req.user,message: `There was an error ${reason}`, announcements:'',members:''});
-        }
-        res.render('common/adminHome',{band:req.band,user:req.user,announcements: band.announcements,members:band.users});
-
-      });
-    });
+module.exports = function adminRoutes(app, logger) {
+	app.get('/members/admin', isLoggedIn, (req, res) => {
+		if (req.user.role !== 'admin') {
+			logger.warn(`${req.user.email} tried accessing admin endpoint`);
+			return res.redirect('/members/profile');
+		}
+		Band.populate(req.band, [{ path: 'announcements' }, { path: 'users' }], (err, band) => {
+			if (err) {
+				logger.error(`admin promise err: ${err} `);
+				return res.render('common/adminHome', {
+					band: req.band,
+					user: req.user,
+					message: `There was an error ${err}`,
+					announcements: '',
+					members: '',
+				});
+			}
+			return res.render('common/adminHome', {
+				band: req.band,
+				user: req.user,
+				announcements: band.announcements,
+				members: band.users,
+			});
+		});
+	});
     app.get('/members/admin/edit', isLoggedIn, function (req, res) {
       if(req.user.role !== 'admin'){
         logger.warn(`${req.user.email} tried accessing admin endpoint`);

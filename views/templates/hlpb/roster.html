@@ -1,9 +1,9 @@
 {% extends 'layout_public.html' %} {% block title %}Who's who in the {{band.name}}{% endblock %} {% block content %}
-<h3>Meet the band</h3>
-<img src="/{{band.bandCode}}/static/images/0_0_0_0_672_504_csupload_53442765.jpg?u=74619084" width="672" height="504" />
+<h2>Meet the band</h2>
+<img src="/{{band.bandCode}}/static/images/0_0_0_0_672_504_csupload_53442765.jpg?u=74619084" class="image-responsive borderedImage" alt="Lead by the drum major, the Highland Light Scottish pipe band marches down the street during a summer parade performance." />
 <div class="row">
 	<div class="col-sm-6 col-xs-12">
-		<h4>Pipers</h4>
+		<h3>Pipers</h3>
 		<ul class="list-unstyled">
 			<li>Sheldon Hamblin – Pipe Major</li>
 			<li>Anne O'Donnell – Pipe Sergeant</li>
@@ -24,7 +24,7 @@
 		</ul>
 	</div>
 	<div class="col-xs-12 col-sm-6">
-		<h4>Drummers</h4>
+		<h3>Drummers</h3>
 		<ul class="list-unstyled">
 			<li>Al Hoyt, snare,bass - Drum Major</li>
 			<li>Doug Brown, snare – Drum Sergeant</li>
@@ -42,8 +42,8 @@
 <div>
 
 <p>*Competing member of the Grade 3, 2016 WORLD CHAMPIONS! <a href="http://wkpb.org/">Worcester Kiltie Pipe Band.</a> (We saw her cry on the BBC)</p>
-<img src="/{{band.bandCode}}/static/images/0_0_0_0_280_210_csupload_53471815.jpg?u=2270145313" width="280" height="210" id="ctrl-1758358" alt="" />
-<img src="/{{band.bandCode}}/static/images/0_0_0_0_325_433_csupload_53472005.jpg?u=1985602476" width="325" height="433" >
+<img src="/{{band.bandCode}}/static/images/0_0_0_0_280_210_csupload_53471815.jpg?u=2270145313" class="image-responsive borderedImage" alt="Three generations of Bagpipers play with the Highland Light." />
+<img src="/{{band.bandCode}}/static/images/0_0_0_0_325_433_csupload_53472005.jpg?u=1985602476" class="image-responsive borderedImage" alt="The drummers of the Highland Light performing outside a local south-eastern Massachusetts pub">
 </div>
 <div class="text-center">
 <h4>Executive Board and Band Officers</h4>
@@ -64,7 +64,6 @@
  <p>The band meets year round to rehearse both drill and music. Many band members also
   prepare for solo competition at nearby Highland games.</p>
 
-<p>HLSPB wears the Ancient Hunting Stewart tartan.</p>
 </div>
 
  {% endblock %}

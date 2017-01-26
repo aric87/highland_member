@@ -1,222 +1,304 @@
-{% extends 'layout_public.html' %} {% block title %}{{band.name}} Home{% endblock %} {% block content %} 
+{% extends 'layout_public.html' %} {% block title %}{{band.name}} Home{% endblock %} {% block content %}
 <h3>2017 Event Schedule</h3>
-<img src="/{{band.bandCode}}/static/images/0_0_0_0_171_103_csupload_53442729.jpg?u=355658241" width="171" height="103" id="ctrl-1381412" alt="" title="" >
+<div class="text-center">
+<img src="/{{band.bandCode}}/static/images/events_header.jpg" alt="The Highland Light Pipe Band circled up to palay a slow air during a parade." class="borderedImage" title="The Highland Light Pipe Band circled up to palay a slow air during a parade." />
+</div>
 <p>Event date and times are updated as soon as organizers post them. Some dates may be projected based on previous years schedules. (?) Denotes dates that have not been posted by the organizers yet. </p>
+<div class="calendarOfEvents">
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>Jan. 21 6:00 PM</p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>Robert Burns dinner</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>Double Tree Hotel, Hyannis, MA<br>
+				Follow the <a href="https://www.facebook.com/scotsoncapecod/">Highland Light Scottish Society</a> on Facebook</p>
+			</div>
+	</div>
 
-        <table align="Center" id="ctrl-1381427" cellspacing="0" cellpadding="0" width="715px" style="background-color:rgb(192, 229, 209);border:2px solid rgb(17, 18, 66);border-spacing:0px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;height:1153px;width:715px;">
-            <tbody>
-                <tr style="min-height: 1em;background-color:rgb(150, 211, 178);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;">
-                        <div>&nbsp;<span class="text-class-3">January 21-6:00 PM Robert Burns dinner</span><br></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;">
-                        <div>&nbsp;Double Tree Hotel, Hyannis, MA&nbsp;<br></div>
-                        <div>Follow the Highland Light Scottish Society on Facebook</div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;">
-                        <div>&nbsp;<span class="text-class-3">March 4 - Cape Cod St. Patrick's parade</span><br></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;">
-                        <div>&nbsp;Intersection of Long Pond &amp; Route 28 Yarmouth<br></div>
-                        <div>&nbsp;<a href="http://capecodstpatsparade.com" target="_blank" class="userlink">capecodstpatsparade.com</a></div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';width:295px;">
-                        <div><span class="text-class-27">March &nbsp;19 - 1:00 PM Abington St. Patrick's Day Parade &nbsp;&nbsp;</span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';width:412px;">
-                        <div><span class="text-class-27">Abington, MA</span></div>
-                        <div><span class="text-class-27">&nbsp; <a href="http://www.eddiebaileysgarage.comgpage.html" class="userlink">http://www.eddiebaileysgarage.comgpage.html</a></span></div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;">
-                        <div><span class="text-class-27">&nbsp;April 1- NH Indoor Games COMPETITION</span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;">
-                        <div>Nashua High School, Nashua, NH</div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';width:295px;">
-                        <div><span class="text-class-27">&nbsp;May 6(?) - 1:00PM Brewster In Bloom Parade&nbsp;</span></div>
-                        <div><span class="text-class-27"><br></span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';width:412px;"><span class="text-class-27">&nbsp;Main Street, Brewster, MA<br>&nbsp;<a href="http://www.brewster-capecod.com/brewsterblooms/" class="userlink">http://www.brewster-capecod.com/brewsterblooms/</a></span></td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;">
-                        <div><span class="text-class-27">&nbsp;May 25th- 4:00 PM Cape Cod Community College Commencement ceremony</span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;">
-                        <div>Cape Cod Melody Tent, West End Rotary, Hyannis</div>
-                        <div><a href="http://www.capecod.edu" class="userlink">www.capecod.edu</a></div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';width:295px;">
-                        <div><span class="text-class-27">&nbsp;May 28 - 1:00 PM Nantucket Memorial Day Parade</span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';width:412px;"><span class="text-class-27">&nbsp;Nantucket, MA</span></td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';width:295px;">
-                        <div><span class="text-class-28">May 29 - 9:00 AM Centerville Memorial Day Parade</span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';width:412px;">
-                        <div><span class="text-class-27">&nbsp;Centerville, MA</span></div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;width:295px;">
-                        <div><span class="text-class-28">&nbsp;June 10 - Rhode Island COMPETITION</span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;width:412px;">
-                        <div><span class="text-class-27">&nbsp;Rhode Island Highland Games</span></div>
-                        <div><span class="text-class-27"><br></span></div>
-                        <div><span class="text-class-27">&nbsp; <a href="http://www.riscot.org" class="userlink">http://www.riscot.org</a></span></div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';width:295px;">
-                        <div><span class="text-class-27">&nbsp;June 24(?) - 2:00 PM Provincetown Portuguese Festival Parade</span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';width:412px;">
-                        <div><span class="text-class-27">Commercial Street, Provincetown, MA</span></div>
-                        <div>&nbsp;<a href="http://provincetownportuguesefestival.com" class="userlink">http://provincetownportuguesefestival.com</a></div>
-                        <div><br></div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';width:295px;">
-                        <div><span class="text-class-27">July 4th - 9:00 AM Chatham Independence Day Parade</span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';width:412px;"><span class="text-class-27">&nbsp;Main Street, Chatham, MA<br>&nbsp;<a href="http://www.chathamparade.com" target="_blank" class="userlink">www.chathamparade.com</a></span></td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;">
-                        <div><span class="text-class-27">&nbsp;July 15 -&nbsp;</span><span class="text-class-29">Glasgowlands Scottish Festival &nbsp;COMPETITION</span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;">
-                        <div>&nbsp;Look Park, Northampton, MA</div>
-                        <div><a href="http://www.glasgowlands.org" target="_blank" class="userlink">www.glasgowlands.org</a></div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';width:295px;">
-                        <div><span class="text-class-27">July (?)- 7:00 pm Pilgrim Congregational Church, UCC - Concert</span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';width:412px;">
-                        <div><span class="text-class-27">&nbsp;Pilgrim Congregational Church, UCC, Harwichport, MA&nbsp; <a href="http://www.pilgrimchurchharwichport.com" class="userlink">http://www.pilgrimchurchharwichport.com</a>&nbsp; </span></div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;width:291px;">
-                        <div><span class="text-class-27">&nbsp;Aug 19 - Maine COMPETITION</span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;width:416px;">
-                        <div><span class="text-class-27">&nbsp;Topsham Fairgrounds, Topsham, ME</span></div>
-                        <div><span class="text-class-27">&nbsp;<a href="http://www.mainehighlandgames.org/" class="userlink">http://www.mainehighlandgames.org/</a></span></div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;width:289px;">
-                        <div><span class="text-class-27">&nbsp;Aug 26 (?)-Vermont COMPETITION</span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;width:418px;">
-                        <div><span class="text-class-27">&nbsp;Polo Grounds, Quechee, VT</span></div>
-                        <div><span class="text-class-27">&nbsp;<a href="http://www.quecheescottishfestival.com/" class="userlink">http://www.quecheescottishfestival.com/</a></span></div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';width:285px;">
-                        <div><span class="text-class-27">September &nbsp;10 - 1:00 PM Eastham WindMill Parade</span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';width:422px;">
-                        <div><span class="text-class-27">&nbsp;Route 6A, Eastham, MA</span></div>
-                        <div><span class="text-class-27">&nbsp; <a href="http://www.easthamwindmillweekend.com/events" class="userlink">http://www.easthamwindmillweekend.com/events</a></span></div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';width:283px;">
-                        <div><span class="text-class-27">Sept 15,16,17 - New Hampshire Highland Games COMPETITION</span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';width:424px;">
-                        <div><span class="text-class-27">&nbsp;Loon Mountain, NH</span></div>
-                        <div><span class="text-class-27">&nbsp; <a href="http://www.nhscot.org/" class="userlink">http://www.nhscot.org/</a></span></div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;">
-                        <div><span class="text-class-27">&nbsp;October 8 - 1:00 PM Yarmouth Seaside Parade</span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;">
-                        <div><span class="text-class-27">&nbsp;Route 28 Yarmouth&nbsp;</span></div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';width:279px;">
-                        <div><span class="text-class-27">&nbsp;November 11th - 11:00 AM New Bedford Veterans Day Parade</span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';width:428px;">
-                        <div><span class="text-class-27">New Bedford, MA&nbsp;</span></div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;width:277px;">
-                        <div><span class="text-class-27">&nbsp;November 18 - 9:00 AM America's hometown celebration parade</span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;width:430px;">
-                        <div><span class="text-class-27">&nbsp;Court Street, Plymouth, MA</span></div>
-                        <div><span class="text-class-27"><a href="http://www.usathanksgiving.com" class="userlink">http://www.usathanksgiving.com</a></span></div>
-                        <div><span class="text-class-27"><br></span></div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;">
-                        <div><span class="text-class-27">&nbsp;December &nbsp;- 12:00 PM Falmouth Christmas Parade</span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;">
-                        <div><span class="text-class-27">&nbsp;Falmouth, MA</span></div>
-                        <div><span class="text-class-27">&nbsp; <a href="http://www.falmouthchamber.org" target="_blank" class="userlink">www.falmouthchamber.org</a></span></div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;width:275px;">
-                        <div><span class="text-class-27">&nbsp;December 31 - &nbsp;7:00 PM Sandwich First Night</span></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;width:425px;">
-                        <div><span class="text-class-27">&nbsp;175 Main Street, Sandwich, MA</span></div>
-                        <div><span class="text-class-27">&nbsp;<a href="http://www.firstnightsandwich.org" target="_blank" class="userlink">www.firstnightsandwich.org</a></span></div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;">
-                        <div>&nbsp;<br></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;">
-                        <div>&nbsp;<br></div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-right-color:rgb(17, 18, 66);border-style:none solid solid none;border-width:0px 2px 2px 0px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;">
-                        <div>&nbsp;<br></div>
-                    </td>
-                    <td style="border-bottom-color:rgb(17, 18, 66);border-style:none none solid;border-width:0px 0px 2px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;">
-                        <div>&nbsp;<br></div>
-                    </td>
-                </tr>
-                <tr style="min-height: 1em;background-color:rgb(192, 229, 209);">
-                    <td style="border-right-color:rgb(17, 18, 66);border-style:none solid none none;border-width:0px 2px 0px 0px;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;">
-                        <div>&nbsp;<br></div>
-                    </td>
-                    <td style="border:0px none;color:rgb(46, 48, 146);font-family:'times new roman';font-size:16px;">
-                        <div>&nbsp;<br></div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+</div>
+
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>March 4</p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>Cape Cod St. Patrick's parade</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>Intersection of Long Pond &amp; Route 28 Yarmouth<br/>
+				<a href="http://capecodstpatsparade.com" target="_blank" class="userlink">capecodstpatsparade.com</a></p>
+			</div>
+	</div>
+
+</div>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>March&nbsp;19 1:00 PM </p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>Abington St. Patrick's Day Parade</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>Abington, MA: Check out the parade details on<a href="https://www.facebook.com/Abington-St-Patricks-Day-Parade-123884187683407/" class="userlink">facebook</a></p>
+			</div>
+	</div>
+
+</div>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>April 1</p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>NH Indoor Games COMPETITION</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>Hosted by the <a href="http://nhssa.org/">New Hampshire School of Scottish Arts </a><br/>
+					Nashua High School, Nashua, NH</p>
+			</div>
+	</div>
+
+</div>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>May 6(?) 1:00PM </p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>Brewster In Bloom Parade</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>Main Street, Brewster, MA<br>&nbsp;See all the other <a href="http://www.brewster-capecod.com/brewsterblooms/" class="userlink">blooming things</a> in Brewster</p>
+			</div>
+	</div>
+
+</div>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>May 25th 4:00 PM</p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4><a href="http://www.capecod.edu" class="userlink">Cape Cod Community College</a> Commencement</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p><a href="http://www.melodytent.org/">Cape Cod Melody Tent</a>, West End Rotary, Hyannis <br/></p>
+			</div>
+	</div>
+
+</div>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>May 28 1:00 PM</p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>Nantucket Memorial Day Parade</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>Nantucket, MA</p>
+			</div>
+	</div>
+
+</div>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>May 29 9:00 AM</p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>Centerville Memorial Day Parade</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>Centerville, MA</p>
+			</div>
+	</div>
+
+</div>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>June 10</p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>Rhode Island COMPETITION</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p><a href="http://www.riscot.org" class="userlink">Rhode Island Highland Games</a></p>
+			</div>
+	</div>
+
+</div>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>June 24(?) - 2:00 PM</p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4><a href="http://provincetownportuguesefestival.com" class="userlink">Provincetown Portuguese Festival</a> Parade</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>Commercial Street, Provincetown, MA</p>
+			</div>
+	</div>
+
+</div>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>July 4th 9:00 AM</p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>Chatham Independence Day Parade</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>Main Street, Chatham, MA<br> The best way to <a href="http://www.chathamparade.com" target="_blank" class="userlink">celebrate your 4th</a></p>
+			</div>
+	</div>
+
+</div>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>July 15</p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>Glasgowlands Scottish Festival COMPETITION</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>Look Park, Northampton, MA<br/>
+				Come see us compete in our only <a href="http://www.glasgowlands.org" target="_blank" class="userlink">highland games in MA</a></p>
+			</div>
+	</div>
+
+</div>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>July (?) 7:00 pm</p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>Pilgrim Congregational Church, UCC - Concert</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>Pilgrim Congregational Church, UCC, Harwichport, MA <a href="http://www.pilgrimchurchharwichport.com" class="userlink">http://www.pilgrimchurchharwichport.com</a></p>
+			</div>
+	</div>
+
+</div>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>Aug 19</p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>Maine COMPETITION</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>Topsham Fairgrounds, Topsham, ME <br/>
+				Hosted be the <a href="http://www.mainehighlandgames.org/" class="userlink">St. Andrews Society of Maine</a></p>
+			</div>
+	</div>
+
+</div>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>Aug 26 (?)</p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>Vermont COMPETITION</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>Polo Grounds, Quechee, VT</p>
+			</div>
+	</div>
+
+</div>
+
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>September 10 1:00 PM</p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>Eastham Windmill Parade</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>Route 6A, Eastham, MA <br/>  Make it a weekend, and don't get <a href="http://www.easthamwindmillweekend.com/events" class="userlink">blown away by the windmill</a></p>
+			</div>
+	</div>
+
+</div>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>Sept 15,16,17</p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>New Hampshire Highland Games COMPETITION</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>Loon Mountain, NH</span></div>
+				<div>New England's biggest highland games, where we'll <a href="http://www.nhscot.org/" class="userlink">compete against the biggest pool of bands.</a> We play on Saturday.</p>
+			</div>
+	</div>
+
+</div>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>October 8 1:00 PM</p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>Yarmouth Seaside Parade</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>Route 28 Yarmouth</p>
+			</div>
+	</div>
+
+</div>
+
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>November 11th 11:00 AM</p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>New Bedford Veterans Day Parade</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>New Bedford, MA</p>
+			</div>
+	</div>
+
+</div>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>November 18 9:00 AM</p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>America's hometown celebration parade</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>Court Street, Plymouth, MA<a href="http://www.usathanksgiving.com" class="userlink">Bagpipes, Turkey's and a whole lot of friends!</a></p>
+			</div>
+	</div>
+
+</div>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>December  12:00 PM</p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>Falmouth Christmas Parade</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>Falmouth, MA</p>
+			</div>
+	</div>
+
+</div>
+<div class="clearfix spacer"><hr class="col-xs-6 col-xs-offset-3"></div>
+<div class="row">
+	<div class="col-xs-4 col-sm-2 dateCol">
+		<p>December 31 7:00 PM </p>
+	</div>
+	<div class="col-xs-8 col-sm-10">
+			<div class="col-xs-12 col-md-6"><h4>Sandwich First Night</h4></div>
+			<div class="col-xs-12 col-md-6">
+				<p>175 Main Street, Sandwich, MA <a href="http://www.firstnightsandwich.org" target="_blank" class="userlink">www.firstnightsandwich.org</a></p>
+			</div>
+	</div>
+
+</div>
+
+</div>
     {% endblock %}

@@ -21,7 +21,7 @@
             </ul>
         </div>
     </div>
-{% user.role == 'admin' %}
+{% if user.role == 'admin' %}
 <h3>Members Interested in Solo Work</h3>
 		<div class="col-md-6 col-md-offset-3 col-xs-12">
         <div class="well">

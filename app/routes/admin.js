@@ -195,7 +195,7 @@ module.exports = function adminRoutes(app, logger) {
         });
       });
       Promise.all([anp]).then(function(promData){
-        res.redirect('/admin');
+        res.redirect('/members/admin');
       }).catch(reason => {
         logger.error(`Ann. create promise err: ${reason} `);
         res.redirect('/members/admin');

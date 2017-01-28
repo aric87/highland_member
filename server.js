@@ -101,10 +101,10 @@ app.use('*', (req, res, next) => {
 	});
 });
 app.use(express.static('views'));
-// if (process.env.DATADIR) {
-	app.get(`${req.band.bandCode}/tunes/:slug`, isLoggedIn, (req, res, next) => next());
+if (process.env.DATADIR) {
 	app.use(express.static(process.env.DATADIR));
-// }
+	app.use(process.env.DATADIR, isLoggedIn, (req, res, next) => next());
+}
 // routes ======================================================================
 require('./app/routes/public.js')(app, logger);
 require('./app/routes/login.js')(app, passport, async, crypto, sender, multipartyMiddleware, logger); // load our routes and pass in our app and fully configured passport

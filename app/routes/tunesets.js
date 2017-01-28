@@ -40,7 +40,7 @@ module.exports = function (app, multipartyMiddleware, fs, logger) {
     });
     app.get('/members/tunesets/:name', isLoggedIn, function (req, res, next) {
 
-        Band.populate(req.band,[{path:'announcements',match:{showPrivate:true, active:true}}, {path:'tunesets',options: { limit: 1 },populate:{path:'songs'}}],function (err, band) {
+        Band.populate(req.band,[{path:'announcements',match:{showPrivate:true, active:true}}, {path:'tunesets', match:{name:req.params.name}, options: { limit: 1 },populate:{path:'songs'}}],function (err, band) {
             if (err) {
               logger.error(`tune get err: ${err}, name: ${req.params.name}`);
                 return next(err);

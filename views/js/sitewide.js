@@ -37,10 +37,11 @@ $(document).ready(function(){
         $('#formProfileImage').attr('src','/images/default.jpg');
      });
    });
-   var addTuneContents = $('#tuneSelectorContainer').html();
+   var addTuneContents = $('#tuneSelectorContainer label:first').clone();
    $('#addAnotherTune').click(function(e){
      e.preventDefault();
-     $('#tuneSelectorContainer').append(addTuneContents);
+     $('#tuneSelectorContainer').append(addTuneContents.clone());
+	      $('#tuneSelectorContainer').append('<br/>');
    });
    $('.removeTuneFromSet').click(function(e){
      e.preventDefault();

@@ -32,6 +32,13 @@
           {% endfor %}
         </select>
           </label><br/>
+					<label for="tune" class="tuneSelector">Choose A Tune: <select name="tune"/>
+            <option value=""></option>
+          {% for tune in tunes %}
+          <option value="{{tune.id}}">{{tune.name}}</option>
+          {% endfor %}
+        </select>
+          </label><br/>
         </div>
         <br/>
         <br/>

@@ -100,11 +100,14 @@ app.use('*', (req, res, next) => {
 		return next();
 	});
 });
+app.get('/:band/tunes/:tune', isLoggedIn, (req, res, next) => next());
+app.get('/:band/docs/:doc', isLoggedIn, (req, res, next) => next());
+app.get('/:band/profileImages/:doc', isLoggedIn, (req, res, next) => next());
 app.use(express.static('views'));
 if (process.env.DATADIR) {
 	app.use(express.static(process.env.DATADIR));
-	app.use(process.env.DATADIR, isLoggedIn, (req, res, next) => next());
 }
+
 // routes ======================================================================
 require('./app/routes/public.js')(app, logger);
 require('./app/routes/login.js')(app, passport, async, crypto, sender, multipartyMiddleware, logger); // load our routes and pass in our app and fully configured passport

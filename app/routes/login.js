@@ -14,7 +14,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
     // process the login form
     app.post('/login', passport.authenticate('local-login', {
         successRedirect : '/members/profile', // redirect to the secure profile section
-        failureRedirect : '/', // redirect back to the signup page if there is an error
+        failureRedirect : '/login', // redirect back to the signup page if there is an error
         failureFlash : true // allow flash messages
     }));
     // SIGNUP =================================
@@ -32,7 +32,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
               }
             if (!user) {
               logger.error(` signup post no user: ${user}`);
-              return res.redirect('/');
+              return res.redirect('/login');
             }
             let text = 'You are receiving this because you (or someone else) have created an account on Highland Light\'s member page.\n\n' +
             'Your account has been created, however you will not be able to access anything on the site besides your profile until your account has been approved. \n\n Naturally, we want to keep band stuff super secret. We hope you understand.' +
@@ -49,13 +49,13 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
                     req.logIn(user, function (err) {
                         if (err) {
                           logger.error(` signup post login user error: ${err}`);
-                          return res.redirect('/');
+                          return res.redirect('/login');
                         }
                         return res.redirect('/members/profile/');
                     });
                   } else {
                     req.flash('loginMessage','Your account has successfully been created. For security reasons, the band needs to enabled your account before you\'ll be able to access any of the member content.')
-                    return res.redirect('/');
+                    return res.redirect('/login');
                   }
                 });
               }).catch((err)=>{
@@ -66,7 +66,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
                     }
                     logger.warn('bad user email account removed');
                     req.flash('loginMessage','There was a problem sending the welcome email do to an error with the email address you signed up with. This account has been removed. Contact the system admin to correct problem');
-                    return res.redirect('/');
+                    return res.redirect('/login');
                 });
 
               });
@@ -201,7 +201,7 @@ module.exports = function (app, passport, async, crypto, sender, multipartyMiddl
             if(err){
               logger.error(` waterfall reset post err: ${err}`);
             }
-            res.redirect('/');
+            res.redirect('/login');
         });
     });
 };

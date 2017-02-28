@@ -129,7 +129,7 @@ app.post('/report-violation', (req, res) => {
 app.get('*', (req, res) => res.status(404).render('common/404', { band: req.band, user: req.user }));
 
 app.use((err, req, res) => {
-	logger.error(`uncaught error: ${err.toString} , \n req.path: ${req.path}`);
+	logger.error(`uncaught error: ${err.toString()} , \n req.path: ${req.path}`);
 	return res.status(500).json({ error: 'Something went wrong' }).end();
 });
 

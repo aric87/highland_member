@@ -1,0 +1,20 @@
+{% extends './default.html' %}
+{% import '../common/pages/new.html' as newPage %}
+{% import '../common/pages/pageList.html' as pageList %}
+
+{% block title %}{{client.name}} {{page}}{% endblock %}
+{% block MacroPage %}
+
+{% if page == 'new' %}
+	{{ newPage.newPage('col-xs-12','<h1>New Page</h1>', '') }}
+{% endif %}
+
+{% if page == 'edit' %}
+	{{ newPage.newPage('col-xs-12','<h1>Edit the '+ pageContent.name +' Page</h1>', pageContent) }}
+{% endif %}
+
+{% if page == 'list' %}
+	{{ pageList.pageList('col-xs-12','<h1>Page list</h1>', pageContent) }}
+{% endif %}
+
+{% endblock %}

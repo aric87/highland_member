@@ -1,0 +1,8 @@
+{% extends 'layout_public.html' %}
+{% block title %}{{band.name}} directions{% endblock %}
+{% block content %}
+<style>
+{{ page.css | safe }}
+</style>
+{{page.content | safe}}
+{% endblock %}

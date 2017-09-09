@@ -10,6 +10,7 @@ const emailAdmins = function emailAdmins(subject, content, band) {
 				Band.populate(band, { path: 'users', match: { role: 'admin' } }, (err, filledBand) => {
 					if (err) {
 						logger.error(`an error occured in the email admin function: ${err}`);
+						logger.error(`email admin message was: ${content}`)
 						rej(err);
 					}
 					if (!filledBand.users.length) {
@@ -27,9 +28,11 @@ const emailAdmins = function emailAdmins(subject, content, band) {
 				sendMessage(mailOptions, (err) => {
 					if (err) {
 						logger.error(`email admin email  err: ${err}`);
+						logger.error(`email admin message was: ${content}`)
 						reject(err);
 					}
 					logger.warn('email all admins for new user');
+					logger.error(`email admin message was: ${content}`)
 					resolve();
 				});
 			}).catch((err) => {
@@ -40,9 +43,11 @@ const emailAdmins = function emailAdmins(subject, content, band) {
 			sendMessage(mailOptions, (err) => {
 				if (err) {
 					logger.error(` email band email  err: ${err}`);
+					logger.error(`email admin message was: ${content}`)
 					reject(err);
 				}
 				logger.warn('email band only for new user');
+				logger.error(`email admin message was: ${content}`)
 				resolve();
 			});
 		}

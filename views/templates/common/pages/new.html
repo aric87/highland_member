@@ -1,0 +1,51 @@
+{% macro newPage(containerClass, heading, pageContent) %}
+<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+ <script>tinymce.init({
+	 selector:'#tinyHere',
+ 	plugins: "code image",
+  toolbar: 'undo redo | styleselect | bold italic | link image alignleft aligncenter alignright | code insert',
+  menubar: "edit insert format tools image",
+});</script>
+<div class="{{containerClass}}">
+    <!-- show any messages that come back with authentication -->
+    {% if message.length > 0 %}
+    <div class="alert alert-danger">{{ message }}</div>
+    {% endif %}
+	{{heading | safe}}
+	 {% if pageContent %}
+		 	<div class="col-xs-12">
+					<form action="/members/admin/pages/{{pageContent.url}}" method="POST" class="pull-right" onsubmit="if(!confirm('Are you sure you want to delete this page?')){return false;}">
+						<input type="hidden" value="delete" name="action">
+						<button type="submit" class="btn btn-danger pull-right">Delete this Page</button>
+					</form>
+			</div>
+		{% endif %}
+		<form method='POST' {% if pageContent %}action="/members/admin/pages/{{pageContent.url}}" {% else %} action="/members/admin/pages/new" {% endif %}>
+				<input type="hidden" value="update" name="action">
+				{% if pageContent %}<input type="hidden" value="{{pageContent.id}}" name="id">{% endif %}
+		    <div class="form-group">
+		        <label>Name</label>
+		        <input type="text" class="form-control" name="name" {% if pageContent %} value="{{pageContent.name}}"{% endif %} required placeholder="Title of the page">
+		    </div>
+				<div class="form-group">
+		        <label>Url</label>
+		        <input type="text" class="form-control" name="url" {% if pageContent %} value="{{pageContent.url}}"{% endif %}required placeholder="Navigation link">
+		    </div>
+				<div class="form-group">
+		        <label>Content</label>
+						<textarea name="content" id="tinyHere" class="form-control" >{% if pageContent %} {{pageContent.content}}{% endif %}</textarea>
+		    </div>
+				<div class="form-group">
+		        <label>Page CSS</label>
+						<textarea name="page_css" class="form-control" >{% if pageContent.page_css %}{{pageContent.page_css}}{% endif %}</textarea>
+		    </div>
+				<div class="form-group">
+		        <label class="form-control">Active:   <input type="checkbox"  {% if pageContent.active %} checked {% endif %} name="active" ></label>
+		    </div>
+
+		    <button type="submit" class="btn btn-warning btn-lg">Submit</button>
+
+		</form>
+    <hr>
+</div>
+{% endmacro %}

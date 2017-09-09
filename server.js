@@ -87,6 +87,7 @@ app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.set('views', `${__dirname}/views/templates`);
 app.use('*', (req, res, next) => {
+	req.headers.band  = 'hlpb';
 	if (!req.headers.band) {
 		return next(new Error('No band in header'));
 	}
@@ -96,7 +97,6 @@ app.use('*', (req, res, next) => {
 			return next(new Error(err));
 		}
 		req.band = band;
-		req.band.nonce = res.locals.nonce;
 		return next();
 	});
 });
@@ -117,6 +117,7 @@ require('./app/routes/files.js')(app, multipartyMiddleware, logger);
 require('./app/routes/tunes.js')(app, multipartyMiddleware, fs, logger);
 require('./app/routes/tunesets.js')(app, multipartyMiddleware, fs, logger);
 require('./app/routes/events.js')(app, multipartyMiddleware, fs, logger);
+require('./app/routes/cms.js')(app, multipartyMiddleware, fs, logger);
 
 app.post('/report-violation', (req, res) => {
 	if (req.body) {
@@ -127,9 +128,22 @@ app.post('/report-violation', (req, res) => {
 	return res.status(204).end();
 });
 app.get('*', (req, res) => res.status(404).render('common/404', { band: req.band, user: req.user }));
+app.post('*', (req, res) => res.status(404).render('common/404', { band: req.band, user: req.user }));
 
 app.use((err, req, res) => {
-	logger.error(`uncaught error: ${err.toString()} , \n req.path: ${req.path}`);
+	for (var key in err){
+		let tempErr = err[key]
+		if(typeof tempErr === "object"){
+			for (var innerKey in tempErr)
+			{
+				logger.error(`uncaught error: ${tempErr[innerKey]} , \n req.path: {req.path}`);
+			}
+		} else {
+			logger.error(`uncaught error: ${tempErr} , \n req.path: {req.path}`);
+		}
+
+	}
+
 	return res.status(500).json({ error: 'Something went wrong' }).end();
 });
 

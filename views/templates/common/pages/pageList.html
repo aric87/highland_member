@@ -1,0 +1,13 @@
+{% macro pageList(containerClass, heading, pageContent) %}
+<div class="{{containerClass}}">
+    <!-- show any messages that come back with authentication -->
+    {% if message.length > 0 %}
+    <div class="alert alert-danger">{{ message }}</div>
+    {% endif %}
+	{{heading | safe}}
+	<ul>
+	{% for page in pageContent %}
+	<li><a href="/members/admin/pages/{{page.url}}">{{page.name}}</a></li>
+	{% endfor %}
+	</ul>
+{% endmacro %}

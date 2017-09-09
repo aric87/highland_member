@@ -22,9 +22,7 @@ module.exports = function publicRoutes(app, logger) {
 	});
 
 	app.get('/:slug', (req, res, next) => {
-		if (req.band.publicPages.indexOf(req.params.slug.toLowerCase()) < 0) {
-			return next();
-		}
+
 		if (req.band.privateOnly) {
 			return res.redirect('/login');
 		}
@@ -33,15 +31,31 @@ module.exports = function publicRoutes(app, logger) {
 			match: {
 				showPublic: true,
 				active: true,
-			},
+			}
+		},{
+			path: 'contentPages',
+			match :{
+				url: req.params.slug
+			}
 		}];
-		Band.populate(req.band, populationQuery, (err, band) =>
-			res.render(`${req.band.bandCode}/${req.params.slug}`, {
-				band: req.band,
-				announcements: band.announcements,
-				page: req.params.slug.toLowerCase(),
-			})
-			);
+		Band.populate(req.band, populationQuery, (err, band) =>{
+			if(band.contentPages.length && band.contentPages[0].active){
+				return res.render(`${req.band.bandCode}/dbContentPageTemplate.html`, {
+					band: req.band,
+					announcements: band.announcements,
+					page:band.contentPages[0],
+				})
+				// return DB page
+			} else if (req.band.publicPages.indexOf(req.params.slug.toLowerCase()) < 0) {
+				return next();
+			} else {
+				return res.render(`${req.band.bandCode}/${req.params.slug}`, {
+					band: req.band,
+					announcements: band.announcements,
+					page: req.params.slug.toLowerCase(),
+				})
+			}
+		});
 	});
 	app.post('/contact-form', (req, res) => {
 		const subject = 'A new submission from your contact form';

@@ -5,6 +5,7 @@ const Tuneset = require('./tuneset');
 const Document = require('./document');
 const Announcement = require('./announcement');
 const Venue = require('./venue');
+const Page = require('./page');
 
 const Schema = mongoose.Schema;
 const BandSchema = new mongoose.Schema({
@@ -18,6 +19,7 @@ const BandSchema = new mongoose.Schema({
 	privateOnly: Boolean,
 	timezoneOffset: Number,
 	publicPages: [String],
+	contentPages:[{ type: Schema.Types.ObjectId, ref: 'Page' }],
 	emailAdmins: { type: String, default: 'allAdmins' },
 	songs: [{ type: Schema.Types.ObjectId, ref: 'Song' }],
 	users: [{ type: Schema.Types.ObjectId, ref: 'User' }],

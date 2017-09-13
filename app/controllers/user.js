@@ -25,31 +25,28 @@ const emailAdmins = function emailAdmins(subject, content, band) {
 		if (p) {
 			p.then((returnedAdmins) => {
 				const mailOptions = messageData(returnedAdmins, subject, content);
-				sendMessage(mailOptions, (err) => {
-					if (err) {
-						logger.error(`email admin email  err: ${err}`);
-						logger.error(`email admin message was: ${content}`)
-						reject(err);
-					}
+				sendMessage(mailOptions).then((resp) => {
 					logger.warn('email all admins for new user');
 					logger.error(`email admin message was: ${content}`)
 					resolve();
-				});
-			}).catch((err) => {
+				}).catch((err) => {
 				reject(err);
 			});
+		}).catch((err) => {
+			reject(err);
+		})
+
 		} else {
 			const mailOptions = messageData(band.email, subject, content);
-			sendMessage(mailOptions, (err) => {
-				if (err) {
-					logger.error(` email band email  err: ${err}`);
-					logger.error(`email admin message was: ${content}`)
-					reject(err);
-				}
-				logger.warn('email band only for new user');
+			sendMessage(mailOptions).then((resp) => {
+				logger.warn('email all band for new user');
 				logger.error(`email admin message was: ${content}`)
 				resolve();
-			});
+			}).catch((err) => {
+				logger.info(err)
+				logger.info('reject')
+			reject(err);
+		});
 		}
 	});
 };

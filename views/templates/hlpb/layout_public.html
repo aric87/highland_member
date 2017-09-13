@@ -97,7 +97,7 @@
           {% for item in announcements %}
             <div class="col-xs-12 col-sm-6">
               <h3 class="text-bold">{{ item.title }}</h3>
-              <p>{{ item.content }}</p>
+              <p>{{ item.content | safe}}</p>
             </div>
           {% endfor %}
           </div>

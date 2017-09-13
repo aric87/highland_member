@@ -24,6 +24,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const redis = require('redis');
 const session = require('express-session');
+
 const RedisStore = require('connect-redis')(session);
 
 const redisHost = 'localhost';

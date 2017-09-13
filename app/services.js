@@ -1,7 +1,16 @@
 var passport = require('passport');
 var sender = require('superagent');
 var logger = require('../config/logger');
-
+const nodemailer = require('nodemailer');
+const smtpTransport = require('nodemailer-smtp-transport');
+const wellknown = require('nodemailer-wellknown');
+const smtpTransport_highland = nodemailer.createTransport("SMTP",{
+    service: "zoho",
+    auth: {
+            user: "admin@highlandlight.com",
+            pass: process.env.EMAIL_PASS
+        }
+});
 const messageData = (sendTo, subject, text) => {
   return {
     'sendTo':sendTo,
@@ -29,10 +38,40 @@ var isLoggedIn = (req, res, next) => {
 
 exports.isLoggedIn = isLoggedIn;
 
-var sendMessage = (mailOptions, callback) => {
-  sender
-  .post(process.env.emailServiceUrl)
-  .send(mailOptions)
-  .end(callback);
+var sendMessage = (inMailOptions, callback) => {
+  // sender
+  // .post(process.env.emailServiceUrl)
+  // .send(mailOptions)
+  // .end(callback);
+  var {sendTo, subject, text} = inMailOptions
+  return new Promise((resolve, reject) => {
+    if (!sendTo || !subject || !text){
+      var emessage = 'You\'re missing something: \n';
+      if (!sendTo){
+        emessage+= 'You need a recieving address. \n';
+      }
+      if (!subject){
+        emessage+= 'You need a subject line. \n';
+      }
+      if (!text){
+        emessage+= 'You need some content. \n';
+      }
+    }
+    var mailOptions = {
+        to: sendTo,
+        from: "admin@highlandlight.com",
+        subject: subject,
+        text: text,
+    };
+    smtpTransport_highland.sendMail(mailOptions, function (err, info) {
+      logger.info('here')
+      logger.info(err)
+      logger.info(info)
+      if (err){
+        return reject(err);
+      }
+        return resolve();
+    });
+  });
 };
 exports.sendMessage = sendMessage;

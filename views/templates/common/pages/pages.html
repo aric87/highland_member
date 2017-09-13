@@ -5,9 +5,10 @@
 
 {% block announcement %}
 {% endblock %}
+{% block title %}{{band.name}} {{page}}{% endblock %}
 {% block content %}
 
-{% block title %}{{band.name}} {{page}}{% endblock %}
+
 {% block MacroPage %}
 
 {% if page == 'new' %}
@@ -19,7 +20,7 @@
 {% endif %}
 
 {% if page == 'list' %}
-	{{ pageList.pageList('col-xs-12','<h1>Page list</h1>', pageContent) }}
+	{{ pageList.pageList('col-xs-12','<h1>Page list <a href="/members/admin/pages/new" class="pull-right btn btn-warning">New Page</a></h1>', pageContent) }}
 {% endif %}
 
 {% endblock %}
